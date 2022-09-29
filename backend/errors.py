@@ -1,3 +1,6 @@
+# Solution for CORS problem from this stackoverflow link
+# https://stackoverflow.com/a/61045178/15561634
+
 from flask import json, make_response, jsonify
 from werkzeug.exceptions import HTTPException
 
