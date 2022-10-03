@@ -39,6 +39,9 @@ python app.py
 ### TODO: Publishing Steps:
 
 
+## Resources
+- [Flask and React One Server App](https://blog.appseed.us/flask-react-full-stack-seed-projects/)
+
 
 ## Git: 
 

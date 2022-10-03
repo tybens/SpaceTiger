@@ -11,6 +11,11 @@ app = Flask(__name__)
 CORS(app) # This will enable CORS for all routes
 init_handler(app) # initialise error handling
 
+
+@app.route('/')
+def hello_world():
+    return 'Hello from Flask!'
+    
 # Route for seeing a data
 @app.route('/data')
 def get_time():
