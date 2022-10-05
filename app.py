@@ -9,6 +9,7 @@ from api.HelloApiHandler import HelloApiHandler
 from errors import init_handler
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+
 if 'FLASK_ENV' in os.environ and os.environ.get('FLASK_ENV') == 'development':
     CORS(app) #comment this on deployment
     init_handler(app) # initialise error handling

@@ -2,8 +2,10 @@
 
 
 
+## Resources
+- [Flask and React One Server App](https://blog.appseed.us/flask-react-full-stack-seed-projects/)
 
-Not Updated ---
+
 ## Setup and Installation
 ### Installation Steps:
 
@@ -15,33 +17,33 @@ git clone https://github.com/PrincetonResInDe/whenisgood
 if yarn isn't installed, install it [here](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
 ```bash
 # install the NodeJS packages required for frontend
-cd frontend
-yarn
+cd frontend && yarn && cd ..
 
 # install the python packages required for backend
-cd ../backend
-pip install -r requrements.txt
+python -m venv venv # create python virtual env
+source venv/bin/activate # activate it
+pip install -r requrements.txt # install requirements into the virtual env
 ```
 
 ### Development Steps:
 ```bash
-
-# run the frontend
+# ---build the frontend---
 cd frontend
-yarn start
+yarn build # build frontend
 
-# on a different termainl
-# serve the backend
-cd backend
-python app.py
+# ---run the server---
+export FLASK_ENV=development # setup flask development environment variables
+export FLASK_APP=app.py
+flask run # run the server
 ```
 
-### TODO: Publishing Steps:
+Now whenever you save the app.py file the server will dynamically re-start because it is in debugging mode. Unfortunately because we are doing a one-server application, it is necessary to re-build the front-end to see the changes rendered.
 
+There is a possibility of developing with a two-server app so saving any frontend file will dynamically re-render the app (which is really nice for frontend development), but it may overcomplicate things. 
 
-## Resources
-- [Flask and React One Server App](https://blog.appseed.us/flask-react-full-stack-seed-projects/)
+## Publishing Steps:
 
+Pushing to the main branch will automatically publish to our Render hosting. 
 
 ## Git: 
 
