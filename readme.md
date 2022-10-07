@@ -20,9 +20,9 @@ if yarn isn't installed, install it [here](https://classic.yarnpkg.com/lang/en/d
 cd frontend && yarn && cd ..
 
 # install the python packages required for backend
-python -m venv venv # create python virtual env
+python3 -m venv venv # create python virtual env
 source venv/bin/activate # activate it
-pip install -r requrements.txt # install requirements into the virtual env
+pip install -r requirements.txt # install requirements into the virtual env
 ```
 
 ### Development Steps:
