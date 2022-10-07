@@ -11,7 +11,7 @@
 
 ```bash
 # clone the repo
-git clone https://github.com/PrincetonResInDe/whenisgood
+git clone https://github.com/tybens/SpaceTiger
 ```
 
 if yarn isn't installed, install it [here](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
