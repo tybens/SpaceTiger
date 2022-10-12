@@ -1,7 +1,7 @@
 # https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
 import os
 
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
 from api.HelloApiHandler import HelloApiHandler
@@ -17,8 +17,14 @@ if 'FLASK_ENV' in os.environ and os.environ.get('FLASK_ENV') == 'development':
 api = Api(app)
 
 @app.route("/", defaults={'path':''})
+# @app.route('/<path:path>')
 def serve(path):
     return send_from_directory(app.static_folder,'index.html')
+
+# needs to work with react router
+@app.errorhandler(404)
+def not_found(e):
+  return send_from_directory(app.static_folder,'index.html')
 
 api.add_resource(HelloApiHandler, '/flask/hello')
 
