@@ -38,3 +38,7 @@ def get_time():
         "Date": 'date',
         "programming": "python"
     })
+
+
+if __name__ == "__main__":
+    app.run()
