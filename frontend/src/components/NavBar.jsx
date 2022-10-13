@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar, Menu, MenuItem } from "@material-ui/core";
 import { Link, NavLink } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
@@ -28,6 +28,24 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
   const classes = useStyles();
+  const [auth, setAuth] = React.useState();
+  const [netid, setNetId] = React.useState();
+
+  const [anchorEl, setAnchorEl] = React.useState();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  React.useEffect(() => {
+    setAuth(true);
+    setNetId("tgdinh");
+    setAnchorEl(null);
+  }, []);
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
@@ -45,14 +63,47 @@ const NavBar = () => {
             </Link>
           </Grid>
           <Grid item>
-            {/* TODO: add logic for if logged in or not */}
-            <nav>
-              <NavLink className={classes.navLink} strict="true" to={"/login"}>
-                <Button variant="contained" color="primary">
-                  Login
-                </Button>
-              </NavLink>
-            </nav>
+            {auth ? (
+              <div>
+                <Typography variant="h6" onClick={handleMenu} color="inherit">
+                  {netid}
+                </Typography>
+                <Menu
+                  className={classes.menuBar}
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <NavLink to="/profile">
+                    <MenuItem onClick={handleClose}>Your Favorites</MenuItem>
+                  </NavLink>
+                  <MenuItem onClick={handleClose}>Your Reviews</MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+              </div>
+            ) : (
+              <nav>
+                <NavLink
+                  className={classes.navLink}
+                  strict="true"
+                  to={"/login"}
+                >
+                  <Button variant="contained" color="primary">
+                    Login
+                  </Button>
+                </NavLink>
+              </nav>
+            )}
           </Grid>
         </Grid>
       </Toolbar>
