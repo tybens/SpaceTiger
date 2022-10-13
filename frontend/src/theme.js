@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import { blue } from "@mui/material/colors";
 import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 
 const breakpoints = createBreakpoints({
@@ -18,9 +17,13 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: blue[500],
+      main: "rgb(0,0,0)"
     },
   },
+
+  typography: {
+    fontFamily: "Inter"
+  }
 });
 
 export default theme;

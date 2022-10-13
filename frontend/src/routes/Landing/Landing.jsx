@@ -1,9 +1,10 @@
+
 import Button from "@mui/material/Button";
 import axios from "axios";
 
 import useStyles from "./styles.js";
 
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/NavBar";
 
 export default function Landing() {
   const classes = useStyles();
