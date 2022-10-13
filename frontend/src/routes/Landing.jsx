@@ -1,10 +1,21 @@
 
 import Button from "@mui/material/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-import useStyles from "./styles.js";
+import NavBar from "../components/NavBar";
 
-import NavBar from "../../components/NavBar";
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    minHeight: "80vh",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    display: "flex",
+  },
+}));
+
 
 export default function Landing() {
   const classes = useStyles();
@@ -25,7 +36,6 @@ export default function Landing() {
   };
   return (
     <div className={classes.container}>
-      <div className={classes.fakeNavBar} />
       <NavBar />
       <h1> Hello Cos333 World </h1>
       <Button variant="contained" color="primary" onClick={handleButtonClick}>

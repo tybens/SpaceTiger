@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, NavLink } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
+import { UserContext } from "../context";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -24,39 +26,70 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     textDecoration: "none",
   },
+
+  fakeNavBar: {
+    height: 100,
+  },
+
+  navLink: {
+    textDecoration: "none",
+  },
 }));
 
 const NavBar = () => {
+  const { user, setUser } = useContext(UserContext);
   const classes = useStyles();
 
+  const handleLogin = () => {
+    setUser(true);
+  };
+
   return (
-    <AppBar position="fixed" className={classes.appBar} color="inherit">
-      <Toolbar disableGutters={true}>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <Link to="/" className={classes.logo}>
-              <Typography
-                className={classes.title}
-                variant="h4"
-                color="initial"
-              >
-                SpaceTiger
-              </Typography>
-            </Link>
-          </Grid>
-          <Grid item>
-            {/* TODO: add logic for if logged in or not */}
-            <nav>
-              <NavLink className={classes.navLink} strict="true" to={"/login"}>
-                <Button variant="contained" color="primary">
+    <>
+      <div className={classes.fakeNavBar} />
+      <AppBar position="fixed" className={classes.appBar} color="inherit">
+        <Toolbar disableGutters={true}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Link to="/" className={classes.logo}>
+                <Typography
+                  className={classes.title}
+                  variant="h4"
+                  color="initial"
+                >
+                  SpaceTiger
+                </Typography>
+              </Link>
+            </Grid>
+            <Grid item>
+              {!user ? (
+                <Button
+                  onClick={handleLogin}
+                  className={classes.navLink}
+                  variant="contained"
+                  color="primary"
+                >
                   Login
                 </Button>
-              </NavLink>
-            </nav>
+              ) : (
+                <NavLink
+                  className={classes.navLink}
+                  strict="true"
+                  to={"/profile"}
+                >
+                  <Grid container direction="row" alignItems="center">
+                    <Typography variant="h6" color="initial">
+                      netid
+                    </Typography>
+                    <ArrowDropDownIcon color="primary" />
+                  </Grid>
+                </NavLink>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
 
