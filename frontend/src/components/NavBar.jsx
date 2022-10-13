@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar, Menu, MenuItem } from "@material-ui/core";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, NavLink } from "react-router-dom";
 
@@ -39,6 +39,24 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
   const classes = useStyles();
+  const [auth, setAuth] = React.useState();
+  const [netid, setNetId] = React.useState();
+
+  const [anchorEl, setAnchorEl] = React.useState();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  React.useEffect(() => {
+    setAuth(true);
+    setNetId("tgdinh");
+    setAnchorEl(null);
+  }, []);
 
   const handleLogin = () => {
     setUser(true);
@@ -72,18 +90,44 @@ const NavBar = () => {
                   Login
                 </Button>
               ) : (
-                <NavLink
-                  className={classes.navLink}
-                  strict="true"
-                  to={"/profile"}
-                >
-                  <Grid container direction="row" alignItems="center">
-                    <Typography variant="h6" color="initial">
-                      netid
+                <div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Typography
+                      variant="h6"
+                      onClick={handleMenu}
+                      color="inherit"
+                    >
+                      {netid}
                     </Typography>
                     <ArrowDropDownIcon color="primary" />
-                  </Grid>
-                </NavLink>
+                  </div>
+                  <Menu
+                    className={classes.menuBar}
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <NavLink
+                      className={classes.navLink}
+                      strict="true"
+                      to="/profile"
+                    >
+                      <MenuItem onClick={handleClose}>Your Favorites</MenuItem>
+                    </NavLink>
+                    <MenuItem onClick={handleClose}>Your Reviews</MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </Menu>
+                </div>
               )}
             </Grid>
           </Grid>
