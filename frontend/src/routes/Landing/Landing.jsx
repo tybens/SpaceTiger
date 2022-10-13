@@ -1,10 +1,13 @@
-import "../App.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
-import NavBar from "../components/NavBar/NavBar"
+import useStyles from "./styles.js";
+
+import NavBar from "../../components/NavBar/NavBar";
 
 export default function Landing() {
+  const classes = useStyles();
+
   const handleButtonClick = () => {
     // Using fetch to fetch the api from
     // flask server it will be redirected to proxy
@@ -20,14 +23,13 @@ export default function Landing() {
     });
   };
   return (
-    <div className="App">
+    <div className={classes.container}>
+      <div className={classes.fakeNavBar} />
       <NavBar />
-      <header className="App-header">
-        <h1> Hello Cos333 World </h1>
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
-          Test Backend
-        </Button>
-      </header>
+      <h1> Hello Cos333 World </h1>
+      <Button variant="contained" color="primary" onClick={handleButtonClick}>
+        Test Backend
+      </Button>
     </div>
   );
 }

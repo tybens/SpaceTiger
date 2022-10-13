@@ -1,10 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Landing from "./routes/Landing";
-import NotFound from "./routes/NotFound";
-import Search from "./routes/Search";
-import Details from "./routes/Details";
-import Profile from "./routes/Profile";
+import {Landing, NotFound, Search, Details, Profile} from "./routes";
 
 const router = createBrowserRouter([
   {
