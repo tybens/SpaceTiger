@@ -26,6 +26,18 @@ pip install -r requirements.txt # install requirements into the virtual env
 ```
 
 ### Development Steps:
+
+How to run our app as a two-server process which makes frontend development much nicer.
+```bash
+# run the backend
+python3 app.py
+
+# *in a separate terminal* run the frontend
+cd frontend
+yarn start
+```
+
+How to simulate the production environment as a one-server app. 
 ```bash
 # ---build the frontend---
 cd frontend
@@ -38,8 +50,7 @@ flask run # run the server
 ```
 
 Now whenever you save the app.py file the server will dynamically re-start because it is in debugging mode. Unfortunately because we are doing a one-server application, it is necessary to re-build the front-end to see the changes rendered.
-
-There is a possibility of developing with a two-server app so saving any frontend file will dynamically re-render the app (which is really nice for frontend development), but it may overcomplicate things. 
+ 
 
 ## Publishing Steps:
 

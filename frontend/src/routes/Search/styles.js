@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   fakeNavBar: {
-    height: 100,
+    height: "50px",
   },
 
   container: {

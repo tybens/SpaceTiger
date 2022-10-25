@@ -1,25 +1,35 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import {Landing, NotFound, Search, Details, Profile} from "./routes";
+import NavBar from "./components/NavBar";
+import { Landing, NotFound, Search, Details, Profile } from "./routes";
+
+const PageWrapper = ({ Page }) => {
+  return (
+    <>
+      <NavBar />
+      <Page />
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing />,
+    element: <PageWrapper Page={Landing} />,
     errorElement: <NotFound />,
   },
   {
     path: "/search/:query",
-    element: <Details />
+    element: <PageWrapper Page={Details} />,
   },
   {
     path: "/search",
-    element: <Search />
+    element: <PageWrapper Page={Search} />,
   },
   {
     path: "/profile",
-    element: <Profile />
-  }
+    element: <PageWrapper Page={Profile} />,
+  },
 ]);
 
 export default router;
