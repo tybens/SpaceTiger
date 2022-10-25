@@ -1,33 +1,44 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import useStyles from "../styles.js";
 
 import { Typography } from "@material-ui/core";
+import StarIcon from "@mui/icons-material/Star";
+// import { Rating } from "@mui/material";
 
 export default function SpaceItem(props) {
   const { space } = props;
 
-  // useEffect(() => {
-  //   console.log(props);
-  // }, []);
-
   const classes = useStyles();
 
-  // return <div></div>;
   return (
     <>
       {space && (
-        <div className={classes.spaceItem}>
-          <Typography variant="h6">{space.name}</Typography>
-          <p>
-            {space.location} | {space.rating} avg rating
-          </p>
-          <img
-            className={classes.spaceImg}
-            src={space.photos[0]}
-            alt={space.name}
-          />
-        </div>
+        <Link to={`/search/${space.spaceid}`}>
+          <div className={classes.spaceItem}>
+            <img
+              className={classes.spaceImg}
+              src={space.photos[0]}
+              alt={space.name}
+            />
+            <div className={classes.spaceText}>
+              <Typography variant="h6">{space.name}</Typography>
+              <p>{space.location}</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <StarIcon fontSize="30px" /> &nbsp;{space.rating}
+              </div>
+              {/* { this is one option, looks super cool */
+              /* <Rating
+              name="read-only"
+              value={space.rating}
+              precision={0.1}
+              size="small"
+              readOnly
+            /> */}
+            </div>
+          </div>
+        </Link>
       )}
     </>
   );
