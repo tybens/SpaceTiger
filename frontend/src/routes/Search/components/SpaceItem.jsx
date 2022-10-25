@@ -14,7 +14,7 @@ export default function SpaceItem(props) {
   return (
     <>
       {space && (
-        <Link to={`/search/${space.spaceid}`}>
+        <Link to={`/search/${space.id}`}>
           <div className={classes.spaceItem}>
             <img
               className={classes.spaceImg}

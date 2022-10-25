@@ -1,7 +1,7 @@
 [
   {
-    "spaceid": 1111,
-    "creator": "Giao Vu Dinh",
+    "id": 1111,
+    "user_id": 1,
     "name": "Edwards Basement",
     "numreviews": 3,
     "location": "Edwards Hall",
@@ -21,8 +21,8 @@
     "numvisits": 10
   },
   {
-    "spaceid": 2121,
-    "creator": "Thanya Begum",
+    "id": 2121,
+    "user_id": 2,
     "name": "Jadwin 3rd Floor Lounge",
     "numreviews": 1,
     "location": "Jadwin Hall",
@@ -41,8 +41,8 @@
     "numvisits": 5
   },
   {
-    "spaceid": 3333,
-    "creator": "Giao Vu Dinh",
+    "id": 3333,
+    "user_id": 1,
     "name": "Woolworth 104",
     "numreviews": 5,
     "location": "Woolworth",
@@ -61,8 +61,8 @@
     "numvisits": 20
   },
   {
-    "spaceid": 1111,
-    "creator": "Giao Vu Dinh",
+    "id": 1111,
+    "user_id": 1,
     "name": "Edwards Basement",
     "numreviews": 3,
     "location": "Edwards Hall",
@@ -82,8 +82,8 @@
     "numvisits": 10
   },
   {
-    "spaceid": 2121,
-    "creator": "Thanya Begum",
+    "id": 2121,
+    "user_id": 2,
     "name": "Jadwin 3rd Floor Lounge",
     "numreviews": 1,
     "location": "Jadwin Hall",
@@ -102,8 +102,8 @@
     "numvisits": 5
   },
   {
-    "spaceid": 3333,
-    "creator": "Giao Vu Dinh",
+    "id": 3333,
+    "user_id": 1,
     "name": "Woolworth 104",
     "numreviews": 5,
     "location": "Woolworth",
