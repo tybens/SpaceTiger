@@ -23,14 +23,6 @@ const theme = createTheme({
 
   typography: {
     fontFamily: "Inter",
-
-    h3: {
-      fontWeight: "700",
-    },
-
-    button: {
-      textTransform: "none",
-    },
   },
 });
 

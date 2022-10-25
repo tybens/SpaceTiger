@@ -1,0 +1,124 @@
+[
+  {
+    "spaceid": 1111,
+    "creator": "Giao Vu Dinh",
+    "name": "Edwards Basement",
+    "numreviews": 3,
+    "location": "Edwards Hall",
+    "rating": 4.01,
+    "popularfor": ["studying", "group work", "hanging out", "social events"],
+    "photos": [
+      "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
+      "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg"
+    ],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "medium",
+      "lighting": "low",
+      "seating": "couches",
+      "type": "room"
+    },
+    "numvisits": 10
+  },
+  {
+    "spaceid": 2121,
+    "creator": "Thanya Begum",
+    "name": "Jadwin 3rd Floor Lounge",
+    "numreviews": 1,
+    "location": "Jadwin Hall",
+    "rating": 4.3,
+    "popularfor": ["studying", "group work"],
+    "photos": [
+      "https://www.mgapartners.com/images/PORTFOLIO/PUJH/PUJH-06-courtyard-sculpture.jpg"
+    ],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "room"
+    },
+    "numvisits": 5
+  },
+  {
+    "spaceid": 3333,
+    "creator": "Giao Vu Dinh",
+    "name": "Woolworth 104",
+    "numreviews": 5,
+    "location": "Woolworth",
+    "rating": 3.4,
+    "popularfor": ["rehearsals"],
+    "photos": [
+      "https://music.princeton.edu/wp-content/uploads/2022/01/20161018_bldgs_CL_Woolworth_Hall_20161008-0113.jpg"
+    ],
+    "tags": {
+      "noise": "loud",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "classroom"
+    },
+    "numvisits": 20
+  },
+  {
+    "spaceid": 1111,
+    "creator": "Giao Vu Dinh",
+    "name": "Edwards Basement",
+    "numreviews": 3,
+    "location": "Edwards Hall",
+    "rating": 4.0,
+    "popularfor": ["studying", "group work", "hanging out", "social events"],
+    "photos": [
+      "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
+      "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg"
+    ],
+    "tags": {
+      "noise": "",
+      "privacy": "medium",
+      "lighting": "low",
+      "seating": "couches",
+      "type": "room"
+    },
+    "numvisits": 10
+  },
+  {
+    "spaceid": 2121,
+    "creator": "Thanya Begum",
+    "name": "Jadwin 3rd Floor Lounge",
+    "numreviews": 1,
+    "location": "Jadwin Hall",
+    "rating": 4.3,
+    "popularfor": ["studying", "group work"],
+    "photos": [
+      "https://www.mgapartners.com/images/PORTFOLIO/PUJH/PUJH-06-courtyard-sculpture.jpg"
+    ],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "",
+      "lighting": "high",
+      "seating": "",
+      "type": "room"
+    },
+    "numvisits": 5
+  },
+  {
+    "spaceid": 3333,
+    "creator": "Giao Vu Dinh",
+    "name": "Woolworth 104",
+    "numreviews": 5,
+    "location": "Woolworth",
+    "rating": 3.4,
+    "popularfor": ["rehearsals"],
+    "photos": [
+      "https://music.princeton.edu/wp-content/uploads/2022/01/20161018_bldgs_CL_Woolworth_Hall_20161008-0113.jpg"
+    ],
+    "tags": {
+      "noise": "loud",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "classroom"
+    },
+    "numvisits": 20
+  }
+]
