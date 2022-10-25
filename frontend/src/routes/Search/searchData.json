@@ -11,7 +11,13 @@
       "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
       "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg"
     ],
-    "tags": ["foodallowed", "privacy", "noise", "seating"],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "medium",
+      "lighting": "low",
+      "seating": "couches",
+      "type": "room"
+    },
     "numvisits": 10
   },
   {
@@ -25,7 +31,13 @@
     "photos": [
       "https://www.mgapartners.com/images/PORTFOLIO/PUJH/PUJH-06-courtyard-sculpture.jpg"
     ],
-    "tags": ["privacy", "noise", "lighting", "seating"],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "room"
+    },
     "numvisits": 5
   },
   {
@@ -39,7 +51,13 @@
     "photos": [
       "https://music.princeton.edu/wp-content/uploads/2022/01/20161018_bldgs_CL_Woolworth_Hall_20161008-0113.jpg"
     ],
-    "tags": ["noise", "seating"],
+    "tags": {
+      "noise": "loud",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "classroom"
+    },
     "numvisits": 20
   },
   {
@@ -54,7 +72,13 @@
       "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
       "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg"
     ],
-    "tags": ["foodallowed", "privacy", "noise", "seating"],
+    "tags": {
+      "noise": "",
+      "privacy": "medium",
+      "lighting": "low",
+      "seating": "couches",
+      "type": "room"
+    },
     "numvisits": 10
   },
   {
@@ -68,7 +92,13 @@
     "photos": [
       "https://www.mgapartners.com/images/PORTFOLIO/PUJH/PUJH-06-courtyard-sculpture.jpg"
     ],
-    "tags": ["privacy", "noise", "lighting", "seating"],
+    "tags": {
+      "noise": "quiet",
+      "privacy": "",
+      "lighting": "high",
+      "seating": "",
+      "type": "room"
+    },
     "numvisits": 5
   },
   {
@@ -82,7 +112,13 @@
     "photos": [
       "https://music.princeton.edu/wp-content/uploads/2022/01/20161018_bldgs_CL_Woolworth_Hall_20161008-0113.jpg"
     ],
-    "tags": ["noise", "seating"],
+    "tags": {
+      "noise": "loud",
+      "privacy": "high",
+      "lighting": "high",
+      "seating": "chairs",
+      "type": "classroom"
+    },
     "numvisits": 20
   }
 ]

@@ -14,12 +14,33 @@ export default makeStyles((theme) => ({
     padding: "30px",
   },
 
+  searchbar: {
+    width: "100%",
+    marginBottom: "15px",
+  },
+
+  searchTextField: {
+    width: "100%",
+    maxWidth: "600px",
+  },
+
+  filters: {
+    width: "100%",
+    marginBottom: "30px",
+    "& .MuiFormControl-root": {
+      marginLeft: 0,
+      marginRight: "15px",
+      // width: "200px",
+    },
+  },
+
   spaceContainer: {
+    width: "100%",
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
     gridGap: "1rem",
     justifyContent: "space-between",
-    margin: "30px",
+    // margin: "30px",
     [theme.breakpoints.only("xs")]: {
       gridTemplateColumns: "auto",
     },
@@ -55,6 +76,9 @@ export default makeStyles((theme) => ({
   spaceText: {
     border: "1px solid #b8b8b8",
     padding: "10px 15px 15px",
+    "& h6": {
+      fontWeight: 600,
+    },
     "& p": {
       color: "#666",
       marginTop: "3px",
