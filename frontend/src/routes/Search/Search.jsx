@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import NavBar from "../../components/NavBar";
 import SearchResults from "./components/SearchResults.jsx";

@@ -52,6 +52,8 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
+  console.log(auth); // to avoid eslintwarning
+
   React.useEffect(() => {
     setAuth(true);
     setNetId("tgdinh");

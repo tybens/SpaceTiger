@@ -31,6 +31,7 @@ export default function SearchResults() {
 
   useEffect(() => {
     getData();
+    setError(false);
   }, []);
 
   return (
