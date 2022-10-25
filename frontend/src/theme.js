@@ -17,13 +17,13 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: "rgb(0,0,0)"
+      main: "rgb(0,0,0)",
     },
   },
 
   typography: {
-    fontFamily: "Inter"
-  }
+    fontFamily: "Inter",
+  },
 });
 
 export default theme;
