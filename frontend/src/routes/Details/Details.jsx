@@ -36,7 +36,6 @@ export default function Details() {
         <Highlights popularFor={data?.popularfor} tags={data?.tags} />
         <Reviews reviews={data?.reviews} />
       </div>
-
       {/* {query} */}
     </div>
   );

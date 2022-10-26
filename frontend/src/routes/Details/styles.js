@@ -134,4 +134,31 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+
+  modalContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80vw",
+    maxWidth: "800px",
+    backgroundColor: "white",
+    boxShadow: 24,
+    p: 4,
+    padding: "20px 30px 30px",
+    maxHeight: "80vh",
+    // overflow: "scroll",
+  },
+
+  modalHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "5px",
+  },
+
+  modalImages: {
+    maxHeight: "65vh",
+    overflow: "scroll",
+  },
 }));
