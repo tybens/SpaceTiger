@@ -1,21 +1,22 @@
-import { Typography } from "@mui/material";
+import { Typography, Chip } from "@mui/material";
 import useStyles from "../styles.js";
 
 export default function Highlights(props) {
   const { popularFor } = props;
   const classes = useStyles();
 
-  // i'm probably going to make bubbles for these at some point
   const popularItems = () => {
     if (popularFor === undefined) {
-      return <>Hi</>;
+      return <></>;
     } else {
       return (
-        <ul style={{ marginTop: "5px", paddingLeft: "30px" }}>
+        <div>
           {popularFor.map((item) => {
-            return <li key={item}>{item}</li>;
+            return (
+              <Chip key={item} label={item} style={{ margin: "0 5px 6px 0" }} />
+            );
           })}
-        </ul>
+        </div>
       );
     }
   };
@@ -23,7 +24,9 @@ export default function Highlights(props) {
   return (
     <div className={classes.highlightsContainer}>
       <Typography variant="h5">Highlights</Typography>
-      <Typography variant="h6">Popular For</Typography>
+      <Typography variant="h6" style={{ marginBottom: "6px" }}>
+        Popular For
+      </Typography>
       {popularItems()}
     </div>
   );

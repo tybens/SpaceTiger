@@ -12,8 +12,8 @@ export default function Reviews(props) {
     if (reviews?.length === 0) {
       return <p>No reviews.</p>;
     }
-    return reviews?.map((r) => {
-      return <ReviewItem review={r} />;
+    return reviews?.map((r, index) => {
+      return <ReviewItem key={index} review={r} />;
     });
   };
 
