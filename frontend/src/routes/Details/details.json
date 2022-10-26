@@ -1,0 +1,92 @@
+{
+  "id": 1111,
+  "user_id": 1,
+  "name": "Edwards Basement",
+  "numreviews": 3,
+  "location": "Edwards Hall",
+  "rating": 4.01,
+  "popularfor": ["studying", "group work", "hanging out", "social events"],
+  "photos": [
+    "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
+    "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg",
+    "https://www.jerseysbest.com/wp-content/uploads/2020/12/Princeton-University-Campus.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/d/df/Lower_Pyne_%28Princeton%29.jpg",
+    "https://www.lampartners.com/wp-content/uploads/2021/05/shepleybulfinch_princetonfirestone_01.jpg"
+  ],
+  "tags": {
+    "noise": "quiet",
+    "privacy": "medium",
+    "lighting": "low",
+    "seating": "couches",
+    "type": "room"
+  },
+  "numvisits": 10,
+  "reviews": [
+    {
+      "id": 1,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 4,
+      "content": "Little loud, but pretty nice!",
+      "photos": [
+        "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4"
+      ],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    },
+    {
+      "id": 2,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 3.5,
+      "content": "Too dark.",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    },
+    {
+      "id": 3,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 1,
+      "content": "Leaking pipes",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    },
+    {
+      "id": 4,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 5,
+      "content": "Favorite spot ever!!!",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    }
+  ]
+}

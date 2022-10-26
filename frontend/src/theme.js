@@ -19,6 +19,10 @@ const theme = createTheme({
     primary: {
       main: "rgb(0,0,0)",
     },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "#11cb5f",
+    },
   },
 
   typography: {

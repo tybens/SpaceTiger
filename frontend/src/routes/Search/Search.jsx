@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import NavBar from "../../components/NavBar";
 import SearchResults from "./components/SearchResults.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import SearchFilters from "./components/SearchFilters";
@@ -17,7 +16,8 @@ export default function Search() {
 
   return (
     <div className={classes.container}>
-      <NavBar />
+      <div style={{ height: 50 }} />
+      {/* <NavBar /> */}
       <SearchBar query={query} handleChange={updateQuery} />
       <SearchFilters />
       <SearchResults />
