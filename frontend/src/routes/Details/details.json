@@ -36,6 +36,54 @@
         "seating": "couches",
         "type": "room"
       }
+    },
+    {
+      "id": 2,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 3.5,
+      "content": "Too dark.",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    },
+    {
+      "id": 3,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 1,
+      "content": "Leaking pipes",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    },
+    {
+      "id": 4,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 5,
+      "content": "Favorite spot ever!!!",
+      "photos": [],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
     }
   ]
 }
