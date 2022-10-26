@@ -1,0 +1,41 @@
+{
+  "id": 1111,
+  "user_id": 1,
+  "name": "Edwards Basement",
+  "numreviews": 3,
+  "location": "Edwards Hall",
+  "rating": 4.01,
+  "popularfor": ["studying", "group work", "hanging out", "social events"],
+  "photos": [
+    "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4",
+    "https://www.princetonianamuseum.org/media/artifact/ff22a4e1-5a5f-4e4a-b350-3a7af9c9cfbc/full.jpeg"
+  ],
+  "tags": {
+    "noise": "quiet",
+    "privacy": "medium",
+    "lighting": "low",
+    "seating": "couches",
+    "type": "room"
+  },
+  "numvisits": 10,
+  "reviews": [
+    {
+      "id": 1,
+      "space_id": 1111,
+      "user_id": 1,
+      "rating": 4,
+      "content": "Little loud, but not nice!",
+      "photos": [
+        "https://hres.princeton.edu/sites/g/files/toruqf196/files/styles/freeform_750w/public/2019-12/Edwards-Mathey.jpg?itok=7W2og-c4"
+      ],
+      "tags": [],
+      "slidervals": {
+        "noise": "quiet",
+        "privacy": "medium",
+        "lighting": "low",
+        "seating": "couches",
+        "type": "room"
+      }
+    }
+  ]
+}
