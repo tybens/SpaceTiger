@@ -19,7 +19,7 @@ export default function Reviews(props) {
 
   return (
     <div className={classes.reviewsContainer}>
-      <Typography variant="h5">Reviews</Typography>
+      <Typography variant="h5">Reviews ({reviews?.length})</Typography>
       <div className={classes.reviewGrid}>{createItems()}</div>
     </div>
   );

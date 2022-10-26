@@ -128,7 +128,10 @@ export default makeStyles((theme) => ({
   },
 
   reviewItem: {
+    padding: "25px 15px",
     width: "100%",
     border: "1px solid #b8b8b8",
+    display: "flex",
+    flexDirection: "column",
   },
 }));
