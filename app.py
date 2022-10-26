@@ -1,10 +1,12 @@
 # https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
 import os
+import database.py
 
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
 from api.HelloApiHandler import HelloApiHandler
+
 
 from errors import init_handler
 
