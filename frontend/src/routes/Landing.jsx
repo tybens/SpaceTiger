@@ -162,7 +162,7 @@ export default function Landing() {
           </Grid>
           <Grid item container justify="center" spacing={3}>
             {members.map((member) => (
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={6} md={4}>
                 <MemberCard member={member} />
               </Grid>
             ))}

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   fakeNavBar: {
-    height: 50,
+    height: 96,
   },
 
   navLink: {
