@@ -16,8 +16,6 @@ export default function Search() {
 
   return (
     <div className={classes.container}>
-      <div style={{ height: 50 }} />
-      {/* <NavBar /> */}
       <SearchBar query={query} handleChange={updateQuery} />
       <SearchFilters />
       <SearchResults />

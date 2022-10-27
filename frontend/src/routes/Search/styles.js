@@ -1,10 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  fakeNavBar: {
-    height: "50px",
-  },
-
   container: {
     minHeight: "80vh",
     alignItems: "center",
