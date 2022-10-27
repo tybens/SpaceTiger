@@ -74,7 +74,7 @@ const NavBar = () => {
               <Link to="/" className={classes.logo}>
                 <Typography
                   className={classes.title}
-                  variant="h4"
+                  variant="h3"
                   color="initial"
                 >
                   SpaceTiger

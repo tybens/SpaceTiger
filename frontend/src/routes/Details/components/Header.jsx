@@ -1,4 +1,4 @@
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 import { Rating } from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import FavoriteIcon from "@mui/icons-material/Favorite";

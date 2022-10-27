@@ -83,8 +83,11 @@ export default function Landing() {
     },
   ];
   const handleButtonClick = () => {
-    // Using fetch to fetch the api from
-    // flask server it will be redirected to proxy
+    /* 
+    Using fetch to fetch the api from
+    flask server. The endpoint will be redirected because of yarn's 
+    proxy set in package.json 
+    */
     axios.get("/data").then((res) => {
       let data = res.data;
       // Setting a data from api
