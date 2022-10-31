@@ -5,15 +5,15 @@
 import sys
 import os
 
-import sqlite3
-from sqlalchemy
+import psycopg2
+import sqlalchemy
 import sqlalchemy.orm
 
 import database
 
 #-----------------------------------------------------------------------
 #setx DATABASE_URL "...our SpaceTiger url..."
-url = os.getenv("DATABASE_URL")
+url = "postgresql://qhjaoqcd:sL97vDNOcpSWbPYcy248g8m9n_fLJ1zA@peanut.db.elephantsql.com/qhjaoqcd"
 def main():
 
     if len(sys.argv) != 1:
@@ -21,8 +21,7 @@ def main():
         sys.exit(1)
 
     try:
-        engine = sqlalchemy.create_engine('sqlite://',
-            creator=lambda: sqlite3.connect(url, uri=True))
+        engine = sqlalchemy.create_engine(url)
 
         database.Base.metadata.drop_all(engine)
         database.Base.metadata.create_all(engine)
