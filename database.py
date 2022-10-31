@@ -3,19 +3,13 @@
 # Author: SpaceTiger
 #-----------------------------------------------------------------------
 
-import os
-import psycopg2
-#import sqlalchemy.ext.declarative
-#import sqlalchemy
-import urllib.parse as up
-#type in terminal: 
-#setx DATABASE_URL "...our SpaceTiger url..."
+import sqlalchemy.ext.declarative
+import sqlalchemy
 
-up.uses_netloc.append("postgres")
-url = up.urlparse(os.getenv("DATABASE_URL"))
-conn = psycopg2.connect(database=url.path[1:],
-user=url.username,
-password=url.password,
-host=url.hostname,
-port=url.port
-)
+Base = sqlalchemy.ext.declarative.declarative_base()
+
+class Book (Base):
+    __tablename__ = 'books'
+    isbn = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
+    title = sqlalchemy.Column(sqlalchemy.String)
+    quantity = sqlalchemy.Column(sqlalchemy.Integer)
