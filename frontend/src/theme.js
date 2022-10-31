@@ -19,10 +19,28 @@ const theme = createTheme({
     primary: {
       main: "rgb(0,0,0)",
     },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "#11cb5f",
+    },
   },
 
   typography: {
     fontFamily: "Inter",
+    h3: {
+      // SpaceTiger logo
+      fontSize: "2.5rem",
+    },
+    h4: {
+      // headers for details + profile page
+      fontFamily: "Roboto",
+      fontWeight: 600,
+    },
+
+    h6: {
+      fontFamily: "Roboto",
+      fontWeight: 300,
+    }
   },
 });
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import useStyles from "../styles.js";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 // import { Rating } from "@mui/material";
 

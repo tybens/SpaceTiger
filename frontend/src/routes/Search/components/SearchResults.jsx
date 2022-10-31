@@ -5,7 +5,7 @@ import useStyles from "../styles.js";
 import searchData from "../searchData.json";
 import SpaceItem from "./SpaceItem.jsx";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 export default function SearchResults() {
   const [data, setData] = useState([]);

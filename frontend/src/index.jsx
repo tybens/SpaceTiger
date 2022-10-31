@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+// import { ThemeProvider } from "@mui/material/styles";
 import router from "./router";
 
 import store from "./store";
@@ -24,9 +25,10 @@ const App = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{ user, setUser }}>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <RouterProvider router={router} />
         </ThemeProvider>
       </Provider>

@@ -83,8 +83,11 @@ export default function Landing() {
     },
   ];
   const handleButtonClick = () => {
-    // Using fetch to fetch the api from
-    // flask server it will be redirected to proxy
+    /* 
+    Using fetch to fetch the api from
+    flask server. The endpoint will be redirected because of yarn's 
+    proxy set in package.json 
+    */
     axios.get("/data").then((res) => {
       let data = res.data;
       // Setting a data from api
@@ -162,7 +165,7 @@ export default function Landing() {
           </Grid>
           <Grid item container justify="center" spacing={3}>
             {members.map((member) => (
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={6} md={4}>
                 <MemberCard member={member} />
               </Grid>
             ))}
