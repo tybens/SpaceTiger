@@ -1,14 +1,14 @@
 # https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
 import os
-# import database.py
 
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify, request
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
 from api.HelloApiHandler import HelloApiHandler
 
 
 from errors import init_handler
+from query_test import get_books
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 
@@ -32,14 +32,14 @@ api.add_resource(HelloApiHandler, '/flask/hello')
 
 # Route for seeing a data
 @app.route('/data')
-def get_time():
-
+def get_data():
+    isbn = request.args.get('isbn')
+    table = get_books(isbn)
     # Returning an api for showing in reactjs
-    return jsonify({'Name': "geek",
-        "Age": "22",
-        "Date": 'date',
-        "programming": "python"
-    })
+    return jsonify({ 
+        'isbn': table[0].isbn,
+        'title': table[0].title,
+        'quantity': table[0].quantity})
 
 
 if __name__ == "__main__":
