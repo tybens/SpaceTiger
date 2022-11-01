@@ -33,14 +33,14 @@ const theme = createTheme({
     },
     h4: {
       // headers for details + profile page
-      fontFamily: "Roboto",
+      // fontFamily: "Roboto",
       fontWeight: 600,
     },
 
     h6: {
-      fontFamily: "Roboto",
+      // fontFamily: "Roboto",
       fontWeight: 300,
-    }
+    },
   },
 });
 
