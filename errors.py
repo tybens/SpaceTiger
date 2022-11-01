@@ -11,22 +11,24 @@ def init_handler(app):
     @app.errorhandler(Exception)
     def handle_exception(e):
 
-        #loggit()!          
+        # loggit()!
 
         # return json response of error
         if isinstance(e, HTTPException):
             response = e.get_response()
             # replace the body with JSON
-            response.data = json.dumps({
-                "code": e.code,
-                "name": e.name,
-                "description": e.description,
-            })
+            response.data = json.dumps(
+                {
+                    "code": e.code,
+                    "name": e.name,
+                    "description": e.description,
+                }
+            )
         else:
             # build response
-            response = make_response(jsonify({"message": 'Something went wrong'}), 500)
+            response = make_response(jsonify({"message": "Something went wrong"}), 500)
 
         # add the CORS header
-        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers["Access-Control-Allow-Origin"] = "*"
         response.content_type = "application/json"
         return response
