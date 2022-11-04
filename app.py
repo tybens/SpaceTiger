@@ -4,14 +4,12 @@ import os
 from flask import (
     Flask,
     redirect,
-    make_response,
-    render_template,
     send_from_directory,
     jsonify,
     request,
 )
-from flask_restful import Api, Resource, reqparse
-from flask_cors import CORS, cross_origin
+from flask_restful import Api
+from flask_cors import CORS
 from api.HelloApiHandler import HelloApiHandler
 
 
