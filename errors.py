@@ -27,7 +27,8 @@ def init_handler(app):
         else:
             # build response
             response = make_response(jsonify({"message": "Something went wrong"}), 500)
-
+        # show the error to the server
+        print('SERVER ERROR:', e)
         # add the CORS header
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.content_type = "application/json"
