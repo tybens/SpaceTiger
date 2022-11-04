@@ -9,14 +9,18 @@ const LoginRedirect = () => {
 
   useEffect(() => {
     if (!user) {
-      axios.get("/user_logged_in").then((res) => {
-        let data = res.data;
-        console.log(data)
-        // setting user from login data
-        if (data.netid) {
-          setUser({ netid: data.netid });
-        }
-      });
+      axios
+        .get("/user_logged_in")
+        .then((res) => {
+          let data = res.data;
+          // setting user from login data
+          if (data.netid) {
+            setUser({ netid: data.netid });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       navigate("/");
     }
     // eslint-disable-next-line

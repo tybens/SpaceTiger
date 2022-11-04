@@ -45,12 +45,23 @@ const NavBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    // reset the user context
+    setUser(null);
+    // make a GET request to '/logout' 
+    // have to make a link and click it or react-router will think
+    // i want to render react pages at '/logout', which doesn't exist
+    var link = document.createElement("a");
+    link.href = "/logout";
+    document.body.appendChild(link);
+    link.click();
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   React.useEffect(() => {
-    console.log(user)
     setAnchorEl(null);
   }, []);
 
@@ -118,7 +129,7 @@ const NavBar = () => {
                       <MenuItem onClick={handleClose}>Your Favorites</MenuItem>
                     </NavLink>
                     <MenuItem onClick={handleClose}>Your Reviews</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>
               )}
