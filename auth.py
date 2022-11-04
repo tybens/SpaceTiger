@@ -53,12 +53,10 @@ def validate(ticket):
 
 def authenticate():
 
-    """ we are storing the authentication in React's cookies implementation
     # If the username is in the session, then the user was
     # authenticated previously.  So return the username.
-    # if 'username' in flask.session:
-    #     return flask.session.get('username')    
-    """
+    if 'username' in flask.session:
+        return flask.session.get('username')
 
     # If the request does not contain a login ticket, then redirect
     # the browser to the login page to get one.
@@ -79,9 +77,11 @@ def authenticate():
     # The user is authenticated, so store the username in
     # the session.
     username = username.strip()
+    flask.session['username'] = username
     return username
 
 def logout():
+    flask.session.clear()
     # Log out of the CAS session, and then the application.
     logout_url = (_CAS_URL + 'logout?service='
         + urllib.parse.quote(flask.request.url.replace('logout', '')))

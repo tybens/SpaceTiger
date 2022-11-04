@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AppBar, Toolbar, Menu, MenuItem } from "@material-ui/core";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, NavLink } from "react-router-dom";
-import axios from "axios";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
@@ -50,19 +49,10 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
-
   React.useEffect(() => {
+    console.log(user)
     setAnchorEl(null);
   }, []);
-
-  const handleLogin = () => {
-    // TODO: error handling for login
-    axios.get("/login").then((res) => {
-      let data = res.data;
-      // setting user from login data
-      setUser({'netid': data.netid})
-    });
-  };
 
   return (
     <>
@@ -83,14 +73,15 @@ const NavBar = () => {
             </Grid>
             <Grid item>
               {!user ? (
-                <Button
-                  onClick={handleLogin}
-                  className={classes.navLink}
-                  variant="contained"
-                  color="primary"
-                >
-                  Login
-                </Button>
+                <a href="/login">
+                  <Button
+                    className={classes.navLink}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Login
+                  </Button>
+                </a>
               ) : (
                 <div>
                   <div style={{ display: "flex", alignItems: "center" }}>

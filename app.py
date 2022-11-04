@@ -1,9 +1,17 @@
 # https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
 import os
 
-from flask import Flask, render_template, send_from_directory, jsonify, request
+from flask import (
+    Flask,
+    redirect,
+    make_response,
+    render_template,
+    send_from_directory,
+    jsonify,
+    request,
+)
 from flask_restful import Api, Resource, reqparse
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from api.HelloApiHandler import HelloApiHandler
 
 
@@ -15,9 +23,10 @@ app = Flask(__name__, static_url_path="", static_folder="frontend/build")
 
 if "FLASK_ENV" in os.environ and os.environ.get("FLASK_ENV") == "development":
     CORS(app)
-    # init_handler(app)  # initialise error handling 
+    # init_handler(app) 1 # initialise error handling
 
 api = Api(app)
+app.secret_key = os.environ["APP_SECRET_KEY"]
 
 
 @app.route("/", defaults={"path": ""})
@@ -49,14 +58,24 @@ def get_data():
 
 
 # Routes for authentication.
-@app.route('/logout', methods=['GET'])
+@app.route("/logout", methods=["GET"])
 def logout():
     return auth.logout()
 
-@app.route('/login', methods=['GET'])
+
+@app.route("/login", methods=["GET"])
 def login():
+    auth.authenticate()  # sets session variable
+
+    return redirect("/loginredirect")
+
+
+@app.route("/user_logged_in", methods=["GET"])
+def user_logged_in():
     username = auth.authenticate()
-    return jsonify({'netid': username })
+
+    return jsonify({"netid": username})
+
 
 if __name__ == "__main__":
     app.run()
