@@ -9,18 +9,18 @@ from api.HelloApiHandler import HelloApiHandler
 
 from errors import init_handler
 from query_test import get_books
+import auth
 
 app = Flask(__name__, static_url_path="", static_folder="frontend/build")
 
 if "FLASK_ENV" in os.environ and os.environ.get("FLASK_ENV") == "development":
     CORS(app)
-    init_handler(app)  # initialise error handling
+    # init_handler(app)  # initialise error handling 
 
 api = Api(app)
 
 
 @app.route("/", defaults={"path": ""})
-# @app.route('/<path:path>')
 def serve(path):
     return send_from_directory(app.static_folder, "index.html")
 
@@ -47,6 +47,16 @@ def get_data():
         {"isbn": table[0].isbn, "title": table[0].title, "quantity": table[0].quantity}
     )
 
+
+# Routes for authentication.
+@app.route('/logout', methods=['GET'])
+def logout():
+    return auth.logout()
+
+@app.route('/login', methods=['GET'])
+def login():
+    username = auth.authenticate()
+    return jsonify({'netid': username })
 
 if __name__ == "__main__":
     app.run()

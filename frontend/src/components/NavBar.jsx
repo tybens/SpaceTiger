@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { AppBar, Toolbar, Menu, MenuItem } from "@material-ui/core";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, NavLink } from "react-router-dom";
-
+import axios from "axios";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
+
 import { UserContext } from "../context";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
   const classes = useStyles();
-  const [auth, setAuth] = React.useState();
-  const [netid, setNetId] = React.useState();
-
   const [anchorEl, setAnchorEl] = React.useState();
 
   const handleMenu = (event) => {
@@ -52,16 +50,18 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
-  console.log(auth); // to avoid eslintwarning
 
   React.useEffect(() => {
-    setAuth(true);
-    setNetId("tgdinh");
     setAnchorEl(null);
   }, []);
 
   const handleLogin = () => {
-    setUser(true);
+    // TODO: error handling for login
+    axios.get("/login").then((res) => {
+      let data = res.data;
+      // setting user from login data
+      setUser({'netid': data.netid})
+    });
   };
 
   return (
@@ -99,7 +99,7 @@ const NavBar = () => {
                       onClick={handleMenu}
                       color="inherit"
                     >
-                      {netid}
+                      {user.netid}
                     </Typography>
                     <ArrowDropDownIcon color="primary" />
                   </div>
