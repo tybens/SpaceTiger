@@ -25,6 +25,19 @@ source venv/bin/activate # activate it
 pip install -r requirements.txt # install requirements into the virtual env
 ```
 
+### Environment Variables:
+The url connection to the TEST and PROD databases are stored in environment variables. To set them, on Mac run
+
+```bash
+export TEST_DB_URL=our_spacetiger_url
+```
+
+and on Windows run
+
+```bash
+setx TEST_DB_URL "...our SpaceTiger url..."
+```
+
 ### Development Steps:
 
 How to run our app as a two-server process which makes frontend development much nicer.
