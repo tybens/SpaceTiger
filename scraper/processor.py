@@ -1,9 +1,10 @@
+import os
 import pandas as pd
 import sqlalchemy
 
 # ----------------------------------------------------------------------
 
-DATABASE_URL = "postgresql://qhjaoqcd:sL97vDNOcpSWbPYcy248g8m9n_fLJ1zA@peanut.db.elephantsql.com/qhjaoqcd"
+DATABASE_URL = os.getenv("TEST_DB_URL")
 
 # ----------------------------------------------------------------------
 
