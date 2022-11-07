@@ -14,7 +14,7 @@ from api.HelloApiHandler import HelloApiHandler
 
 
 from errors import init_handler
-from query_test import get_books
+# from query_test import get_books
 import auth
 
 app = Flask(__name__, static_url_path="", static_folder="frontend/build")
@@ -45,14 +45,14 @@ api.add_resource(HelloApiHandler, "/flask/hello")
 # Route for seeing a data
 
 
-@app.route("/data")
-def get_data():
-    isbn = request.args.get("isbn")
-    table = get_books(isbn)
-    # Returning an api for showing in reactjs
-    return jsonify(
-        {"isbn": table[0].isbn, "title": table[0].title, "quantity": table[0].quantity}
-    )
+# @app.route("/data")
+# def get_data():
+#     isbn = request.args.get("isbn")
+#     table = get_books(isbn)
+#     # Returning an api for showing in reactjs
+#     return jsonify(
+#         {"isbn": table[0].isbn, "title": table[0].title, "quantity": table[0].quantity}
+#     )
 
 
 # Routes for authentication.

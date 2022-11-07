@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Button, Typography } from "@mui/material";
 import { Rating } from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
@@ -5,9 +7,21 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import CreateIcon from "@mui/icons-material/Create";
 
+import ReviewModal from "./ReviewModal.jsx";
+
 import useStyles from "../styles.js";
 
 export default function Header(props) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const { name, rating, numreviews } = props;
   const classes = useStyles();
 
@@ -29,7 +43,7 @@ export default function Header(props) {
             variant="contained"
             disableElevation
             startIcon={<CreateIcon />}
-            // i don't know why theming isn't working for me
+            onClick={handleOpen}
             style={{ backgroundColor: "black", color: "white" }}
           >
             Write a review
@@ -50,6 +64,7 @@ export default function Header(props) {
         )}
         &nbsp;{numreviews} reviews
       </div>
+      <ReviewModal open={open} handleClose={handleClose} />
     </div>
   );
 }
