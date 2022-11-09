@@ -28,6 +28,28 @@ def get_space(name):
 
     return table
 
+def get_spaces(query):
+        with sqlalchemy.orm.Session(engine) as session:
+            queryresults = []
+            for key in query:
+                queryresult.append = 
+                if (query[key] == ('' or None)):
+                    
+
+            queryresult = session.query(models.Space).filter(
+                models.Space.id.ilike(f"%{query[user_id]),
+                models.Space.user_id.ilike(f"%{query[user_id]}%"),
+                models.Space.name.ilike(f"%{query[name]}%"),
+                models.Space.type.ilike(f"%{query[type]}%"),
+                models.Space.location.ilike(f"%{query[location]}%"),
+                models.Space.capacity.ilike(f"%{query[capacity]}%"),
+                models.Space.numreviews.ilike(f"%{query[numreviews]}%"),
+                models.Space.rating.ilike(f"%{query[rating]}%"),
+                models.Space.numvisits.ilike(f"%{query[numvisits]}%"),
+            )
+            return queryresult
+
+
 #-----------------------------------------------------------------------
 
 def _test():
