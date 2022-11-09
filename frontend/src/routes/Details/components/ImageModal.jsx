@@ -19,6 +19,7 @@ export default function ImageModal(props) {
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
   const renderImages = () => {
+    if (photos === undefined) return <></>;
     return photos?.map((item) => (
       <ImageListItem key={item}>
         <img

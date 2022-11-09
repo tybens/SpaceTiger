@@ -158,4 +158,31 @@ export default makeStyles((theme) => ({
     maxHeight: "65vh",
     overflow: "scroll",
   },
+
+  modalForm: {
+    maxHeight: "65vh",
+    overflow: "scroll",
+
+    "& h6": {
+      fontWeight: 600,
+      marginBottom: "5px",
+    },
+  },
+
+  featureContainer: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    gridGap: "1rem",
+    justifyContent: "space-between",
+    marginRight: "30px",
+    [theme.breakpoints.down("sm")]: {
+      gridTemplateColumns: "1fr",
+    },
+    marginBottom: "20px",
+  },
+
+  featureItem: {
+    display: "flex",
+    flexDirection: "column",
+  },
 }));

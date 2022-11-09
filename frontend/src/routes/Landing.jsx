@@ -88,15 +88,10 @@ export default function Landing() {
     flask server. The endpoint will be redirected because of yarn's 
     proxy set in package.json 
     */
-    axios.get("/data").then((res) => {
+    axios.get("/data", { params: { isbn: '123' }}).then((res) => {
       let data = res.data;
       // Setting a data from api
-      console.log({
-        name: data.Name,
-        age: data.Age,
-        date: data.Date,
-        programming: data.programming,
-      });
+      console.log(data);
     });
   };
 
