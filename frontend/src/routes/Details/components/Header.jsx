@@ -51,18 +51,23 @@ export default function Header(props) {
         </div>
       </div>
       <div className={classes.headerSecond}>
-        {rating}&nbsp;
-        {rating && (
-          <Rating
-            className={classes.stars}
-            name="read-only"
-            value={rating}
-            precision={0.1}
-            size="small"
-            readOnly
-          />
+        {rating !== 0 && (
+          <>
+            {rating}&nbsp;
+            {rating && (
+              <Rating
+                className={classes.stars}
+                name="read-only"
+                value={rating}
+                precision={0.1}
+                size="small"
+                readOnly
+              />
+            )}
+            &nbsp;{numreviews} reviews
+          </>
         )}
-        &nbsp;{numreviews} reviews
+        {rating === 0 && <>Not yet rated.</>}
       </div>
       <ReviewModal open={open} handleClose={handleClose} />
     </div>

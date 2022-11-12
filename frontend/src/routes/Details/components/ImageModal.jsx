@@ -23,8 +23,10 @@ export default function ImageModal(props) {
     return photos?.map((item) => (
       <ImageListItem key={item}>
         <img
-          src={`${item}?w=248&fit=crop&auto=format`}
-          srcSet={`${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
+          src={item.src}
+          // i need multiple pics to be able to format this. will do later
+          // src={`${item.src}?w=248&fit=crop&auto=format`}
+          // srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
           alt={"location"}
           loading="lazy"
         />
