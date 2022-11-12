@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   Typography,
@@ -11,6 +11,8 @@ import {
   Autocomplete,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
+import { UserContext } from "../../../context.js";
 
 import useStyles from "../styles.js";
 
@@ -33,6 +35,7 @@ export default function ReviewModal(props) {
   const { open, handleClose } = props;
   const classes = useStyles();
   const { query } = useParams();
+  const { user, setUser } = useContext(UserContext);
 
   const [exp, setExp] = useState("");
   const [rating, setRating] = useState(0);
@@ -60,11 +63,13 @@ export default function ReviewModal(props) {
       // gonna leave out amenity for now
       tags,
       amenities,
+      user_id: user.netid,
     };
 
     // obviously this becomes a put request
     // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
     console.log(reviewResponse);
+    handleClose();
   };
 
   return (
