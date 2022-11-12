@@ -48,7 +48,7 @@ const NavBar = () => {
   const handleLogout = () => {
     // reset the user context
     setUser(null);
-    // make a GET request to '/logout' 
+    // make a GET request to '/logout'
     // have to make a link and click it or react-router will think
     // i want to render react pages at '/logout', which doesn't exist
     var link = document.createElement("a");
@@ -100,6 +100,7 @@ const NavBar = () => {
                       variant="h6"
                       onClick={handleMenu}
                       color="inherit"
+                      style={{ cursor: "pointer" }}
                     >
                       {user.netid}
                     </Typography>
@@ -120,6 +121,7 @@ const NavBar = () => {
                     }}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    style={{ pointer: "cursor" }}
                   >
                     <NavLink
                       className={classes.navLink}

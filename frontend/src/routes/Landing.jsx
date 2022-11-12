@@ -1,9 +1,12 @@
+import { useContext, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
 // import axios from "axios";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+
+import { UserContext } from "../context";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,6 +61,11 @@ const MemberCard = ({ member }) => {
 export default function Landing() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) navigate("/search");
+  }, [user, navigate]);
 
   const members = [
     {
@@ -92,18 +100,11 @@ export default function Landing() {
     },
   ];
   const handleButtonClick = () => {
-    /* 
-    Using fetch to fetch the api from
-    flask server. The endpoint will be redirected because of yarn's 
-    proxy set in package.json 
-    */
-    // axios.get("/getspaces", { params: { isbn: "123" } }).then((res) => {
-    //   let data = res.data;
-    //   // Setting a data from api
-    //   console.log(data);
-    // });
-
-    navigate("/search");
+    if (user) {
+      navigate("/search");
+    } else {
+      window.location.href = "/login";
+    }
   };
 
   return (
@@ -135,6 +136,7 @@ export default function Landing() {
             A quick and attention grabbing summary of what our app does for
             students (I think, I'm not too sure).
           </Typography>
+          {/* {user && ( */}
           <Grid item>
             <Button
               variant="contained"
@@ -146,6 +148,7 @@ export default function Landing() {
               Get Started
             </Button>
           </Grid>
+          {/* )} */}
         </Grid>
         <Grid item xs={12} md={6}>
           <img
