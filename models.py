@@ -25,17 +25,44 @@ class Space(Base):
     def __repr__(self):
         return f"Space(id={self.id!r}, name={self.name!r})"
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'user id': self.user_id,
+            'name': self.name,
+            'type': self.type,
+            'location': self.location,
+            'capacity': self.capacity,
+            'number of reviews': self.numreviews,
+            'rating': self.rating,
+            'number of visits': self.numvisits
+        }
+
 class Amenities (Base):
     __tablename__ = 'amenities'
     space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     amenity = sqlalchemy.Column(sqlalchemy.String)
 
+    def to_json(self):
+        return {
+            'space id': self.space_id,
+            'review id': self.review_id,
+            'amenity': self.amenity
+        }
+
 class Photos (Base):
     __tablename__ = 'photos'
     space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     src = sqlalchemy.Column(sqlalchemy.String)
+
+    def to_json(self):
+        return {
+            'space id': self.space_id,
+            'review id': self.review_id,
+            'src': self.src
+        }
 
 class Reviews (Base):
     __tablename__ = 'reviews'
@@ -44,3 +71,12 @@ class Reviews (Base):
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     content = sqlalchemy.Column(sqlalchemy.String)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'space id': self.space_id,
+            'user id': self.user_id,
+            'rating': self.rating,
+            'content': self.content
+        }
