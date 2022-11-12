@@ -1,8 +1,9 @@
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
+// import axios from "axios";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,7 +43,13 @@ const MemberCard = ({ member }) => {
         </Typography>
       </CardContent>
       <CardContent>
-        <img style={{borderRadius: 2}} src={member.image} alt={member.name} height="100%" width="100%" />
+        <img
+          style={{ borderRadius: 2 }}
+          src={member.image}
+          alt={member.name}
+          height="100%"
+          width="100%"
+        />
       </CardContent>
     </Card>
   );
@@ -50,6 +57,8 @@ const MemberCard = ({ member }) => {
 
 export default function Landing() {
   const classes = useStyles();
+  const navigate = useNavigate();
+
   const members = [
     {
       name: "Tyler Benson",
@@ -88,11 +97,13 @@ export default function Landing() {
     flask server. The endpoint will be redirected because of yarn's 
     proxy set in package.json 
     */
-    axios.get("/data", { params: { isbn: '123' }}).then((res) => {
-      let data = res.data;
-      // Setting a data from api
-      console.log(data);
-    });
+    // axios.get("/getspaces", { params: { isbn: "123" } }).then((res) => {
+    //   let data = res.data;
+    //   // Setting a data from api
+    //   console.log(data);
+    // });
+
+    navigate("/search");
   };
 
   return (
@@ -107,7 +118,7 @@ export default function Landing() {
           item
           container
           direction="column"
-          justify="center"
+          justifyContent="center"
           xs={12}
           md={6}
           className={classes.textBox}
@@ -149,7 +160,7 @@ export default function Landing() {
         item
         container
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         className={classes.block}
       >
         <Grid item container spacing={3} direction="column" alignItems="center">
@@ -158,9 +169,9 @@ export default function Landing() {
               Meet the Team
             </Typography>
           </Grid>
-          <Grid item container justify="center" spacing={3}>
+          <Grid item container justifyContent="center" spacing={3}>
             {members.map((member) => (
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sm={6} md={4} key={member.name}>
                 <MemberCard member={member} />
               </Grid>
             ))}

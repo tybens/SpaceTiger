@@ -18,7 +18,8 @@ export default function SpaceItem(props) {
           <div className={classes.spaceItem}>
             <img
               className={classes.spaceImg}
-              src={space.photos[0]}
+              src="https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+              // src={space.photos[0]}
               alt={space.name}
             />
             <div className={classes.spaceText}>

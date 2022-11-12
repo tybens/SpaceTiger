@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 import useStyles from "../styles.js";
 
@@ -14,8 +15,17 @@ export default function SearchResults() {
   const classes = useStyles();
 
   const getData = () => {
+    axios
+      .get("/getspaces")
+      .then((res) => {
+        let data = res.data;
+        // Setting a data from api
+        setData(data.items);
+        // console.log(data.items);
+      })
+      .catch((err) => console.log(err));
     // this is obviously temporary, will use fetch later
-    setData(JSON.parse(JSON.stringify(searchData)));
+    // setData(JSON.parse(JSON.stringify(searchData)));
     // will also set error here using catch promise
   };
 

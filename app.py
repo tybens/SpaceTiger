@@ -15,6 +15,7 @@ from api.HelloApiHandler import HelloApiHandler
 
 from errors import init_handler
 # from query_test import get_books
+from database import get_spaces
 import auth
 
 app = Flask(__name__, static_url_path="", static_folder="frontend/build")
@@ -43,6 +44,12 @@ def not_found(e):
 api.add_resource(HelloApiHandler, "/flask/hello")
 
 # Route for seeing a data
+
+@app.route("/getspaces")
+def get_data():
+    data = get_spaces()
+    return jsonify(items=[i.to_json() for i in data])
+
 
 
 # @app.route("/data")
