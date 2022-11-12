@@ -35,7 +35,7 @@ export default function ReviewModal(props) {
   const { open, handleClose } = props;
   const classes = useStyles();
   const { query } = useParams();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [exp, setExp] = useState("");
   const [rating, setRating] = useState(0);
