@@ -1,6 +1,7 @@
 import os
-import sqlalchemy.ext.declarative
+
 import sqlalchemy
+import sqlalchemy.orm
 
 import models
 
@@ -22,12 +23,27 @@ def get_spaces():
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(
-            models.Space.name.ilike(f"%{name}%")
-        )
+            models.Space.name == name)
         table = query.all()
 
     return table
 
+def get_details(id):
+    with sqlalchemy.orm.Session(engine) as session:
+        space = session.query(models.Space).get(id).all()
+        reviews = session.query(models.Reviews).filter(models.Reviews.space_id == space.id).all()
+        photos = session.query(models.Photos).filter(models.Photos.review_id == reviews.id).all()
+        amenities = session.query(models.Amenities).filter(models.Amenities.review_id == reviews.id).all()
+
+        details = {
+            'space': space,
+            'reviews': reviews,
+            'photos': photos,
+            "amenities": amenities
+        }
+    return details
+
+"""""
 def get_spaces(query):
         with sqlalchemy.orm.Session(engine) as session:
             queryresults = []
@@ -45,15 +61,15 @@ def get_spaces(query):
                 models.Space.capacity.ilike(f"%{query[capacity]}%"),
                 models.Space.numreviews.ilike(f"%{query[numreviews]}%"),
                 models.Space.rating.ilike(f"%{query[rating]}%"),
-                models.Space.numvisits.ilike(f"%{query[numvisits]}%"),
+                models.Space.numvisits.ilike(f"%{query[numvisits]}%")
             )
             return queryresult
-
+"""
 
 #-----------------------------------------------------------------------
 
 def _test():
-    spaces = get_space("Frist N")
+    spaces = get_space("Aaron Burr Hall 219")
     for space in spaces:
         print(space)
 
