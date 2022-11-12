@@ -28,14 +28,14 @@ class Space(Base):
     def to_json(self):
         return {
             'id': self.id,
-            'user id': self.user_id,
+            'userid': self.user_id,
             'name': self.name,
             'type': self.type,
             'location': self.location,
             'capacity': self.capacity,
-            'number of reviews': self.numreviews,
+            'numreviews': self.numreviews,
             'rating': self.rating,
-            'number of visits': self.numvisits
+            'numvisits': self.numvisits
         }
 
 class Amenities (Base):
@@ -46,8 +46,8 @@ class Amenities (Base):
 
     def to_json(self):
         return {
-            'space id': self.space_id,
-            'review id': self.review_id,
+            'spaceid': self.space_id,
+            'reviewid': self.review_id,
             'amenity': self.amenity
         }
 
@@ -59,8 +59,8 @@ class Photos (Base):
 
     def to_json(self):
         return {
-            'space id': self.space_id,
-            'review id': self.review_id,
+            'spaceid': self.space_id,
+            'reviewid': self.review_id,
             'src': self.src
         }
 
@@ -75,8 +75,8 @@ class Reviews (Base):
     def to_json(self):
         return {
             'id': self.id,
-            'space id': self.space_id,
-            'user id': self.user_id,
+            'spaceid': self.space_id,
+            'userid': self.user_id,
             'rating': self.rating,
             'content': self.content
         }

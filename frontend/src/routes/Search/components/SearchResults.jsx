@@ -1,28 +1,53 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 import useStyles from "../styles.js";
 
-import searchData from "../searchData.json";
 import SpaceItem from "./SpaceItem.jsx";
 
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 
-export default function SearchResults() {
+const NUM_SHOWN = 20;
+
+export default function SearchResults(props) {
+  const { query } = props;
   const [data, setData] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [error, setError] = useState(false);
+  const [next, setNext] = useState(NUM_SHOWN);
 
   const classes = useStyles();
 
-  const getData = () => {
-    // this is obviously temporary, will use fetch later
-    setData(JSON.parse(JSON.stringify(searchData)));
-    // will also set error here using catch promise
+  const handleMoreImage = () => {
+    setNext(next + NUM_SHOWN);
   };
+
+  const getData = () => {
+    axios
+      .get("/getspaces")
+      .then((res) => {
+        let data = res.data;
+        // Setting a data from api
+        setData(data.items);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    setNext(NUM_SHOWN);
+    setFiltered(
+      data.filter(
+        (space) =>
+          space.name.toLowerCase().includes(query) ||
+          space.location.toLowerCase().includes(query)
+      )
+    );
+  }, [data, query]);
 
   const renderSpaces = () => {
     return (
       <>
-        {data.map((space, index) => (
+        {filtered?.slice(0, next)?.map((space, index) => (
           <SpaceItem key={index} space={space} />
         ))}
       </>
@@ -35,9 +60,18 @@ export default function SearchResults() {
   }, []);
 
   return (
-    <div className={classes.spaceContainer}>
-      {error && <Typography variant="p">Sorry, an error occured. </Typography>}
-      {renderSpaces()}
-    </div>
+    <>
+      <div className={classes.spaceContainer}>
+        {error && (
+          <Typography variant="p">Sorry, an error occured. </Typography>
+        )}
+        {renderSpaces()}
+      </div>
+      {next < filtered?.length && (
+        <Button className="mt-4" onClick={handleMoreImage}>
+          Load more
+        </Button>
+      )}
+    </>
   );
 }

@@ -26,7 +26,7 @@ export default function Banner(props) {
     if (photos === undefined) {
       setImg("");
     } else if (photos?.length) {
-      setImg(photos[0]);
+      setImg(photos[0].src);
     } else {
       // placeholder
       setImg(
