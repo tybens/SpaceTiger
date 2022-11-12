@@ -3,12 +3,13 @@ import axios from "axios";
 
 import useStyles from "../styles.js";
 
-import searchData from "../searchData.json";
+// import searchData from "../searchData.json";
 import SpaceItem from "./SpaceItem.jsx";
 
 import { Typography } from "@mui/material";
 
-export default function SearchResults() {
+export default function SearchResults(props) {
+  const { query } = props;
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
@@ -30,9 +31,15 @@ export default function SearchResults() {
   };
 
   const renderSpaces = () => {
+    let filtered = data.filter(
+      (space) =>
+        space.name.toLowerCase().includes(query) ||
+        space.location.toLowerCase().includes(query)
+    );
+
     return (
       <>
-        {data.map((space, index) => (
+        {filtered.map((space, index) => (
           <SpaceItem key={index} space={space} />
         ))}
       </>

@@ -18,7 +18,7 @@ export default function Search() {
     <div className={classes.container}>
       <SearchBar query={query} handleChange={updateQuery} />
       <SearchFilters />
-      <SearchResults />
+      <SearchResults query={query} />
     </div>
   );
 }
