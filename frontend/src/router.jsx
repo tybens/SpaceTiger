@@ -35,11 +35,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/search/:query",
-    element: <PageWrapper Page={Details} auth={true} />,
+    element: <PageWrapper Page={Details} />,
   },
   {
     path: "/search",
-    element: <PageWrapper Page={Search} auth={true} />,
+    element: <PageWrapper Page={Search} />,
   },
   {
     path: "/profile",

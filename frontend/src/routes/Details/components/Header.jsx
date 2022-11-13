@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { Button, Typography } from "@mui/material";
 import { Rating } from "@mui/material";
@@ -8,11 +8,13 @@ import DirectionsIcon from "@mui/icons-material/Directions";
 import CreateIcon from "@mui/icons-material/Create";
 
 import ReviewModal from "./ReviewModal.jsx";
+import { UserContext } from "../../../context.js";
 
 import useStyles from "../styles.js";
 
 export default function Header(props) {
   const [open, setOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -39,15 +41,17 @@ export default function Header(props) {
           <Button variant="outlined" startIcon={<DirectionsIcon />}>
             Directions
           </Button>
-          <Button
-            variant="contained"
-            disableElevation
-            startIcon={<CreateIcon />}
-            onClick={handleOpen}
-            style={{ backgroundColor: "black", color: "white" }}
-          >
-            Write a review
-          </Button>
+          {user && (
+            <Button
+              variant="contained"
+              disableElevation
+              startIcon={<CreateIcon />}
+              onClick={handleOpen}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Write a review
+            </Button>
+          )}
         </div>
       </div>
       <div className={classes.headerSecond}>
