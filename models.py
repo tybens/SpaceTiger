@@ -1,7 +1,7 @@
 import sqlalchemy.ext.declarative
 import sqlalchemy
 import uuid
-import os 
+import os
 
 from guid import GUID
 
@@ -13,6 +13,7 @@ class Book(Base):
     isbn = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
     title = sqlalchemy.Column(sqlalchemy.String)
     quantity = sqlalchemy.Column(sqlalchemy.Integer)
+
 
 class Space(Base):
     __tablename__ = "spaces"
@@ -31,46 +32,45 @@ class Space(Base):
 
     def to_json(self):
         return {
-            'id': self.id,
-            'userid': self.user_id,
-            'name': self.name,
-            'type': self.type,
-            'location': self.location,
-            'capacity': self.capacity,
-            'numreviews': self.numreviews,
-            'rating': self.rating,
-            'numvisits': self.numvisits
+            "id": self.id,
+            "userid": self.user_id,
+            "name": self.name,
+            "type": self.type,
+            "location": self.location,
+            "capacity": self.capacity,
+            "numreviews": self.numreviews,
+            "rating": self.rating,
+            "numvisits": self.numvisits,
         }
 
-class Amenities (Base):
-    __tablename__ = 'amenities'
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True)
+
+class Amenities(Base):
+    __tablename__ = "amenities"
+    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     amenity = sqlalchemy.Column(sqlalchemy.String)
 
     def to_json(self):
         return {
-            'spaceid': self.space_id,
-            'reviewid': self.review_id,
-            'amenity': self.amenity
+            "spaceid": self.space_id,
+            "reviewid": self.review_id,
+            "amenity": self.amenity,
         }
 
-class Photos (Base):
-    __tablename__ = 'photos'
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True)
+
+class Photos(Base):
+    __tablename__ = "photos"
+    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     src = sqlalchemy.Column(sqlalchemy.String)
 
     def to_json(self):
-        return {
-            'spaceid': self.space_id,
-            'reviewid': self.review_id,
-            'src': self.src
-        }
+        return {"spaceid": self.space_id, "reviewid": self.review_id, "src": self.src}
 
-class Reviews (Base):
-    __tablename__ = 'reviews'
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True)
+
+class Reviews(Base):
+    __tablename__ = "reviews"
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     space_id = sqlalchemy.Column(sqlalchemy.Integer)
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
@@ -78,15 +78,14 @@ class Reviews (Base):
 
     def to_json(self):
         return {
-            'id': self.id,
-            'spaceid': self.space_id,
-            'userid': self.user_id,
-            'rating': self.rating,
-            'content': self.content
+            "id": self.id,
+            "spaceid": self.space_id,
+            "userid": self.user_id,
+            "rating": self.rating,
+            "content": self.content,
         }
-        
 
-        
+
 class Users(Base):
     __tablename__ = "users"
     puid = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
@@ -96,8 +95,9 @@ class Users(Base):
 
     def to_json(self):
         return {
-            'puid': self.puid,
+            "puid": self.puid,
         }
+
 
 class Favorites(Base):
     __tablename__ = "favorites"
@@ -110,12 +110,13 @@ class Favorites(Base):
 
     def to_json(self):
         return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'space_id': self.space_id,
+            "id": self.id,
+            "user_id": self.user_id,
+            "space_id": self.space_id,
         }
-        
+
+
 if __name__ == "__main__":
     e = sqlalchemy.create_engine(os.getenv("TEST_DB_URL"))
     # this runs the create table for all models here
-    Base.metadata.create_all(e) 
+    Base.metadata.create_all(e)

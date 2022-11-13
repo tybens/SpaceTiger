@@ -11,6 +11,7 @@ DATABASE_URL = os.getenv("TEST_DB_URL")
 
 # ----------------------------------------------------------------------
 
+
 def main():
     if len(sys.argv) != 1:
         print("Usage: python create.py", file=sys.stderr)
@@ -40,6 +41,7 @@ def main():
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
+
 
 # ----------------------------------------------------------------------
 

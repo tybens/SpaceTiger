@@ -14,6 +14,7 @@ from api.HelloApiHandler import HelloApiHandler
 
 
 from errors import init_handler
+
 # from query_test import get_books
 from database import get_spaces, get_details
 import auth
@@ -45,10 +46,12 @@ api.add_resource(HelloApiHandler, "/flask/hello")
 
 # Route for seeing a data
 
+
 @app.route("/getspaces")
 def get_data():
     data = get_spaces()
     return jsonify(items=[i.to_json() for i in data])
+
 
 @app.route("/getspacedetails")
 def get_space_details():
@@ -80,4 +83,4 @@ def user_logged_in():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8000)
+    app.run(host="0.0.0.0", port=8000)
