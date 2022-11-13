@@ -63,6 +63,12 @@ flask run # run the server
 ```
 
 Now whenever you save the app.py file the server will dynamically re-start because it is in debugging mode. Unfortunately because we are doing a one-server application, it is necessary to re-build the front-end to see the changes rendered.
+
+In order to run CAS locally, you must run as a one-server app. However, port 5000 is always in use on Macs, so you need to run a slightly different command: 
+```bash
+# ---run the server on a different port---
+flask run -h localhost -p port_number
+```
  
 
 ## Publishing Steps:
