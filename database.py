@@ -81,6 +81,30 @@ def post_user(puid):
     
     return ret
 
+def get_favorites(puid):
+    with sqlalchemy.orm.Session(engine) as session:
+        table = session.query(models.Favorites).filter(
+            models.Favorites.user_id == puid).all()
+    return table
+
+def post_favorite(puid, space_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Favorites).filter(
+            models.Favorites.user_id == puid and models.Favorites.space_id == space_id)
+        table = query.all()
+        if table:
+            # item is already favorited, unfavorite it
+            query.delete(synchronize_session=False)
+            ret = "space already favorited, removing from table"
+        else:
+            new_fav = models.Favorites(user_id=puid, space_id=space_id)
+            session.add(new_fav)
+            ret = f"favorited space with spaceid={space_id}"
+        session.commit()
+    
+    return ret
+        
+
 #-----------------------------------------------------------------------
 
 def _test():
@@ -107,6 +131,13 @@ def _test():
     ret = post_user('tb19')
     print(ret)
     
+    print("-"*25)
+    user = get_favorites('tb19')
+    print(user)
+    
+    print("-"*25)
+    ret = post_favorite('tb19', 0)
+    print(ret)
 
 #-----------------------------------------------------------------------
 

@@ -89,19 +89,33 @@ class Reviews (Base):
         
 class Users(Base):
     __tablename__ = "users"
-    id = sqlalchemy.Column(GUID, primary_key=True, default=uuid.uuid4)
-    puid = sqlalchemy.Column(sqlalchemy.String)
+    puid = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
 
     def __repr__(self):
-        return f"User(id={self.id!r}, puid={self.puid!r})"
+        return f"User(puid={self.puid!r})"
+
+    def to_json(self):
+        return {
+            'puid': self.puid,
+        }
+
+class Favorites(Base):
+    __tablename__ = "favorites"
+    id = sqlalchemy.Column(GUID, primary_key=True, default=uuid.uuid4)
+    user_id = sqlalchemy.Column(sqlalchemy.String)
+    space_id = sqlalchemy.Column(sqlalchemy.Integer)
+
+    def __repr__(self):
+        return f"Favorite(id={self.id!r}, user_id={self.user_id!r}, space_id={self.space_id!r})"
 
     def to_json(self):
         return {
             'id': self.id,
-            'puid': self.puid,
+            'user_id': self.user_id,
+            'space_id': self.space_id,
         }
-
-
+        
 if __name__ == "__main__":
     e = sqlalchemy.create_engine(os.getenv("TEST_DB_URL"))
-    Base.metadata.create_all(e) # this runs the create table for all models here
+    # this runs the create table for all models here
+    Base.metadata.create_all(e) 
