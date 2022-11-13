@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Favorites from "./components/Favorites";
 import MyReviews from "./components/MyReviews";
 import data from "../Details/details.json";
+import { UserContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Profile() {
+  const { user } = useContext(UserContext);
+
   const [reviewData, setReviewData] = useState(null);
   const classes = useStyles();
 
@@ -36,7 +39,7 @@ export default function Profile() {
       alignItems="center"
       className={classes.container}
     >
-      <Favorites />
+      <Favorites user={user} />
       <MyReviews reviews={reviewData?.reviews} />
     </Grid>
   );

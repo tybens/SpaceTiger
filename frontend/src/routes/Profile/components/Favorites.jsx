@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Grid, Typography, IconButton } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
+import axios from "axios"
 
 import profileData from "../profileData.json";
 import SpaceItem from "../../Search/components/SpaceItem";
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Favorites = () => {
+const Favorites = ({ user }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [numSpaces, setNumSpaces] = useState(4);
@@ -24,13 +25,18 @@ const Favorites = () => {
   const classes = useStyles();
 
   const getData = () => {
-    // this is obviously temporary, will use fetch later
-    setData(JSON.parse(JSON.stringify(profileData)));
-    // will also set error here using catch promise
+    axios
+      .get("/getfavorites", {
+        params: { user_id: user?.netid },
+      })
+      .then((res) => {
+        let data = res.data;
+        setData(data.items);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    // TODO: query database for all favorited spaces that a user has
     getData();
     // TODO: error handling
     setError(false);

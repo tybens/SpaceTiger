@@ -94,14 +94,15 @@ def post_user(puid):
 
     return ret
 
-
+# returns spaces that are favorited
 def get_favorites(puid):
     with sqlalchemy.orm.Session(engine) as session:
-        table = (
-            session.query(models.Favorites)
-            .filter(models.Favorites.user_id == puid)
-            .all()
-        )
+        table = session.query(models.Favorites).filter(models.Favorites.user_id == puid).all()
+        # table is a list of {space_id: space_id}
+        print(table)
+        space_ids = [t.space_id for t in table]
+        # query for all spaces that match a space_id
+        table = session.query(models.Space).filter(models.Space.id.in_(space_ids)).all()
     return table
 
 
@@ -165,8 +166,8 @@ def _test():
     print(ret)
 
     print("-" * 25)
-    user = get_favorites("tb19")
-    print(user)
+    spaces = get_favorites("tb19")
+    print(spaces)
 
     print("-" * 25)
     ret = post_favorite("tb19", 0)

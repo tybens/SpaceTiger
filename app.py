@@ -16,7 +16,7 @@ from api.HelloApiHandler import HelloApiHandler
 from errors import init_handler
 
 # from query_test import get_books
-from database import get_spaces, get_details, get_favorite, post_favorite
+from database import get_favorites, get_spaces, get_details, get_favorite, post_favorite
 import auth
 
 app = Flask(__name__, static_url_path="", static_folder="frontend/build")
@@ -72,7 +72,6 @@ def get_is_favorite():
 def post_is_favorite():
     user_id = request.args.get('user_id')
     space_id = request.args.get('space_id')
-    print(user_id, space_id)
     if not user_id or not space_id:
         return jsonify({"status": 400, "response": "error: invalid parameters in request"})
         
@@ -82,6 +81,13 @@ def post_is_favorite():
     except Exception as err:
         return jsonify({"status": 500, "response": err})
     
+@app.route('/getfavorites')
+def get_list_favorites():
+    user_id = request.args.get('user_id')
+    data = get_favorites(user_id)
+    
+    return jsonify(items=[i.to_json() for i in data])
+
 # Routes for authentication.
 @app.route("/logout", methods=["GET"])
 def logout():
