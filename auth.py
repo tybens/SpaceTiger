@@ -10,6 +10,8 @@ import urllib.parse
 import re
 import flask
 
+from database import get_user, post_user
+
 # -----------------------------------------------------------------------
 
 _CAS_URL = "https://fed.princeton.edu/cas/"
@@ -90,6 +92,16 @@ def authenticate():
     # the session.
     username = username.strip()
     flask.session["username"] = username
+    
+    # make a get_user request to check if the user is in our db
+    # if not, add the user to the database
+    temp = get_user(username)
+    if not temp: # if no user was found with puid == username
+        # create the user 
+        # TODO: error handling
+        post_user(username)
+    
+        
     return username
 
 

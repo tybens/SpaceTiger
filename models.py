@@ -1,5 +1,9 @@
 import sqlalchemy.ext.declarative
 import sqlalchemy
+import uuid
+import os 
+
+from guid import GUID
 
 Base = sqlalchemy.ext.declarative.declarative_base()
 
@@ -80,3 +84,24 @@ class Reviews (Base):
             'rating': self.rating,
             'content': self.content
         }
+        
+
+        
+class Users(Base):
+    __tablename__ = "users"
+    id = sqlalchemy.Column(GUID, primary_key=True, default=uuid.uuid4)
+    puid = sqlalchemy.Column(sqlalchemy.String)
+
+    def __repr__(self):
+        return f"User(id={self.id!r}, puid={self.puid!r})"
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'puid': self.puid,
+        }
+
+
+if __name__ == "__main__":
+    e = sqlalchemy.create_engine(os.getenv("TEST_DB_URL"))
+    Base.metadata.create_all(e) # this runs the create table for all models here

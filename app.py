@@ -59,17 +59,6 @@ def get_space_details():
     # return jsonify(data)
 
 
-
-# @app.route("/data")
-# def get_data():
-#     isbn = request.args.get("isbn")
-#     table = get_books(isbn)
-#     # Returning an api for showing in reactjs
-#     return jsonify(
-#         {"isbn": table[0].isbn, "title": table[0].title, "quantity": table[0].quantity}
-#     )
-
-
 # Routes for authentication.
 @app.route("/logout", methods=["GET"])
 def logout():

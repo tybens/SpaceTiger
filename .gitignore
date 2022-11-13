@@ -3,3 +3,5 @@ venv/
 *.pyc
 
 secrets.txt
+frontend/.env
+.env

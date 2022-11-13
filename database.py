@@ -56,6 +56,31 @@ def get_details(id):
         }
     return details
 
+
+def get_user(puid):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Users).filter(
+            models.Users.puid == puid)
+        table = query.all()
+
+    return table
+
+def post_user(puid):
+    ret = ""
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Users).filter(
+            models.Users.puid == puid)
+        table = query.all()
+        if table:
+            ret = "puid already in db"
+        else:
+            new_user = models.Users(puid=puid)
+            session.add(new_user)
+            session.commit()
+            ret = "user created"
+    
+    return ret
+
 #-----------------------------------------------------------------------
 
 def _test():
@@ -63,17 +88,25 @@ def _test():
     for space in range(10):
         print(spaces[space])
 
-    print('')
+    print('-'*25)
 
     spaces = get_space("Aaron Burr Hall 219")
     for space in spaces:
         print(space)
-    
-    print('')
-    
+ 
+    print('-'*25)
+  
     details = get_details(1)
-    for key in details:
-        print(details[key])
+    print(details)
+      
+    print("-"*25)
+    user = get_user('tb19')
+    print(user)
+    
+    print("-"*25)
+    ret = post_user('tb19')
+    print(ret)
+    
 
 #-----------------------------------------------------------------------
 
