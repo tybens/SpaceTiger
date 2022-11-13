@@ -16,7 +16,7 @@ import { UserContext } from "../../../context.js";
 
 import useStyles from "../styles.js";
 
-// THESE NEED TO BE UPDATED!
+// TODO: THESE NEED TO BE UPDATED!
 const TAGS = [
   {
     label: "cozy",

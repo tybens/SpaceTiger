@@ -105,10 +105,23 @@ def get_favorites(puid):
     return table
 
 
+# returns whether or not a user has favorited a specific space
+def get_favorite(puid, space_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        table = (
+            session.query(models.Favorites)
+            .filter(
+                models.Favorites.user_id == puid, models.Favorites.space_id == space_id
+            )
+            .all()
+        )
+    return len(table) == 1
+
+
 def post_favorite(puid, space_id):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Favorites).filter(
-            models.Favorites.user_id == puid and models.Favorites.space_id == space_id
+            models.Favorites.user_id == puid, models.Favorites.space_id == space_id
         )
         table = query.all()
         if table:
