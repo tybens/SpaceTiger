@@ -100,11 +100,12 @@ export default function Landing() {
     },
   ];
   const handleButtonClick = () => {
-    if (user) {
-      navigate("/search");
-    } else {
-      window.location.href = "/login";
-    }
+    navigate("/search");
+    // if (user) {
+    //   navigate("/search");
+    // } else {
+    //   window.location.href = "/login";
+    // }
   };
 
   return (

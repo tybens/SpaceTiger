@@ -8,6 +8,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import axios from "axios";
 
 import ReviewModal from "./ReviewModal.jsx";
+import { UserContext } from "../../../context.js";
 
 import useStyles from "../styles.js";
 import { UserContext } from "../../../context";
@@ -88,15 +89,17 @@ export default function Header({ name, rating, numreviews, space_id }) {
           <Button variant="outlined" startIcon={<DirectionsIcon />}>
             Directions
           </Button>
-          <Button
-            variant="contained"
-            disableElevation
-            startIcon={<CreateIcon />}
-            onClick={handleOpen}
-            style={{ backgroundColor: "black", color: "white" }}
-          >
-            Write a review
-          </Button>
+          {user && (
+            <Button
+              variant="contained"
+              disableElevation
+              startIcon={<CreateIcon />}
+              onClick={handleOpen}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Write a review
+            </Button>
+          )}
         </div>
       </div>
       <div className={classes.headerSecond}>
