@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios"
 
-import profileData from "../profileData.json";
 import SpaceItem from "../../Search/components/SpaceItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +39,7 @@ const Favorites = ({ user }) => {
     getData();
     // TODO: error handling
     setError(false);
+    // eslint-disable-next-line
   }, []);
 
   const RenderSpaces = ({ numSpaces }) => {

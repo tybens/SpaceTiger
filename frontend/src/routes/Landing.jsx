@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
 // import axios from "axios";
+import ReactRotatingText from "react-rotating-text";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   block: {
     minHeight: "80vh",
     padding: "10%",
+    [theme.breakpoints.up("lg")]: {
+      padding: "5% 10%"
+    }
   },
 
   image: {
@@ -70,7 +74,8 @@ export default function Landing() {
   const members = [
     {
       name: "Tyler Benson",
-      descrip: "Tyler's Fancy Description",
+      descrip:
+        "I'm a Junior passionate about data science, building random webapps, and climbing! I have experience with React on the frontend and have built a couple full-stack apps using firebase technologies.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
     },
@@ -90,7 +95,7 @@ export default function Landing() {
       name: "Tri Giao Vu Dinh",
       descrip: "Giao's Description",
       image:
-        "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
+        "https://res.cloudinary.com/chickennuggets/image/upload/v1668373257/SpaceTiger/photo_zu7wd4.jpg",
     },
     {
       name: "Eva Vesely",
@@ -131,13 +136,15 @@ export default function Landing() {
             variant="h3"
             color="initial"
           >
-            Some eye-catching tagline for our app.
+            Find and favorite the perfect space to&nbsp;
+            <ReactRotatingText
+              items={["study", "hangout", "chill", "study break", "party", "host a meeting"]}
+              pause={2500}
+            />
           </Typography>
           <Typography variant="h5" color="initial" gutterBottom>
-            A quick and attention grabbing summary of what our app does for
-            students (I think, I'm not too sure).
+            Whether you are looking for a quiet, busy, secret space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
           </Typography>
-          {/* {user && ( */}
           <Grid item>
             <Button
               variant="contained"
