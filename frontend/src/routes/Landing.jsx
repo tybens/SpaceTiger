@@ -75,7 +75,7 @@ export default function Landing() {
     {
       name: "Tyler Benson",
       descrip:
-        "I'm a Junior passionate about data science, building random webapps, and climbing! I have experience with React on the frontend and have built a couple full-stack apps using firebase technologies.",
+        "I'm a Junior passionate about data science, building random webapps, and climbing! While I'm not coding or climbing I enjoy playing the double bass, surfing, singing, and sleeping.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
     },
@@ -99,9 +99,9 @@ export default function Landing() {
     },
     {
       name: "Eva Vesely",
-      descrip: "Eva's Description",
+      descrip: "I'm a Junior studying Computer Science with a certificate in Statistics and Machine Learning. In my free time I like to do yoga, write, and discover new drink recipes at my barista job.",
       image:
-        "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
+        "https://res.cloudinary.com/chickennuggets/image/upload/v1668390229/SpaceTiger/PPic_ye5r3p.jpg",
     },
   ];
   const handleButtonClick = () => {
@@ -136,14 +136,14 @@ export default function Landing() {
             variant="h3"
             color="initial"
           >
-            Find and favorite the perfect space to&nbsp;
+            Find your new favorite space to&nbsp;
             <ReactRotatingText
               items={["study", "hangout", "chill", "study break", "party", "host a meeting"]}
               pause={2500}
             />
           </Typography>
           <Typography variant="h5" color="initial" gutterBottom>
-            Whether you are looking for a quiet, busy, secret space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
+            Whether you're looking for a quiet, busy, secret, comfy, or any kind of space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
           </Typography>
           <Grid item>
             <Button
