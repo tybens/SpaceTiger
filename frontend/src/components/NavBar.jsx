@@ -128,9 +128,8 @@ const NavBar = () => {
                       strict="true"
                       to="/profile"
                     >
-                      <MenuItem onClick={handleClose}>Your Favorites</MenuItem>
+                      <MenuItem onClick={handleClose}>Your Profile</MenuItem>
                     </NavLink>
-                    <MenuItem onClick={handleClose}>Your Reviews</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>

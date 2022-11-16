@@ -87,9 +87,9 @@ export default function Landing() {
     },
     {
       name: "Chenhan Zhang",
-      descrip: "Chenhan's Description",
+      descrip: "I'm a Junior in AB Computer Science. In my free time, I love listening to music and roller skating.",
       image:
-        "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
+        "https://res.cloudinary.com/chickennuggets/image/upload/v1668620418/SpaceTiger/IMG_7678_scu9k4.jpg",
     },
     {
       name: "Tri Giao Vu Dinh",

@@ -38,8 +38,8 @@ export default function SearchResults(props) {
     setFiltered(
       data.filter(
         (space) =>
-          space.name.toLowerCase().includes(query) ||
-          space.location.toLowerCase().includes(query)
+          space.name.toLowerCase().includes(query.toLowerCase()) ||
+          space.location.toLowerCase().includes(query.toLowerCase())
       )
     );
   }, [data, query]);

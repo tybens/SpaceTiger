@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Grid, Typography, IconButton } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
-import axios from "axios"
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 import SpaceItem from "../../Search/components/SpaceItem";
 
@@ -43,7 +44,7 @@ const Favorites = ({ user }) => {
   }, []);
 
   const RenderSpaces = ({ numSpaces }) => {
-    return (
+    return numSpaces !== 0 ? (
       <>
         {data?.slice(0, numSpaces).map((space, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -51,6 +52,13 @@ const Favorites = ({ user }) => {
           </Grid>
         ))}
       </>
+    ) : (
+      <Grid item>
+        <Typography variant="body1" color="initial">
+          You don't have any favorites! Click <Link to={"/search"}>here</Link>{" "}
+          to find your next favorite space.
+        </Typography>
+      </Grid>
     );
   };
 
