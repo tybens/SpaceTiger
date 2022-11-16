@@ -44,9 +44,9 @@ def not_found(e):
 
 api.add_resource(HelloApiHandler, "/flask/hello")
 
-# Route for seeing a data
-
-
+# ---------------------------------------------
+# API for backend data
+# ---------------------------------------------
 @app.route("/getspaces")
 def get_data():
     data = get_spaces()
@@ -88,7 +88,9 @@ def get_list_favorites():
     
     return jsonify(items=[i.to_json() for i in data])
 
+# ---------------------------------------------
 # Routes for authentication.
+# ---------------------------------------------
 @app.route("/logout", methods=["GET"])
 def logout():
     return auth.logout()
