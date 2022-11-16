@@ -81,9 +81,9 @@ export default function Landing() {
     },
     {
       name: "Thanya Begum",
-      descrip: "Thanya's Description",
+      descrip: "I'm a junior majoring in Computer Science with a passion for the intersection of technology and design. Outside of classes, you can finding me watching Netflix, listening to music, or crocheting.",
       image:
-        "https://res.cloudinary.com/chickennuggets/image/upload/v1665770123/SpaceTiger/snowman_wgmm8w.jpg",
+        "https://res.cloudinary.com/chickennuggets/image/upload/v1668629614/SpaceTiger/thanya_vqebct.jpg",
     },
     {
       name: "Chenhan Zhang",
