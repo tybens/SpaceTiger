@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { UserContext } from "./context";
 import { useNavigate, createBrowserRouter } from "react-router-dom";
-
+import axios from "axios";
 import NavBar from "./components/NavBar";
 import {
   Landing,
@@ -13,12 +13,30 @@ import {
 } from "./routes";
 
 const PageWrapper = ({ Page, auth }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (auth && !user) navigate("/");
   }, [auth, user, navigate]);
+
+  useEffect(() => {
+    if (!user) {
+      axios
+        .get("/user_logged_in")
+        .then((res) => {
+          let data = res.data;
+          // setting user from login data
+          if (data.netid) {
+            setUser({ netid: data.netid });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  });
+
   return (
     <>
       <NavBar />
