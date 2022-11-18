@@ -42,6 +42,11 @@ class Amenities(Base):
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     amenity = sqlalchemy.Column(sqlalchemy.String)
 
+    def __repr__(self):
+        repr = f"Amenity(space_id={self.space_id!r}, "
+        repr += f"review_id={self.review_id!r}, amenity={self.amenity!r})"
+        return repr
+
     def to_json(self):
         return {
             "spaceid": self.space_id,
@@ -56,6 +61,12 @@ class Photos(Base):
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     src = sqlalchemy.Column(sqlalchemy.String)
 
+    def __repr__(self):
+        repr = f"Photo(space_id={self.space_id!r}, "
+        # only show the first 240 characters of the src url
+        repr += f"review_id={self.review_id!r}, src={self.src[:240]!r})"
+        return repr
+
     def to_json(self):
         return {"spaceid": self.space_id, "reviewid": self.review_id, "src": self.src}
 
@@ -67,6 +78,11 @@ class Reviews(Base):
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     content = sqlalchemy.Column(sqlalchemy.String)
+
+    def __repr__(self):
+        repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
+        repr += f"rating={self.rating!r}, content={self.content!r})"
+        return repr
 
     def to_json(self):
         return {
