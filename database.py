@@ -6,7 +6,7 @@ import sqlalchemy.orm
 import models
 
 # -----------------------------------------------------------------------
-
+os.environ["TEST_DB_URL"] = "postgresql://qhjaoqcd:sL97vDNOcpSWbPYcy248g8m9n_fLJ1zA@peanut.db.elephantsql.com/qhjaoqcd"
 DATABASE_URL = os.getenv("TEST_DB_URL")
 engine = sqlalchemy.create_engine(DATABASE_URL)
 
@@ -16,17 +16,65 @@ engine = sqlalchemy.create_engine(DATABASE_URL)
 def get_spaces():
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space)
-        table = query.all()
+        spaces = query.all()
 
-    return table
+        friendly_spaces = []
+        friendly_photos = []
+        friendly_amenities = []
+
+        for space in spaces:
+            photos = (
+                session.query(models.Photos)
+                .filter(models.Photos.space_id == space.id)
+                .all()
+            )
+            amenities = (
+                session.query(models.Amenities)
+                .filter(models.Amenities.space_id == space.id)
+                .all()
+            )
+            for photo in photos:
+                friendly_photos.append(photo.to_json())
+            for amenity in amenities:
+                friendly_amenities.append(amenity.to_json())
+            friendly_spaces.append({
+                "space": space.to_json(),
+                "photos": friendly_photos,
+                "amenities": amenities
+            })
+    return friendly_spaces
 
 
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(models.Space.name == name)
-        table = query.all()
+        spaces = query.all()
 
-    return table
+        friendly_spaces = []
+        friendly_photos = []
+        friendly_amenities = []
+
+        for space in spaces:
+            photos = (
+                session.query(models.Photos)
+                .filter(models.Photos.space_id == space.id)
+                .all()
+            )
+            amenities = (
+                session.query(models.Amenities)
+                .filter(models.Amenities.space_id == space.id)
+                .all()
+            )
+            for photo in photos:
+                friendly_photos.append(photo.to_json())
+            for amenity in amenities:
+                friendly_amenities.append(amenity.to_json())
+            friendly_spaces.append({
+                "space": space.to_json(),
+                "photos": friendly_photos,
+                "amenities": amenities
+            })
+    return friendly_spaces
 
 
 def get_details(id):
@@ -154,7 +202,7 @@ def _test():
 
     print("-" * 25)
 
-    details = get_details(1)
+    details = get_details(3)
     print(details)
 
     print("-" * 25)
@@ -172,6 +220,10 @@ def _test():
     print("-" * 25)
     ret = post_favorite("tb19", 0)
     print(ret)
+
+    print("THIS IS GET SPACE: SPACE IS Aaron Burr Hall 219")
+    for space in spaces:
+        print(space)
 
 
 # -----------------------------------------------------------------------
