@@ -5,12 +5,14 @@ import os
 
 from guid import GUID
 
+# -----------------------------------------------------------------------
+
 Base = sqlalchemy.ext.declarative.declarative_base()
 
 class Space(Base):
     __tablename__ = "spaces"
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
+    user_id = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     type = sqlalchemy.Column(sqlalchemy.String)
     location = sqlalchemy.Column(sqlalchemy.String)
@@ -20,7 +22,10 @@ class Space(Base):
     numvisits = sqlalchemy.Column(sqlalchemy.Integer)
 
     def __repr__(self):
-        return f"Space(id={self.id!r}, name={self.name!r})"
+        repr = f"Space(id={self.id!r}, name={self.name!r}, "
+        repr += f"type={self.type!r}, location={self.location!r}, "
+        repr += f"capacity={self.capacity!r})"
+        return repr
 
     def to_json(self):
         return {
@@ -36,7 +41,7 @@ class Space(Base):
         }
 
 
-class Amenities(Base):
+class Amenity(Base):
     __tablename__ = "amenities"
     space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
@@ -55,7 +60,7 @@ class Amenities(Base):
         }
 
 
-class Photos(Base):
+class Photo(Base):
     __tablename__ = "photos"
     space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
@@ -71,11 +76,11 @@ class Photos(Base):
         return {"spaceid": self.space_id, "reviewid": self.review_id, "src": self.src}
 
 
-class Reviews(Base):
+class Review(Base):
     __tablename__ = "reviews"
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     space_id = sqlalchemy.Column(sqlalchemy.Integer)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
+    user_id = sqlalchemy.Column(sqlalchemy.String)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     content = sqlalchemy.Column(sqlalchemy.String)
 
@@ -94,7 +99,7 @@ class Reviews(Base):
         }
 
 
-class Users(Base):
+class User(Base):
     __tablename__ = "users"
     puid = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
 
@@ -107,7 +112,7 @@ class Users(Base):
         }
 
 
-class Favorites(Base):
+class Favorite(Base):
     __tablename__ = "favorites"
     id = sqlalchemy.Column(GUID, primary_key=True, default=uuid.uuid4)
     user_id = sqlalchemy.Column(sqlalchemy.String)
@@ -123,8 +128,8 @@ class Favorites(Base):
             "space_id": self.space_id,
         }
 
+# -----------------------------------------------------------------------
 
 if __name__ == "__main__":
     e = sqlalchemy.create_engine(os.getenv("TEST_DB_URL"))
-    # this runs the create table for all models here
-    Base.metadata.create_all(e)
+    Base.metadata.create_all(e) # runs CREATE TABLE for all models here

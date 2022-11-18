@@ -5,3 +5,5 @@ venv/
 secrets.txt
 frontend/.env
 .env
+
+scraper/*.csv
