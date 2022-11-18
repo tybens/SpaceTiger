@@ -21,7 +21,7 @@ const LoginRedirect = () => {
         .catch((error) => {
           console.log(error);
         });
-      navigate("/");
+      navigate(-2);
     }
     // eslint-disable-next-line
   }, []);

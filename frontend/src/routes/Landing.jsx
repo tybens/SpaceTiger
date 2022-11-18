@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import React from "react"
+// import { useContext, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
 // import axios from "axios";
@@ -7,7 +8,7 @@ import { Grid, Card, CardContent } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
-import { UserContext } from "../context";
+// import { UserContext } from "../context";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,11 +66,7 @@ const MemberCard = ({ member }) => {
 export default function Landing() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-
-  useEffect(() => {
-    if (user) navigate("/search");
-  }, [user, navigate]);
+  // const { user } = useContext(UserContext);
 
   const members = [
     {
@@ -93,7 +90,7 @@ export default function Landing() {
     },
     {
       name: "Tri Giao Vu Dinh",
-      descrip: "Giao's Description",
+      descrip: "I'm a Junior in the COS Department.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1668373257/SpaceTiger/photo_zu7wd4.jpg",
     },
@@ -106,11 +103,6 @@ export default function Landing() {
   ];
   const handleButtonClick = () => {
     navigate("/search");
-    // if (user) {
-    //   navigate("/search");
-    // } else {
-    //   window.location.href = "/login";
-    // }
   };
 
   return (
@@ -143,7 +135,7 @@ export default function Landing() {
             />
           </Typography>
           <Typography variant="h5" color="initial" gutterBottom>
-            Whether you're looking for a quiet, busy, secret, comfy, or any kind of space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
+            Whether you're looking for a loud, secret, comfy, or any kind of space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
           </Typography>
           <Grid item>
             <Button
