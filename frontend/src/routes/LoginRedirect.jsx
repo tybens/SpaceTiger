@@ -21,7 +21,7 @@ const LoginRedirect = () => {
         .catch((error) => {
           console.log(error);
         });
-      navigate(-2);
+      navigate("/search");
     }
     // eslint-disable-next-line
   }, []);
