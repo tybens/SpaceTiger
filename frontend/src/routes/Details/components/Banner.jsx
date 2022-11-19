@@ -35,8 +35,6 @@ export default function Banner(props) {
     }
   }, [photos]);
 
-  console.log("photo: " + img);
-
   return (
     <div
       className={classes.banner}
