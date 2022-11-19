@@ -174,13 +174,18 @@ def get_user(puid):
 
 def post_user(puid):
     ret = ""
+    admins = ["tb19", "chenhanz", "evesely", "tbegum", "tgdinh"]
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Users).filter(models.Users.puid == puid)
         table = query.all()
         if table:
             ret = "puid already in db"
         else:
-            new_user = models.Users(puid=puid)
+            if puid in admins:
+                new_user = models.Users(puid=puid, admin=True)
+            else:
+                new_user = models.Users(puid=puid)
+            
             session.add(new_user)
             session.commit()
             ret = "user created"
@@ -192,7 +197,6 @@ def get_favorites(puid):
     with sqlalchemy.orm.Session(engine) as session:
         table = session.query(models.Favorites).filter(models.Favorites.user_id == puid).all()
         # table is a list of {space_id: space_id}
-        print(table)
         space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
         table = session.query(models.Space).filter(models.Space.id.in_(space_ids)).all()
@@ -230,6 +234,30 @@ def post_favorite(puid, space_id):
 
     return ret
 
+# -----------------------------------------------------
+# Functions for moderation
+# -----------------------------------------------------
+def check_user_admin(user_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Users).filter(models.Users.user_id == user_id)
+        table = query.all()
+    return table.admin
+    
+
+def handle_approval(space_id, approval):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Space).filter(
+            models.Space.space_id == space_id)
+        space = query.first()
+        if approval:
+            space.approved = True
+            ret = f"space {space.name} approved"
+        else:
+            # item is disapproved, delete it
+            space.delete(synchronize_session=False)
+            ret = f"space {space.name} deleted"
+        session.commit()
+    return ret
 
 # -----------------------------------------------------------------------
 

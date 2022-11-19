@@ -16,7 +16,7 @@ from api.HelloApiHandler import HelloApiHandler
 from errors import init_handler
 
 # from query_test import get_books
-from database import get_favorites, get_spaces, get_details, get_favorite, post_favorite
+from database import check_user_admin, get_favorites, get_spaces, get_details, get_favorite, handle_approval, post_favorite
 import auth
 
 app = Flask(__name__, static_url_path="", static_folder="frontend/build")
@@ -92,6 +92,23 @@ def get_list_favorites():
     data = get_favorites(user_id)
     
     return jsonify(items=[i.to_json() for i in data])
+
+# ---------------------------------------------
+# API: for moderation
+# ---------------------------------------------
+
+@app.route('/approve')
+def handle_approve():
+    user_id = request.args.get('user_id')
+    space_id = request.args.get('space_id')
+    approval = request.args.get('aproval')
+    admin = check_user_admin(user_id)
+    if admin:
+        ret = handle_approval(space_id, approval)
+    else:
+        ret = "user isn't admin, operation disallowed"
+    
+    return jsonify({"response": ret})
 
 # ---------------------------------------------
 # Routes for authentication.

@@ -26,6 +26,8 @@ class Space(Base):
     numreviews = sqlalchemy.Column(sqlalchemy.Integer)
     rating = sqlalchemy.Column(sqlalchemy.Integer)
     numvisits = sqlalchemy.Column(sqlalchemy.Integer)
+    approved = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    
 
     def __repr__(self):
         return f"Space(id={self.id!r}, name={self.name!r})"
@@ -41,6 +43,8 @@ class Space(Base):
             "numreviews": self.numreviews,
             "rating": self.rating,
             "numvisits": self.numvisits,
+            "approved": self.approved,
+            
         }
 
 
@@ -89,13 +93,15 @@ class Reviews(Base):
 class Users(Base):
     __tablename__ = "users"
     puid = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
+    admin = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
 
     def __repr__(self):
-        return f"User(puid={self.puid!r})"
+        return f"User(puid={self.puid!r}, admin={self.admin!r})"
 
     def to_json(self):
         return {
             "puid": self.puid,
+            "admin": self.admin
         }
 
 
