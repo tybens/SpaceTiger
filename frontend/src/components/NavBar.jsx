@@ -83,57 +83,69 @@ const NavBar = () => {
               </Link>
             </Grid>
             <Grid item>
-              {!user ? (
-                <a href="/login">
+              <div style={{ display: "flex" }}>
+                <Link to="/search">
                   <Button
                     className={classes.navLink}
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
+                    style={{ marginRight: "20px" }}
                   >
-                    Login
+                    Search
                   </Button>
-                </a>
-              ) : (
-                <div>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Typography
-                      variant="h6"
-                      onClick={handleMenu}
-                      color="inherit"
-                      style={{ cursor: "pointer" }}
-                    >
-                      {user.netid}
-                    </Typography>
-                    <ArrowDropDownIcon color="primary" />
-                  </div>
-                  <Menu
-                    className={classes.menuBar}
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                    style={{ pointer: "cursor" }}
-                  >
-                    <NavLink
+                </Link>
+                {!user ? (
+                  <a href="/login">
+                    <Button
                       className={classes.navLink}
-                      strict="true"
-                      to="/profile"
+                      variant="contained"
+                      color="primary"
                     >
-                      <MenuItem onClick={handleClose}>Your Profile</MenuItem>
-                    </NavLink>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                  </Menu>
-                </div>
-              )}
+                      Login
+                    </Button>
+                  </a>
+                ) : (
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Typography
+                        variant="h6"
+                        onClick={handleMenu}
+                        color="inherit"
+                        style={{ cursor: "pointer" }}
+                      >
+                        {user.netid}
+                      </Typography>
+                      <ArrowDropDownIcon color="primary" />
+                    </div>
+                    <Menu
+                      className={classes.menuBar}
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                      style={{ pointer: "cursor" }}
+                    >
+                      <NavLink
+                        className={classes.navLink}
+                        strict="true"
+                        to="/profile"
+                      >
+                        <MenuItem onClick={handleClose}>Your Profile</MenuItem>
+                      </NavLink>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                  </div>
+                )}
+              </div>
             </Grid>
           </Grid>
         </Toolbar>

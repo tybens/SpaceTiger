@@ -50,7 +50,12 @@ api.add_resource(HelloApiHandler, "/flask/hello")
 @app.route("/getspaces")
 def get_data():
     data = get_spaces()
-    return jsonify(items=[i.to_json() for i in data])
+
+    spaces = [i.to_json() for i in data['spaces']]
+    photos = [i.to_json() for i in data['photos']]
+    amenities = [i.to_json() for i in data['amenities']]
+
+    return jsonify({"spaces": spaces, "photos": photos, "amenities": amenities})
 
 
 @app.route("/getspacedetails")

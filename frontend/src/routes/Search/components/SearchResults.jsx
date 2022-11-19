@@ -4,6 +4,7 @@ import axios from "axios";
 import useStyles from "../styles.js";
 
 import SpaceItem from "./SpaceItem.jsx";
+import { Loader } from "../../../components/Loader.jsx";
 
 import { Typography, Button } from "@mui/material";
 
@@ -11,7 +12,10 @@ const NUM_SHOWN = 20;
 
 export default function SearchResults(props) {
   const { query } = props;
+  const [received, setReceived] = useState(false);
   const [data, setData] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  // const [amenities, setAmenities] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [error, setError] = useState(false);
   const [next, setNext] = useState(NUM_SHOWN);
@@ -27,8 +31,10 @@ export default function SearchResults(props) {
       .get("/getspaces")
       .then((res) => {
         let data = res.data;
-        // Setting a data from api
-        setData(data.items);
+        setData(data.spaces);
+        setPhotos(data.photos);
+        // setAmenities(data.amenities);
+        setReceived(true);
       })
       .catch((err) => console.log(err));
   };
@@ -45,10 +51,15 @@ export default function SearchResults(props) {
   }, [data, query]);
 
   const renderSpaces = () => {
+    if (filtered.length === 0) return <p>No spaces match this query.</p>;
     return (
       <>
         {filtered?.slice(0, next)?.map((space, index) => (
-          <SpaceItem key={index} space={space} />
+          <SpaceItem
+            key={index}
+            space={space}
+            photo={photos.find((item) => item.spaceid === space.id)}
+          />
         ))}
       </>
     );
@@ -61,16 +72,21 @@ export default function SearchResults(props) {
 
   return (
     <>
-      <div className={classes.spaceContainer}>
-        {error && (
-          <Typography variant="p">Sorry, an error occured. </Typography>
-        )}
-        {renderSpaces()}
-      </div>
-      {next < filtered?.length && (
-        <Button className="mt-4" onClick={handleMoreImage}>
-          Load more
-        </Button>
+      {!received && <Loader />}
+      {received && (
+        <>
+          <div className={classes.spaceContainer}>
+            {error && (
+              <Typography variant="p">Sorry, an error occured. </Typography>
+            )}
+            {renderSpaces()}
+          </div>
+          {next < filtered?.length && (
+            <Button className="mt-4" onClick={handleMoreImage}>
+              Load more
+            </Button>
+          )}
+        </>
       )}
     </>
   );

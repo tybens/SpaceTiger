@@ -7,17 +7,18 @@ import useStyles from "../styles.js";
 // okay this is just me defining categories. feel free to change
 // ideally i should be able to fetch this from the backend
 const POPULAR_FOR = [
+  "",
   "studying",
   "group work",
   "social events",
   "hanging out",
   "rehearsals",
 ];
-const NOISE = ["quiet", "loud"];
-const PRIVACY = ["low", "medium", "high"];
-const LIGHTING = ["low", "medium", "high"];
-const SEATING = ["chairs", "couches"];
-const TYPE = ["nook", "room", "classroom", "rehearsal", "outdoors"];
+const NOISE = ["", "quiet", "loud"];
+const PRIVACY = ["", "low", "medium", "high"];
+const LIGHTING = ["", "low", "medium", "high"];
+const SEATING = ["", "chairs", "couches"];
+const TYPE = ["", "nook", "room", "classroom", "rehearsal", "outdoors"];
 
 export default function SearchFilters(props) {
   const classes = useStyles();
@@ -40,6 +41,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="popfor">Popular for</InputLabel>
         <Select
+          displayEmpty
           labelId="popfor"
           id="popfor"
           value={popfor}
@@ -61,6 +63,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="noise">Noise</InputLabel>
         <Select
+          displayEmpty
           labelId="noise"
           id="noise"
           value={noise}
@@ -82,6 +85,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="privacy">Privacy</InputLabel>
         <Select
+          displayEmpty
           labelId="privacy"
           id="privacy"
           value={privacy}
@@ -103,6 +107,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="lighting">Natural Light</InputLabel>
         <Select
+          displayEmpty
           labelId="lighting"
           id="lighting"
           value={lighting}
@@ -124,6 +129,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="seating">Seating</InputLabel>
         <Select
+          displayEmpty
           labelId="seating"
           id="seating"
           value={seating}
@@ -145,6 +151,7 @@ export default function SearchFilters(props) {
       >
         <InputLabel id="type">Type</InputLabel>
         <Select
+          displayEmpty
           labelId="type"
           id="type"
           value={type}

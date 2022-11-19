@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import useStyles from "../styles.js";
@@ -7,9 +8,24 @@ import StarIcon from "@mui/icons-material/Star";
 // import { Rating } from "@mui/material";
 
 export default function SpaceItem(props) {
-  const { space } = props;
+  const { space, photo } = props;
+  const [src, setSrc] = useState("");
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (!photo) {
+      setSrc(
+        "https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+      );
+    } else if (photo?.src === "") {
+      setSrc(
+        "https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+      );
+    } else {
+      setSrc(photo?.src);
+    }
+  }, [photo, setSrc]);
 
   return (
     <>
@@ -18,7 +34,7 @@ export default function SpaceItem(props) {
           <div className={classes.spaceItem}>
             <img
               className={classes.spaceImg}
-              src="https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+              src={src}
               // src={space.photos[0]}
               alt={space.name}
             />
