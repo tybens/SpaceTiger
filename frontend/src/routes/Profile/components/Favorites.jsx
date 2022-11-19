@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import SpaceItem from "../../Search/components/SpaceItem";
+import SpaceItem from "../../../components/SpaceItem";
 
 const useStyles = makeStyles((theme) => ({
   container: {

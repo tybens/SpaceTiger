@@ -10,15 +10,19 @@ import {
   Details,
   Profile,
   LoginRedirect,
+  Admin,
 } from "./routes";
 
-const PageWrapper = ({ Page, auth }) => {
+const PageWrapper = ({ Page, auth, admin }) => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (auth && !user) navigate("/");
-  }, [auth, user, navigate]);
+
+    // if admin is required, check for admin
+    if (admin && !user?.admin) navigate("/");
+  }, [auth, user, admin, navigate]);
 
   useEffect(() => {
     if (!user) {
@@ -27,8 +31,9 @@ const PageWrapper = ({ Page, auth }) => {
         .then((res) => {
           let data = res.data;
           // setting user from login data
+          // TODO: update backend to return admin
           if (data.netid) {
-            setUser({ netid: data.netid });
+            setUser({ netid: data.netid, admin: data?.admin });
           }
         })
         .catch((error) => {
@@ -54,18 +59,28 @@ const router = createBrowserRouter([
   {
     path: "/search/:query",
     element: <PageWrapper Page={Details} />,
+    errorElement: <NotFound />,
   },
   {
     path: "/search",
     element: <PageWrapper Page={Search} />,
+    errorElement: <NotFound />,
   },
   {
     path: "/profile",
     element: <PageWrapper Page={Profile} auth={true} />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/admin",
+    // TODO: change this back to true, true
+    element: <PageWrapper Page={Admin} auth={false} admin={false} />,
+    errorElement: <NotFound />,
   },
   {
     path: "/loginredirect",
     element: <PageWrapper Page={LoginRedirect} />,
+    errorElement: <NotFound />,
   },
 ]);
 
