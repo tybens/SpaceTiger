@@ -185,4 +185,8 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+
+  mapContainer: {
+    height: "400px",
+  },
 }));

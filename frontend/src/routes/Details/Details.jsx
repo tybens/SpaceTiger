@@ -13,6 +13,7 @@ import useStyles from "./styles.js";
 
 export default function Details() {
   const [data, setData] = useState(null);
+  const [position, setPosition] = useState([46.48826, -63.65346]);
   const { query } = useParams();
   const classes = useStyles();
 
@@ -46,7 +47,11 @@ export default function Details() {
       />
 
       <div className={classes.itemContainer}>
-        <Amenities amenities={data?.amenities} />
+        <Amenities
+          amenities={data?.amenities}
+          position={position}
+          label={data?.space.location}
+        />
         {/* <Highlights popularFor={data?.popularfor} tags={data?.tags} /> */}
         <Reviews reviews={data?.reviews} />
       </div>
