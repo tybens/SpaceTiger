@@ -36,7 +36,7 @@ export default function SearchResults(props) {
         // setAmenities(data.amenities);
         setReceived(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError(true));
   };
 
   useEffect(() => {
@@ -72,8 +72,9 @@ export default function SearchResults(props) {
 
   return (
     <>
-      {!received && <Loader />}
-      {received && (
+      {error && <p>An error occured with our systems. Check back later!</p>}
+      {!error && !received && <Loader />}
+      {!error && received && (
         <>
           <div className={classes.spaceContainer}>
             {error && (
