@@ -28,7 +28,7 @@ export default function SearchResults(props) {
 
   const getData = () => {
     axios
-      .get("/getspaces")
+      .get("/spaces")
       .then((res) => {
         let data = res.data;
         setData(data.spaces);

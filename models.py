@@ -1,36 +1,56 @@
-import sqlalchemy.ext.declarative
-import sqlalchemy
+from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, create_engine
+from sqlalchemy.orm import declarative_base, relationship
 import uuid
 import os
 
 from guid import GUID
 
-Base = sqlalchemy.ext.declarative.declarative_base()
+# -----------------------------------------------------------------------
 
+Base = declarative_base()
 
-class Book(Base):
-    __tablename__ = "books"
-    isbn = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
-    title = sqlalchemy.Column(sqlalchemy.String)
-    quantity = sqlalchemy.Column(sqlalchemy.Integer)
+class User(Base):
+    __tablename__ = "users"
+    puid = Column(String, primary_key=True)
+    spaces = relationship("Space", back_populates="user")
+    reviews = relationship("Review", back_populates="user")
+    favorites = relationship("Favorite", back_populates="user")
+    admin = Column(Boolean, default=False)
+
+    def __repr__(self):
+        return f"User(puid={self.puid!r})"
+
+    def to_json(self):
+        return {
+            "puid": self.puid,
+        }
 
 
 class Space(Base):
     __tablename__ = "spaces"
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
-    name = sqlalchemy.Column(sqlalchemy.String)
-    type = sqlalchemy.Column(sqlalchemy.String)
-    location = sqlalchemy.Column(sqlalchemy.String)
-    capacity = sqlalchemy.Column(sqlalchemy.Integer)
-    numreviews = sqlalchemy.Column(sqlalchemy.Integer)
-    rating = sqlalchemy.Column(sqlalchemy.Integer)
-    numvisits = sqlalchemy.Column(sqlalchemy.Integer)
-    approved = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
-    
+    id = Column(Integer, primary_key=True)
+    user_id = Column(String, ForeignKey("users.puid"))
+    name = Column(String)
+    type = Column(String)
+    location = Column(String)
+    capacity = Column(Integer)
+    numreviews = Column(Integer)
+    rating = Column(Integer)
+    numvisits = Column(Integer)
+
+    user = relationship("User", back_populates="spaces")
+    reviews = relationship("Review", back_populates="space")
+    favorites = relationship("Favorite", back_populates="space")
+    tags = relationship("Tag", back_populates="space")
+    amenities = relationship("Amenity", back_populates="space")
+    photos = relationship("Photo", back_populates="space")
+    approved = Column(Boolean, default=False)
 
     def __repr__(self):
-        return f"Space(id={self.id!r}, name={self.name!r})"
+        repr = f"Space(id={self.id!r}, name={self.name!r}, "
+        repr += f"type={self.type!r}, location={self.location!r}, "
+        repr += f"capacity={self.capacity!r})"
+        return repr
 
     def to_json(self):
         return {
@@ -48,37 +68,24 @@ class Space(Base):
         }
 
 
-class Amenities(Base):
-    __tablename__ = "amenities"
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    review_id = sqlalchemy.Column(sqlalchemy.Integer)
-    amenity = sqlalchemy.Column(sqlalchemy.String)
-
-    def to_json(self):
-        return {
-            "spaceid": self.space_id,
-            "reviewid": self.review_id,
-            "amenity": self.amenity,
-        }
-
-
-class Photos(Base):
-    __tablename__ = "photos"
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    review_id = sqlalchemy.Column(sqlalchemy.Integer)
-    src = sqlalchemy.Column(sqlalchemy.String)
-
-    def to_json(self):
-        return {"spaceid": self.space_id, "reviewid": self.review_id, "src": self.src}
-
-
-class Reviews(Base):
+class Review(Base):
     __tablename__ = "reviews"
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    space_id = sqlalchemy.Column(sqlalchemy.Integer)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
-    rating = sqlalchemy.Column(sqlalchemy.Integer)
-    content = sqlalchemy.Column(sqlalchemy.String)
+    id = Column(Integer, primary_key=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"))
+    user_id = Column(String, ForeignKey("users.puid"))
+    rating = Column(Integer)
+    content = Column(String)
+
+    user = relationship("User", back_populates="reviews")
+    space = relationship("Space", back_populates="reviews")
+    tags = relationship("Tag", back_populates="review")
+    amenities = relationship("Amenity", back_populates="review")
+    photos = relationship("Photo", back_populates="review")
+
+    def __repr__(self):
+        repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
+        repr += f"rating={self.rating!r}, content={self.content!r})"
+        return repr
 
     def to_json(self):
         return {
@@ -90,26 +97,14 @@ class Reviews(Base):
         }
 
 
-class Users(Base):
-    __tablename__ = "users"
-    puid = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
-    admin = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
-
-    def __repr__(self):
-        return f"User(puid={self.puid!r}, admin={self.admin!r})"
-
-    def to_json(self):
-        return {
-            "puid": self.puid,
-            "admin": self.admin
-        }
-
-
-class Favorites(Base):
+class Favorite(Base):
     __tablename__ = "favorites"
-    id = sqlalchemy.Column(GUID, primary_key=True, default=uuid.uuid4)
-    user_id = sqlalchemy.Column(sqlalchemy.String)
-    space_id = sqlalchemy.Column(sqlalchemy.Integer)
+    id = Column(GUID, primary_key=True, default=uuid.uuid4)
+    user_id = Column(String, ForeignKey("users.puid"))
+    space_id = Column(Integer, ForeignKey("spaces.id"))
+
+    user = relationship("User", back_populates="favorites")
+    space = relationship("Space", back_populates="favorites")
 
     def __repr__(self):
         return f"Favorite(id={self.id!r}, user_id={self.user_id!r}, space_id={self.space_id!r})"
@@ -122,7 +117,80 @@ class Favorites(Base):
         }
 
 
+class Tag(Base):
+    __tablename__ = "tags"
+    id = Column(Integer, primary_key=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"))
+    review_id = Column(Integer, ForeignKey("reviews.id"))
+    tag = Column(String)
+
+    space = relationship("Space", back_populates="tags")
+    review = relationship("Review", back_populates="tags")
+
+    def __repr__(self):
+        repr = f"Tag(space_id={self.space_id!r}, "
+        repr += f"review_id={self.review_id!r}, tag={self.tag!r})"
+        return repr
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "spaceid": self.space_id,
+            "reviewid": self.review_id,
+            "tag": self.tag,
+        }
+
+
+class Amenity(Base):
+    __tablename__ = "amenities"
+    id = Column(Integer, primary_key=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"))
+    review_id = Column(Integer, ForeignKey("reviews.id"))
+    amenity = Column(String)
+
+    space = relationship("Space", back_populates="amenities")
+    review = relationship("Review", back_populates="amenities")
+
+    def __repr__(self):
+        repr = f"Amenity(space_id={self.space_id!r}, "
+        repr += f"review_id={self.review_id!r}, amenity={self.amenity!r})"
+        return repr
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "spaceid": self.space_id,
+            "reviewid": self.review_id,
+            "amenity": self.amenity,
+        }
+
+
+class Photo(Base):
+    __tablename__ = "photos"
+    id = Column(Integer, primary_key=True)
+    space_id = Column(Integer, ForeignKey("spaces.id"))
+    review_id = Column(Integer, ForeignKey("reviews.id"))
+    src = Column(String)
+
+    space = relationship("Space", back_populates="photos")
+    review = relationship("Review", back_populates="photos")
+
+    def __repr__(self):
+        repr = f"Photo(space_id={self.space_id!r}, "
+        # only show the first 240 characters of the src url
+        repr += f"review_id={self.review_id!r}, src={self.src[:240]!r})"
+        return repr
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "spaceid": self.space_id,
+            "reviewid": self.review_id,
+            "src": self.src
+        }
+
+# -----------------------------------------------------------------------
+
 if __name__ == "__main__":
-    e = sqlalchemy.create_engine(os.getenv("TEST_DB_URL"))
-    # this runs the create table for all models here
-    Base.metadata.create_all(e)
+    e = create_engine(os.getenv("TEST_DB_URL"))
+    Base.metadata.create_all(e) # runs CREATE TABLE for all models here

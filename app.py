@@ -10,69 +10,80 @@ from flask import (
 )
 from flask_restful import Api
 from flask_cors import CORS
-from api.HelloApiHandler import HelloApiHandler
 
-
-from errors import init_handler
-
-# from query_test import get_books
-from database import check_user_admin, get_favorites, get_spaces, get_details, get_favorite, handle_approval, post_favorite
+# from errors import init_handler
+from api.spaces import SpacesApi
+from api.reviews import ReviewsApi
+import database as db
 import auth
 
-app = Flask(__name__, static_url_path="", static_folder="frontend/build")
+# ----------------------------------------------------------------------
 
+app = Flask(__name__, static_url_path="", static_folder="frontend/build")
+app.secret_key = os.environ["APP_SECRET_KEY"]
 if "FLASK_ENV" in os.environ and os.environ.get("FLASK_ENV") == "development":
     CORS(app)
     # init_handler(app) 1 # initialise error handling
 
 api = Api(app)
-app.secret_key = os.environ["APP_SECRET_KEY"]
 
+# ---------------------------------------------
+# Routes for index and errors.
+# ---------------------------------------------
 
 @app.route("/", defaults={"path": ""})
 def serve(path):
     return send_from_directory(app.static_folder, "index.html")
 
 
-# needs to work with react router
-
-
 @app.errorhandler(404)
 def not_found(e):
     return send_from_directory(app.static_folder, "index.html")
 
+# ---------------------------------------------
+# Routes for spaces.
+# ---------------------------------------------
 
-api.add_resource(HelloApiHandler, "/flask/hello")
+api.add_resource(SpacesApi, "/spaces", "/spaces/<space_id>")
+
+@app.route('/locations')
+def locations():
+    return jsonify({"locations": db.get_locations()})
 
 # ---------------------------------------------
-# API for backend data
+# Routes for reviews.
 # ---------------------------------------------
-@app.route("/getspaces")
-def get_data():
-    data = get_spaces()
 
-    spaces = [i.to_json() for i in data['spaces']]
-    photos = [i.to_json() for i in data['photos']]
-    amenities = [i.to_json() for i in data['amenities']]
+api.add_resource(ReviewsApi, "/reviews", "/reviews/<review_id>")
 
-    return jsonify({"spaces": spaces, "photos": photos, "amenities": amenities})
+# ---------------------------------------------
+# Routes for amenities.
+# ---------------------------------------------
 
+@app.route('/amenities')
+def amenities():
+    return jsonify({"amenities": db.get_amenities()})
 
-@app.route("/getspacedetails")
-def get_space_details():
-    id = request.args.get("id")
-    data = get_details(id)
-    # print(data)
-    return jsonify(data)
-    # return jsonify(data)
+# ---------------------------------------------
+# Routes for tags.
+# ---------------------------------------------
+
+@app.route('/tags')
+def tags():
+    return jsonify({"tags": db.get_tags()})
+
+# ---------------------------------------------
+# Routes for favorites.
+# ---------------------------------------------
 
 @app.route('/getfavorite')
 def get_is_favorite():
     user_id = request.args.get('user_id')
     space_id = request.args.get('space_id')
     
-    return jsonify({"is_favorite": get_favorite(user_id, space_id)})
-    
+    return jsonify({"is_favorite": db.get_favorite(user_id, space_id)})
+
+
 @app.route('/postfavorite')
 def post_is_favorite():
     user_id = request.args.get('user_id')
@@ -81,15 +92,16 @@ def post_is_favorite():
         return jsonify({"status": 400, "response": "error: invalid parameters in request"})
         
     try:
-        res = post_favorite(user_id, space_id)
+        res = db.post_favorite(user_id, space_id)
         return jsonify({"status": 200, "response": res})
     except Exception as err:
         return jsonify({"status": 500, "response": err})
-    
+
+
 @app.route('/getfavorites')
 def get_list_favorites():
     user_id = request.args.get('user_id')
-    data = get_favorites(user_id)
+    data = db.get_favorites(user_id)
     
     return jsonify(items=[i.to_json() for i in data])
 
@@ -113,6 +125,7 @@ def handle_approve():
 # ---------------------------------------------
 # Routes for authentication.
 # ---------------------------------------------
+
 @app.route("/logout", methods=["GET"])
 def logout():
     return auth.logout()
@@ -121,16 +134,15 @@ def logout():
 @app.route("/login", methods=["GET"])
 def login():
     auth.authenticate()  # sets session variable
-
     return redirect("/loginredirect")
 
 
 @app.route("/user_logged_in", methods=["GET"])
 def user_logged_in():
     username = auth.authenticate()
-
     return jsonify({"netid": username})
 
+# ----------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
