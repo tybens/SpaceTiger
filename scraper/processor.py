@@ -12,7 +12,7 @@ rooms = rooms.drop(columns=["LocationLink", "RecordType", "MinCapacity",
 rooms = rooms.rename(columns={"DisplayText": "name", "Building": "location",
     "Room Type": "type", "Features": "amenities", "Images": "photos",
     "Capacity": "capacity", "Notes": "content"})
-rooms.insert(0, "id", range(0, len(rooms)))
+rooms.insert(0, "id", range(1, len(rooms) + 1))
 rooms.insert(1, "user_id", ["emssystem"] * len(rooms))
 rooms.insert(3, "numreviews", [0] * len(rooms))
 rooms.insert(5, "rating", [0] * len(rooms))
@@ -28,7 +28,7 @@ amenities.loc[:, "review_id"] = None
 reviews = rooms[["id", "user_id", "rating", "content"]] # for reviews table
 reviews = reviews.rename(columns={"id": "space_id"})
 reviews = reviews[reviews["content"] != "(none)"].dropna()
-reviews.insert(0, "id", range(0, len(reviews)))
+reviews.insert(0, "id", range(1, len(reviews) + 1))
 reviews = reviews.reset_index(drop=True)
 
 photos = rooms[["id", "photos"]] # for photos table

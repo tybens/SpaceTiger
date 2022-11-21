@@ -33,7 +33,8 @@ for _, amenity in amenities.iterrows():
 
 for _, photo in photos.iterrows():
     space_id, src, _ = photo
-    database.add_photo(space_id, src)
+    if not isinstance(src, float): # are actually NaN
+        database.add_photo(space_id, src)
 
 # NOTE: Cannot use these because the table's index doesn't update
 # spaces.to_sql("spaces", engine, if_exists="append", index=False)
