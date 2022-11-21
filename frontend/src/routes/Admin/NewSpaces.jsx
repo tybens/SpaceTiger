@@ -95,7 +95,7 @@ const NewSpaces = () => {
     // TODO: backend handle approval
     axios
       .get("/approve", {
-        params: { user_id: user?.netid, space_id: 0, approve: approval },
+        params: { user_id: user?.netid, space_id: 0, approval: approval },
       })
       .then((res) => {
         //   let data = res.data;
