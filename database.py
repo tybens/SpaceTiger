@@ -30,10 +30,6 @@ def get_spaces():
 
         return data
 
-        # return spaces
-
-        # print("hi")
-
         # friendly_spaces = []
         # # friendly_photos = []
         # # friendly_amenities = []
@@ -87,7 +83,6 @@ def get_spaces():
         # print("photos", friendly_photos)
         # print("amenities", friendly_amenities)
     # return friendly_spaces
-    return []
 
 
 def get_space(name):
@@ -195,6 +190,14 @@ def remove_space(space_id):
 
     return ret
 
+
+def get_locations():
+    with sqlalchemy.orm.Session(engine) as session:
+        table = session.query(models.Space.location).distinct().all()
+
+    locations = [location for (location,) in table]
+    return locations
+
 # ----------------------------------------------------------------------
 
 def get_user(puid):
@@ -285,28 +288,40 @@ def get_user_reviews(puid):
     return table
 
 
-# add a review consisting of rating and content, or update a review if it
-# already exists for space with space_id by user specified by puid
-def post_review(space_id, puid, rating, content):
+# add a review consisting of rating and content
+def add_review(space_id, puid, rating, content):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Review).filter(
             models.Review.space_id == space_id, models.Review.user_id == puid
         )
         table = query.all()
 
-        if table: # if review already exists, then update it
-            query.update({"rating": rating, "content": content},
-                synchronize_session=False)
+        if table: # if review already exists, then say so
             ret = f"user {puid} review for this space {space_id} already exists"
-            ret += f"\nupdating their review with rating {rating} and content:"
-            ret += f"\n{content}"
         else:
             new_review = models.Review(
                 space_id=space_id, user_id=puid, rating=rating, content=content
             )
             session.add(new_review)
             ret = f"created review for space {space_id} by user {puid} with "
-            ret += f"rating {rating} and content:\n{content}"
+            ret += f"rating {rating} and content: {content}"
+
+        session.commit()
+
+    return ret
+
+
+# update a review for space with space_id by user with id of puid
+def update_review(review_id, dict_of_changes):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Review).filter(
+            models.Review.id == review_id
+        )
+        table = query.all()
+
+        if table:
+            query.update(dict_of_changes, synchronize_session=False)
+            ret = f"review with id '{review_id}' updated"
 
         session.commit()
 
@@ -314,18 +329,114 @@ def post_review(space_id, puid, rating, content):
 
 
 # delete a review for space with space_id created by user specified by puid
-def remove_review(space_id, puid):
+def remove_review(review_id):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Review).filter(
-            models.Review.space_id == space_id, models.Review.user_id == puid
+            models.Review.id == review_id
         )
         table = query.all()
 
         if table:
             query.delete(synchronize_session=False)
-            ret = f"deleted review by user {puid} for space {space_id}"
+            ret = f"deleted review with id {review_id}"
         else:
-            ret = f"review by user {puid} for space {space_id} does not exist"
+            ret = f"review with id {review_id} does not exist"
+
+        session.commit()
+
+    return ret
+
+# ----------------------------------------------------------------------
+
+def get_tags():
+    with sqlalchemy.orm.Session(engine) as session:
+        table = session.query(models.Tag.tag).distinct().all()
+
+    tags = [tag for (tag,) in table]
+    return tags
+
+
+def add_tag(space_id, tag, review_id=None):
+    with sqlalchemy.orm.Session(engine) as session:
+        new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
+        session.add(new_tag)
+        ret = f"added tag '{tag}' for space with id {space_id}"
+        session.commit()
+
+    return ret
+
+def remove_tag(tag_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Tag).filter(models.Tag.id == tag_id)
+        table = query.first()
+
+        if table:
+            query.delete(synchronize_session=False)
+            ret = f"deleted tag with id {tag_id}"
+        else:
+            ret = f"tag with id {tag_id} does not exist"
+
+        session.commit()
+
+    return ret
+
+# ----------------------------------------------------------------------
+
+def get_amenities():
+    with sqlalchemy.orm.Session(engine) as session:
+        table = session.query(models.Amenity.amenity).distinct().all()
+
+    amenities = [amenity for (amenity,) in table]
+    return amenities
+
+
+def add_amenity(space_id, amenity, review_id=None):
+    with sqlalchemy.orm.Session(engine) as session:
+        new_amenity = models.Amenity(space_id=space_id, review_id=review_id, amenity=amenity)
+        session.add(new_amenity)
+        ret = f"added amenity '{amenity}' for space with id {space_id}"
+        session.commit()
+
+    return ret
+
+
+def remove_amenity(amenity_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Amenity).filter(models.Amenity.id == amenity_id)
+        table = query.first()
+
+        if table:
+            query.delete(synchronize_session=False)
+            ret = f"deleted amenity with id {amenity_id}"
+        else:
+            ret = f"amenity with id {amenity_id} does not exist"
+
+        session.commit()
+
+    return ret
+
+# ----------------------------------------------------------------------
+
+def add_photo(space_id, src, review_id=None):
+    with sqlalchemy.orm.Session(engine) as session:
+        new_photo = models.Photo(space_id=space_id, review_id=review_id, src=src)
+        session.add(new_photo)
+        ret = f"added photo with src `{src}` for space with id {space_id}"
+        session.commit()
+
+    return ret
+
+
+def remove_photo(photo_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Photo).filter(models.Photo.id == photo_id)
+        table = query.first()
+
+        if table:
+            query.delete(synchronize_session=False)
+            ret = f"deleted photo with id {photo_id}"
+        else:
+            ret = f"photo with id {photo_id} does not exist"
 
         session.commit()
 
@@ -334,6 +445,7 @@ def remove_review(space_id, puid):
 # ----------------------------------------------------------------------
 
 def _test_spaces():
+    print("-" * 25)
     details = get_details(1) # works best once the database is seeded
     print(details)
 
@@ -362,6 +474,10 @@ def _test_spaces():
     ret = remove_space(space.id)
     print(ret)
 
+    print("-" * 25)
+    locations = get_locations()
+    print(locations)
+
 
 def _test_users():
     print("-" * 25)
@@ -385,13 +501,13 @@ def _test_favorites():
 
 def _test_reviews():
     print("-" * 25)
-    ret = post_review(999, "tbegum", 5, "Really love this room for studying")
+    ret = add_review(999, "tbegum", 5, "Really love this room for studying")
     print(ret)
-    ret = post_review(1000, "tbegum", 2, "This space could use some cleaning")
+    ret = add_review(1000, "tbegum", 2, "This space could use some cleaning")
     print(ret)
 
     print("-" * 25)
-    ret = post_review(1000, "tbegum", 1, "This space has become so gross")
+    ret = update_review(1000, "tbegum", 1, "This space has become so gross")
     print(ret)
 
     print("-" * 25)
@@ -403,9 +519,49 @@ def _test_reviews():
     print(user_reviews)
 
     print("-" * 25)
-    ret = remove_review(999, "tbegum")
+    ret = remove_review(77)
     print(ret)
-    ret = remove_review(1000, "tbegum")
+    ret = remove_review(78)
+    print(ret)
+
+
+def _test_tags():
+    print("-" * 25)
+    ret = add_tag(0, tag="Cozy")
+    print(ret)
+
+    print("-" * 25)
+    ret = add_tag(0, tag="Social")
+    print(ret)
+
+    print("-" * 25)
+    tags = get_tags()
+    print(tags)
+
+
+def _test_amenities():
+    print("-" * 25)
+    ret = add_amenity(999, amenity="Dummy Amenity 1")
+    print(ret)
+    ret = add_amenity(999, amenity="Dummy Amenity 2")
+    print(ret)
+
+    print("-" * 25)
+    amenities = get_amenities()
+    print(amenities)
+
+    print("-" * 25)
+    ret = remove_amenity(5184)
+    print(ret)
+
+
+def _test_photos():
+    print("-" * 25)
+    ret = add_photo(999, src="https://images.unsplash.com/photo-1668934807804-908534048c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80")
+    print(ret)
+
+    print("-" * 25)
+    ret = remove_photo(1394)
     print(ret)
 
 # ----------------------------------------------------------------------
@@ -415,3 +571,6 @@ if __name__ == "__main__":
     _test_users()
     _test_favorites()
     _test_reviews()
+    _test_tags()
+    _test_amenities()
+    _test_photos()

@@ -41,9 +41,30 @@ class Space(Base):
         }
 
 
+class Tag(Base):
+    __tablename__ = "tags"
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    space_id = sqlalchemy.Column(sqlalchemy.Integer)
+    review_id = sqlalchemy.Column(sqlalchemy.Integer)
+    tag = sqlalchemy.Column(sqlalchemy.String)
+
+    def __repr__(self):
+        repr = f"Tag(space_id={self.space_id!r}, "
+        repr += f"review_id={self.review_id!r}, tag={self.tag!r})"
+        return repr
+
+    def to_json(self):
+        return {
+            "spaceid": self.space_id,
+            "reviewid": self.review_id,
+            "tag": self.tag,
+        }
+
+
 class Amenity(Base):
     __tablename__ = "amenities"
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    space_id = sqlalchemy.Column(sqlalchemy.Integer)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     amenity = sqlalchemy.Column(sqlalchemy.String)
 
@@ -62,7 +83,8 @@ class Amenity(Base):
 
 class Photo(Base):
     __tablename__ = "photos"
-    space_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    space_id = sqlalchemy.Column(sqlalchemy.Integer)
     review_id = sqlalchemy.Column(sqlalchemy.Integer)
     src = sqlalchemy.Column(sqlalchemy.String)
 

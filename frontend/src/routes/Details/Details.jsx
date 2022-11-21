@@ -18,7 +18,7 @@ export default function Details() {
 
   const getData = useCallback(() => {
     axios
-      .get("/getspacedetails", { params: { id: query } })
+      .get(`/spaces/${query}`)
       .then((res) => {
         let data = res.data;
         // Setting a data from api
