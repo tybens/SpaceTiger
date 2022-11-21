@@ -28,7 +28,7 @@ def get_spaces():
             "photos": photos
         }
 
-        return data
+    return data
 
         # friendly_spaces = []
         # # friendly_photos = []
@@ -358,9 +358,18 @@ def get_tags():
 
 def add_tag(space_id, tag, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
-        new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
-        session.add(new_tag)
-        ret = f"added tag '{tag}' for space with id {space_id}"
+        query = session.query(models.Tag).filter(
+            models.Tag.space_id == space_id, models.Tag.tag == tag
+        )
+        table = query.all()
+
+        if table:
+            ret = f"tag '{tag}' for space with id {space_id} already exists"
+        else:
+            new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
+            session.add(new_tag)
+            ret = f"added tag '{tag}' for space with id {space_id}"
+
         session.commit()
 
     return ret
@@ -392,9 +401,18 @@ def get_amenities():
 
 def add_amenity(space_id, amenity, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
-        new_amenity = models.Amenity(space_id=space_id, review_id=review_id, amenity=amenity)
-        session.add(new_amenity)
-        ret = f"added amenity '{amenity}' for space with id {space_id}"
+        query = session.query(models.Amenity).filter(
+            models.Amenity.space_id == space_id, models.Amenity.amenity == amenity
+        )
+        table = query.all()
+
+        if table:
+            ret = f"amenity '{amenity}' for space with id {space_id} already exists"
+        else:
+            new_amenity = models.Amenity(space_id=space_id, review_id=review_id, amenity=amenity)
+            session.add(new_amenity)
+            ret = f"added amenity '{amenity}' for space with id {space_id}"
+
         session.commit()
 
     return ret
@@ -419,9 +437,18 @@ def remove_amenity(amenity_id):
 
 def add_photo(space_id, src, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
-        new_photo = models.Photo(space_id=space_id, review_id=review_id, src=src)
-        session.add(new_photo)
-        ret = f"added photo with src `{src}` for space with id {space_id}"
+        query = session.query(models.Photo).filter(
+            models.Photo.space_id == space_id, models.Photo.src == src
+        )
+        table = query.all()
+
+        if table:
+            ret = f"photo with given src for space with id {space_id} already exists"
+        else:
+            new_photo = models.Photo(space_id=space_id, review_id=review_id, src=src)
+            session.add(new_photo)
+            ret = f"added photo with given src for space with id {space_id}"
+
         session.commit()
 
     return ret

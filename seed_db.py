@@ -1,6 +1,7 @@
 import os
 import pandas as pd
-import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 
 import database
 
@@ -17,24 +18,31 @@ photos = pd.read_csv("scraper/photos.csv")
 
 # ----------------------------------------------------------------------
 
-engine = sqlalchemy.create_engine(DATABASE_URL)
+try:
+    engine = create_engine(DATABASE_URL)
 
-for _, space in spaces.iterrows():
-    puid, name, _, capacity, _, _, location, type = space
-    database.add_space(puid, name, capacity, location, type)
+    database.post_user("emssystem")
 
-for _, review in reviews.iterrows():
-    space_id, puid, rating, content = review
-    database.add_review(space_id, puid, rating, content)
+    for _, space in spaces.iterrows():
+        puid, name, _, capacity, _, _, location, type = space
+        database.add_space(puid, name, capacity, location, type)
 
-for _, amenity in amenities.iterrows():
-    space_id, amenity, _ = amenity
-    database.add_amenity(space_id, amenity)
+    for _, review in reviews.iterrows():
+        space_id, puid, rating, content = review
+        database.add_review(space_id, puid, rating, content)
 
-for _, photo in photos.iterrows():
-    space_id, src, _ = photo
-    if not isinstance(src, float): # are actually NaN
-        database.add_photo(space_id, src)
+    for _, amenity in amenities.iterrows():
+        space_id, amenity, _ = amenity
+        if isinstance(amenity, str):
+            database.add_amenity(space_id, amenity)
+
+    for _, photo in photos.iterrows():
+        space_id, src, _ = photo
+        if isinstance(src, str):
+            print(database.add_photo(space_id, src))
+
+except IntegrityError:
+    print("Nothing to worry about if you know what you're doing.")
 
 # NOTE: Cannot use these because the table's index doesn't update
 # spaces.to_sql("spaces", engine, if_exists="append", index=False)
