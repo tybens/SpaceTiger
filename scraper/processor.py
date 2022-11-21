@@ -1,10 +1,4 @@
-import os
 import pandas as pd
-import sqlalchemy
-
-# ----------------------------------------------------------------------
-
-DATABASE_URL = os.getenv("TEST_DB_URL")
 
 # ----------------------------------------------------------------------
 
@@ -18,8 +12,8 @@ rooms = rooms.drop(columns=["LocationLink", "RecordType", "MinCapacity",
 rooms = rooms.rename(columns={"DisplayText": "name", "Building": "location",
     "Room Type": "type", "Features": "amenities", "Images": "photos",
     "Capacity": "capacity", "Notes": "content"})
-rooms.insert(0, "id", range(0, len(rooms)))
-rooms.insert(1, "user_id", [0] * len(rooms)) # associate user_id 0 with ems data
+rooms.insert(0, "id", range(1, len(rooms) + 1))
+rooms.insert(1, "user_id", ["emssystem"] * len(rooms))
 rooms.insert(3, "numreviews", [0] * len(rooms))
 rooms.insert(5, "rating", [0] * len(rooms))
 rooms.insert(6, "numvisits", [0] * len(rooms))
@@ -34,7 +28,7 @@ amenities.loc[:, "review_id"] = None
 reviews = rooms[["id", "user_id", "rating", "content"]] # for reviews table
 reviews = reviews.rename(columns={"id": "space_id"})
 reviews = reviews[reviews["content"] != "(none)"].dropna()
-reviews.insert(0, "id", range(0, len(reviews)))
+reviews.insert(0, "id", range(1, len(reviews) + 1))
 reviews = reviews.reset_index(drop=True)
 
 photos = rooms[["id", "photos"]] # for photos table
@@ -55,15 +49,13 @@ for index, row in spaces.iterrows():
             location = "185 Nassau Street"
         spaces.at[index, "name"] = f"{location} {name}"
 
-# spaces.to_csv("spaces.csv", index=False)
-# amenities.to_csv("amenities.csv", index=False)
-# reviews.to_csv("reviews.csv", index=False)
-# photos.to_csv("photos.csv", index=False)
+    # replace HTML entities in space names, specifically &#39;
+    if "&#39;" in name:
+        spaces.at[index, "name"] = name.replace("&#39;", "'")
 
 # ----------------------------------------------------------------------
 
-engine = sqlalchemy.create_engine(DATABASE_URL)
-spaces.to_sql("spaces", engine, if_exists="replace", index=False)
-amenities.to_sql("amenities", engine, if_exists="replace", index=False)
-reviews.to_sql("reviews", engine, if_exists="replace", index=False)
-photos.to_sql("photos", engine, if_exists="replace", index=False)
+spaces.to_csv("spaces.csv", index=False)
+amenities.to_csv("amenities.csv", index=False)
+reviews.to_csv("reviews.csv", index=False)
+photos.to_csv("photos.csv", index=False)
