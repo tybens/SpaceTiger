@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import SpaceItem from "../../Search/components/SpaceItem";
+import SpaceItem from "../../../components/SpaceItem";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,8 +88,13 @@ const Favorites = ({ user }) => {
           <RenderSpaces numSpaces={numSpaces} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
-              <Button variant="outlined" color="primary" fullWidth>
-                <IconButton aria-label="load more" onClick={handleViewMore}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleViewMore}
+                fullWidth
+              >
+                <IconButton aria-label="load more">
                   <AddIcon />
                 </IconButton>
               </Button>

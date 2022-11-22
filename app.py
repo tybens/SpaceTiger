@@ -14,7 +14,7 @@ from flask_cors import CORS
 # from errors import init_handler
 from api.spaces import SpacesApi
 from api.reviews import ReviewsApi
-import database
+import database as db
 import auth
 
 # ----------------------------------------------------------------------
@@ -48,7 +48,7 @@ api.add_resource(SpacesApi, "/spaces", "/spaces/<space_id>")
 
 @app.route('/locations')
 def locations():
-    return jsonify({"locations": database.get_locations()})
+    return jsonify({"locations": db.get_locations()})
 
 # ---------------------------------------------
 # Routes for reviews.
@@ -62,7 +62,7 @@ api.add_resource(ReviewsApi, "/reviews", "/reviews/<review_id>")
 
 @app.route('/amenities')
 def amenities():
-    return jsonify({"amenities": database.get_amenities()})
+    return jsonify({"amenities": db.get_amenities()})
 
 # ---------------------------------------------
 # Routes for tags.
@@ -70,7 +70,7 @@ def amenities():
 
 @app.route('/tags')
 def tags():
-    return jsonify({"tags": database.get_tags()})
+    return jsonify({"tags": db.get_tags()})
 
 # ---------------------------------------------
 # Routes for favorites.
@@ -81,7 +81,7 @@ def get_is_favorite():
     user_id = request.args.get('user_id')
     space_id = request.args.get('space_id')
     
-    return jsonify({"is_favorite": database.get_favorite(user_id, space_id)})
+    return jsonify({"is_favorite": db.get_favorite(user_id, space_id)})
 
 
 @app.route('/postfavorite')
@@ -92,7 +92,7 @@ def post_is_favorite():
         return jsonify({"status": 400, "response": "error: invalid parameters in request"})
         
     try:
-        res = database.post_favorite(user_id, space_id)
+        res = db.post_favorite(user_id, space_id)
         return jsonify({"status": 200, "response": res})
     except Exception as err:
         return jsonify({"status": 500, "response": err})
@@ -101,9 +101,34 @@ def post_is_favorite():
 @app.route('/getfavorites')
 def get_list_favorites():
     user_id = request.args.get('user_id')
-    data = database.get_favorites(user_id)
+    data = db.get_favorites(user_id)
     
     return jsonify(items=[i.to_json() for i in data])
+
+# ---------------------------------------------
+# API: for moderation
+# ---------------------------------------------
+
+@app.route('/getawaitingapproval')
+def get_awaiting_approval():
+    data = db.get_awaiting_approval()
+
+    return jsonify(items=[i.to_json() for i in data])
+
+
+@app.route('/approve')
+def handle_approve():
+    user_id = request.args.get('user_id')
+    space_id = request.args.get('space_id')
+    approval = request.args.get('approval')
+    print(user_id, space_id, approval)
+    admin = db.check_user_admin(user_id)
+    if admin:
+        ret = db.handle_approval(space_id, approval)
+    else:
+        ret = "user isn't admin, operation disallowed"
+    
+    return jsonify({"response": ret})
 
 # ---------------------------------------------
 # Routes for authentication.

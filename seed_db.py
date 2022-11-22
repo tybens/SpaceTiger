@@ -37,9 +37,9 @@ try:
             database.add_amenity(space_id, amenity)
 
     for _, photo in photos.iterrows():
-        space_id, src, _ = photo
-        if isinstance(src, str):
-            print(database.add_photo(space_id, src))
+        space_id, _, _, url = photo
+        if isinstance(url, str):
+            print(database.add_photo(space_id, url))
 
 except IntegrityError:
     print("Nothing to worry about if you know what you're doing.")

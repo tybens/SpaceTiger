@@ -3,7 +3,7 @@ import axios from "axios";
 
 import useStyles from "../styles.js";
 
-import SpaceItem from "./SpaceItem.jsx";
+import SpaceItem from "../../../components/SpaceItem";
 import { Loader } from "../../../components/Loader.jsx";
 
 import { Typography, Button } from "@mui/material";

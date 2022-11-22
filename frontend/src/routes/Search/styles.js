@@ -47,37 +47,4 @@ export default makeStyles((theme) => ({
     },
   },
 
-  spaceItem: {
-    // border: "1px solid #b8b8b8",
-    // padding: "15px",
-    // height: "250px",
-    marginBottom: "2%",
-    display: "flex",
-    flexDirection: "column",
-    cursor: "pointer",
-    [theme.breakpoints.only("xs")]: {
-      width: "100%",
-    },
-  },
-
-  spaceImg: {
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    width: "100%",
-    height: "210px",
-    bottom: 0,
-  },
-
-  spaceText: {
-    border: "1px solid #b8b8b8",
-    padding: "10px 15px 15px",
-    "& h6": {
-      fontWeight: 600,
-    },
-    "& p": {
-      color: "#666",
-      marginTop: "3px",
-      marginBottom: "12px",
-    },
-  },
 }));
