@@ -109,14 +109,22 @@ def get_list_favorites():
 # API: for moderation
 # ---------------------------------------------
 
+@app.route('/getawaitingapproval')
+def get_awaiting_approval():
+    data = db.get_awaiting_approval()
+
+    return jsonify(items=[i.to_json() for i in data])
+
+
 @app.route('/approve')
 def handle_approve():
     user_id = request.args.get('user_id')
     space_id = request.args.get('space_id')
-    approval = request.args.get('aproval')
-    admin = check_user_admin(user_id)
+    approval = request.args.get('approval')
+    print(user_id, space_id, approval)
+    admin = db.check_user_admin(user_id)
     if admin:
-        ret = handle_approval(space_id, approval)
+        ret = db.handle_approval(space_id, approval)
     else:
         ret = "user isn't admin, operation disallowed"
     

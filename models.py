@@ -37,6 +37,7 @@ class Space(Base):
     numreviews = Column(Integer)
     rating = Column(Integer)
     numvisits = Column(Integer)
+    approved = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="spaces")
     reviews = relationship("Review", back_populates="space")
@@ -44,7 +45,6 @@ class Space(Base):
     tags = relationship("Tag", back_populates="space")
     amenities = relationship("Amenity", back_populates="space")
     photos = relationship("Photo", back_populates="space")
-    approved = Column(Boolean, default=False)
 
     def __repr__(self):
         repr = f"Space(id={self.id!r}, name={self.name!r}, "
@@ -177,8 +177,7 @@ class Photo(Base):
 
     def __repr__(self):
         repr = f"Photo(space_id={self.space_id!r}, "
-        # only show the first 240 characters of the src url
-        repr += f"review_id={self.review_id!r}, src={self.src[:240]!r})"
+        repr += f"review_id={self.review_id!r}, src={self.src!r})"
         return repr
 
     def to_json(self):

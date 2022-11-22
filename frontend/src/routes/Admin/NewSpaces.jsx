@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ApprovalDissaproval = ({ handleClick }) => {
+const ApprovalDissaproval = ({ handleClick, spaceId }) => {
   const [loading, setLoading] = useState(false);
   return (
     <Grid
@@ -35,7 +35,7 @@ const ApprovalDissaproval = ({ handleClick }) => {
           startIcon={<DoneIcon />}
           onClick={() => {
             setLoading(true);
-            handleClick(true);
+            handleClick(true, spaceId);
           }}
           loading={loading}
           variant="outlined"
@@ -49,7 +49,7 @@ const ApprovalDissaproval = ({ handleClick }) => {
           startIcon={<CloseIcon />}
           onClick={() => {
             setLoading(true);
-            handleClick(false);
+            handleClick(false, spaceId);
           }}
           loading={loading}
           variant="outlined"
@@ -75,9 +75,7 @@ const NewSpaces = () => {
     // TODO: add && user?.admin
     if (user) {
       axios
-        .get("/getfavorites", {
-          params: { user_id: user?.netid },
-        })
+        .get("/getawaitingapproval")
         .then((res) => {
           let data = res.data;
           setNewSpaceData(data.items);
@@ -91,15 +89,16 @@ const NewSpaces = () => {
     // eslint-disable-next-line
   }, [user]);
 
-  const handleApproval = (approval) => {
+  const handleApproval = (approval, spaceId) => {
     // TODO: backend handle approval
     axios
       .get("/approve", {
-        params: { user_id: user?.netid, space_id: 0, approval: approval },
+        params: { user_id: user?.netid, space_id: spaceId, approval: approval },
       })
       .then((res) => {
         //   let data = res.data;
         console.log("Success!");
+        getData();
       })
       .catch((err) => {
         setError(true);
@@ -113,7 +112,7 @@ const NewSpaces = () => {
         {data?.slice(0, numSpaces).map((space, index) => (
           <Grid item key={index} container xs={12} sm={6} md={4} lg={3}>
             <SpaceItem space={space} />
-            <ApprovalDissaproval handleClick={handleApproval} />
+            <ApprovalDissaproval spaceId={space.id} handleClick={handleApproval} />
           </Grid>
         ))}
       </>
@@ -152,8 +151,8 @@ const NewSpaces = () => {
           <RenderSpaces numSpaces={numSpaces} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
-              <Button variant="outlined" color="primary" fullWidth>
-                <IconButton aria-label="load more" onClick={handleViewMore}>
+              <Button variant="outlined" color="primary" onClick={handleViewMore} fullWidth>
+                <IconButton aria-label="load more">
                   <AddIcon />
                 </IconButton>
               </Button>

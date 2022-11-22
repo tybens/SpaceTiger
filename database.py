@@ -229,6 +229,8 @@ def post_user(puid):
     return ret
 
 # ----------------------------------------------------------------------
+# Functions for favoriting
+# ----------------------------------------------------------------------
 
 # returns spaces that are favorited
 def get_favorites(puid):
@@ -275,18 +277,24 @@ def post_favorite(puid, space_id):
 # -----------------------------------------------------
 # Functions for moderation
 # -----------------------------------------------------
+
+def get_awaiting_approval():
+    with sqlalchemy.orm.Session(engine) as session:
+        # models.Space.approved is False doesn't work, but == False does:
+        query = session.query(models.Space).filter(models.Space.approved == False)
+        table = query.all()
+    return table
+
 def check_user_admin(user_id):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Users).filter(models.Users.user_id == user_id)
+        query = session.query(models.User).filter(models.User.puid == user_id)
         table = query.all()
-    return table.admin
+    return table[0].admin
     
 
 def handle_approval(space_id, approval):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Space).filter(
-            models.Space.space_id == space_id)
-        space = query.first()
+        space = session.query(models.Space).get(space_id)
         if approval:
             space.approved = True
             ret = f"space {space.name} approved"
@@ -296,6 +304,10 @@ def handle_approval(space_id, approval):
             ret = f"space {space.name} deleted"
         session.commit()
     return ret
+
+# -----------------------------------------------------
+# Functions for reviews
+# -----------------------------------------------------
 
 # get the reviews associated with a space specified by space_id
 def get_space_reviews(space_id):

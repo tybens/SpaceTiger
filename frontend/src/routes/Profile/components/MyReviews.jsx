@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Grid, Typography, IconButton, Button} from "@mui/material";
+import { useState } from "react";
+import { Grid, Typography, IconButton, Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyReviews({ reviews }) {
   const classes = useStyles();
-  const [numReviews, setNumReviews] = useState(3)
+  const [numReviews, setNumReviews] = useState(3);
 
   const ReviewItems = () => {
     if (reviews?.length === 0) {
@@ -44,8 +44,13 @@ export default function MyReviews({ reviews }) {
       <ReviewItems />
       {numReviews < reviews?.length && (
         <Grid item xs={12}>
-          <Button variant="outlined" color="primary" fullWidth>
-            <IconButton aria-label="load more" onClick={handleViewMore}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleViewMore}
+            fullWidth
+          >
+            <IconButton aria-label="load more">
               <AddIcon />
             </IconButton>
           </Button>
