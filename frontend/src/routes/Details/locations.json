@@ -1,0 +1,354 @@
+[
+  {
+    "name": "1967 Hall",
+    "position": [40.34927, -74.659]
+  },
+  {
+    "name": "Aaron Burr Hall",
+    "position": [40.35020015, -74.6565835]
+  },
+  {
+    "name": "Alexander Hall",
+    "position": [40.348373, -74.66058392]
+  },
+  {
+    "name": "Aaron Burr Hall",
+    "position": [40.35020015, -74.6565835]
+  },
+  {
+    "name": "Alexander Street, 228",
+    "position": [40.33862794, -74.65738402]
+  },
+  {
+    "name": "Arts Tower",
+    "position": [40.3506612, -74.6550078]
+  },
+  {
+    "name": "Alexander Street, 306",
+    "position": [40.336553, -74.655907]
+  },
+  {
+    "name": "Andlinger Center",
+    "position": [40.35012015, -74.65053527]
+  },
+  {
+    "name": "Architecture Building",
+    "position": [40.347817, -74.656172]
+  },
+  {
+    "name": "Bendheim Hall",
+    "position": [40.34875295, -74.65409418]
+  },
+  {
+    "name": "Bendheim House",
+    "position": [40.348784, -74.653479]
+  },
+  {
+    "name": "Berlind Theater",
+    "position": [40.348113, -74.657713]
+  },
+  {
+    "name": "Blair Hall",
+    "position": [40.347533, -74.66126]
+  },
+  {
+    "name": "Bobst Hall",
+    "position": [40.348388, -74.660601]
+  },
+  {
+    "name": "Bogle Hall",
+    "position": [40.348388, -74.660601]
+  },
+  {
+    "name": "Bowen Hall",
+    "position": [40.3495375, -74.65032377]
+  },
+  {
+    "name": "Campus Club",
+    "position": [40.34758245, -74.65443205]
+  },
+  {
+    "name": "Carl A Fields Ctr for Equality",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Carl C. Icahn Laboratory",
+    "position": [40.3443728, -74.65340121]
+  },
+  {
+    "name": "Carnegie Center, 701",
+    "position": [40.3237578, -74.64920784]
+  },
+  {
+    "name": "Center for Jewish Life",
+    "position": [40.3466832, -74.65361963]
+  },
+  {
+    "name": "Chancellor Green",
+    "position": [40.349214, -74.658196]
+  },
+  {
+    "name": "Chapel",
+    "position": [40.3488, -74.657]
+  },
+  {
+    "name": "Class of 1879 Hall",
+    "position": [40.341372, -74.652006]
+  },
+  {
+    "name": "Class of 1981 Hall",
+    "position": [40.341372, -74.652006]
+  },
+  {
+    "name": "Community Hall",
+    "position": [40.3442, -74.6582]
+  },
+  {
+    "name": "Computer Science Building",
+    "position": [40.35033575, -74.65228469]
+  },
+  {
+    "name": "Corwin Hall",
+    "position": [40.348948, -74.654253]
+  },
+  {
+    "name": "Dickinson Hall",
+    "position": [40.34887815, -74.65619064]
+  },
+  {
+    "name": "Dodge Hall",
+    "position": [40.345548, -74.655786]
+  },
+  {
+    "name": "East Pyne Building",
+    "position": [40.3486487, -74.65840331]
+  },
+  {
+    "name": "Elm Drive, 200",
+    "position": [40.3431949, -74.6563004]
+  },
+  {
+    "name": "Engineering Quad A-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad B-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad C-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad D-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad E-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad F-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad G-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad J-Wing",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Engineering Quad",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Fine Hall",
+    "position": [40.3458025, -74.65238341]
+  },
+  {
+    "name": "Forbes College Main",
+    "position": [40.341872, -74.660808]
+  },
+  {
+    "name": "Forbes College Annexe",
+    "position": [40.341872, -74.660808]
+  },
+  {
+    "name": "Frick Chemistry Laboratory",
+    "position": [40.34402925, -74.65073081]
+  },
+  {
+    "name": "Friend Center",
+    "position": [40.35032905, -74.65280902]
+  },
+  {
+    "name": "Frist Campus Center",
+    "position": [40.34676035, -74.65518657]
+  },
+  {
+    "name": "Graduate College, Old",
+    "position": [40.340962, -74.666412]
+  },
+  {
+    "name": "Graduate College, New",
+    "position": [40.340962, -74.666412]
+  },
+  {
+    "name": "Green Hall",
+    "position": [40.34927, -74.65821]
+  },
+  {
+    "name": "Guyot Hall",
+    "position": [40.360696, -74.658531]
+  },
+  {
+    "name": "Hargadon Hall",
+    "position": [40.343881, -74.65840135]
+  },
+  {
+    "name": "Henry House",
+    "position": [40.3494, -74.6589]
+  },
+  {
+    "name": "Hoyt Laboratory",
+    "position": [40.34955, -74.6546]
+  },
+  {
+    "name": "Jadwin Hall",
+    "position": [40.345096, -74.651805]
+  },
+  {
+    "name": "Jones Hall",
+    "position": [40.346493, -74.655745]
+  },
+  {
+    "name": "Julis Romo Rabinowitz Building",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Laura Wooten Hall",
+    "position": [40.3492744, -74.6592958]
+  },
+  {
+    "name": "Lawrence Drive, 1",
+    "position": [40.3323552, -74.65651074]
+  },
+  {
+    "name": "Lawrence Drive, 14",
+    "position": [40.33350175, -74.65788537]
+  },
+  {
+    "name": "Lewis Library",
+    "position": [40.3461916, -74.65272101]
+  },
+  {
+    "name": "Morrison Hall",
+    "position": [40.348, -74.6598]
+  },
+  {
+    "name": "MacMillan Building",
+    "position": [40.342422, -74.656646]
+  },
+  {
+    "name": "Madison Hall",
+    "position": [40.348473, -74.662225]
+  },
+  {
+    "name": "McCosh Hall",
+    "position": [40.345468, -74.636346]
+  },
+  {
+    "name": "McDonnell Hall",
+    "position": [40.34536245, -74.65249349]
+  },
+  {
+    "name": "Moffett Laboratory",
+    "position": [40.3456379, -74.6538888]
+  },
+  {
+    "name": "Nassau Street, 185",
+    "position": [40.3509, -74.6555653]
+  },
+  {
+    "name": "New South Building",
+    "position": [40.342585, -74.659233]
+  },
+  {
+    "name": "Peretsman Scully Hall",
+    "position": [40.3434107, -74.6523192]
+  },
+  {
+    "name": "Peyton Hall",
+    "position": [40.3465523, -74.651691]
+  },
+  {
+    "name": "Princeton Neuroscience Institute",
+    "position": [40.3431789, -74.6525952]
+  },
+  {
+    "name": "Princeton Stadium",
+    "position": [40.346168, -74.650166]
+  },
+  {
+    "name": "Robertson Hall",
+    "position": [40.3484184, -74.65470882]
+  },
+  {
+    "name": "Scheide Caldwell House",
+    "position": [40.34951605, -74.65856589]
+  },
+  {
+    "name": "Schultz Laboratory",
+    "position": [40.3453849, -74.654047]
+  },
+  {
+    "name": "Sherrerd Hall",
+    "position": [40.34956185, -74.65267535]
+  },
+  {
+    "name": "Thomas Laboratory",
+    "position": [40.3449707, -74.65381449]
+  },
+  {
+    "name": "Wallace Dance Building and Theater",
+    "position": [40.3506612, -74.6550078]
+  },
+  {
+    "name": "Wallace Hall",
+    "position": [40.348705, -74.659321]
+  },
+  {
+    "name": "Whig Hall",
+    "position": [40.348388, -74.660601]
+  },
+  {
+    "name": "Woolworth Music Center",
+    "position": [40.34733, -74.65544]
+  },
+  {
+    "name": "Firestone Library",
+    "position": [40.3496, -74.6574]
+  },
+  {
+    "name": "Edwards Hall",
+    "position": [40.3471, -74.6593]
+  },
+  {
+    "name": "Bloomberg Hall",
+    "position": [40.3435, -74.656]
+  },
+  {
+    "name": "Witherspoon Hall",
+    "position": [40.3475, -74.66]
+  },
+  {
+    "name": "Clio Hall",
+    "position": [40.3477, -74.6592]
+  },
+  {
+    "name": "Hamilton Hall",
+    "position": [40.3481, -74.6623]
+  }
+]

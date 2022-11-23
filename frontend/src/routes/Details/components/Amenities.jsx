@@ -1,8 +1,11 @@
 import { Typography, Chip } from "@mui/material";
+
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
 import useStyles from "../styles.js";
 
 export default function Amenities(props) {
-  const { amenities } = props;
+  const { amenities, position, label } = props;
   const classes = useStyles();
 
   const popularItems = () => {
@@ -36,6 +39,24 @@ export default function Amenities(props) {
         Popular For
       </Typography> */}
       {popularItems()}
+      {position && (
+        <div style={{ marginTop: "30px" }}>
+          <MapContainer
+            center={position}
+            zoom={13}
+            scrollWheelZoom={false}
+            className={classes.mapContainer}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={position}>
+              <Popup>{label}</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
+      )}
     </div>
   );
 }

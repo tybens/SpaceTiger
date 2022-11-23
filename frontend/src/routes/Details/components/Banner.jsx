@@ -36,16 +36,29 @@ export default function Banner(props) {
   }, [photos]);
 
   return (
-    <div className={classes.banner} style={{ backgroundImage: `url(${img})` }}>
-      <Button
-        variant="contained"
-        startIcon={<PhotoLibraryIcon />}
-        className={classes.bannerBtn}
-        onClick={handleOpen}
-      >
-        {photos?.length} Photos
-      </Button>
-      <ImageModal open={open} handleClose={handleClose} photos={photos} />
+    <div
+      className={classes.banner}
+      style={{
+        backgroundImage: `url(${
+          img
+            ? img
+            : "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
+        })`,
+      }}
+    >
+      {img.trim() && (
+        <>
+          <Button
+            variant="contained"
+            startIcon={<PhotoLibraryIcon />}
+            className={classes.bannerBtn}
+            onClick={handleOpen}
+          >
+            {photos?.length} Photos
+          </Button>
+          <ImageModal open={open} handleClose={handleClose} photos={photos} />
+        </>
+      )}
     </div>
   );
 }
