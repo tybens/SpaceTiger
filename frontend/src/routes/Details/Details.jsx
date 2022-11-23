@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+import locationData from "./locations.json";
 // import detailData from "./details.json";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
@@ -14,6 +15,7 @@ import useStyles from "./styles.js";
 export default function Details() {
   const [data, setData] = useState(null);
   const [position, setPosition] = useState([46.48826, -63.65346]);
+  const [loaded, setLoaded] = useState(false);
   const { query } = useParams();
   const classes = useStyles();
 
@@ -22,9 +24,16 @@ export default function Details() {
       .get(`/spaces/${query}`)
       .then((res) => {
         let data = res.data;
-        // Setting a data from api
-        // setData(data.items);
-        // console.log(data);
+
+        let locations = JSON.parse(JSON.stringify(locationData));
+
+        let temp = locations.find((item) => item.name === data?.space.location);
+
+        if (temp) {
+          setPosition(temp.position);
+        }
+
+        setLoaded(true);
         setData(data);
       })
       .catch((err) => console.log(err));
@@ -47,11 +56,13 @@ export default function Details() {
       />
 
       <div className={classes.itemContainer}>
-        <Amenities
-          amenities={data?.amenities}
-          position={position}
-          label={data?.space.location}
-        />
+        {loaded && (
+          <Amenities
+            amenities={data?.amenities}
+            position={position}
+            label={data?.space.location}
+          />
+        )}
         {/* <Highlights popularFor={data?.popularfor} tags={data?.tags} /> */}
         <Reviews reviews={data?.reviews} />
       </div>
