@@ -39,7 +39,6 @@ export default function Amenities(props) {
         Popular For
       </Typography> */}
       {popularItems()}
-
       {position && (
         <div style={{ marginTop: "30px" }}>
           <MapContainer
@@ -58,6 +57,25 @@ export default function Amenities(props) {
           </MapContainer>
         </div>
       )}
+      <div style={{ marginTop: "30px" }}>
+        <MapContainer
+          center={position}
+          zoom={13}
+          scrollWheelZoom={false}
+          className={classes.mapContainer}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>
+              {label}
+              {/* A pretty CSS3 popup. <br /> Easily customizable. */}
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
     </div>
   );
 }
