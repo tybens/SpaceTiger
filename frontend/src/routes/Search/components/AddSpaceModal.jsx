@@ -22,25 +22,9 @@ import { UserContext } from "../../../context.js";
 
 import useStyles from "../styles.js";
 
-// TODO: THESE NEED TO BE UPDATED!
-const TAGS = [
-  {
-    label: "cozy",
-  },
-  { label: "social" },
-];
-
-const AMENITIES = [
-  {
-    label: "TV",
-  },
-  { label: "couch" },
-];
-
 export default function AddSpaceModal(props) {
   const { open, handleClose } = props;
   const classes = useStyles();
-  const { query } = useParams();
   const { user } = useContext(UserContext);
 
   const [name, setName] = useState("");
@@ -53,7 +37,7 @@ export default function AddSpaceModal(props) {
     // this is where the dispatch/fetch is
 
     const reviewResponse = {
-      // puid: user.netid,
+      puid: user?.netid,
 
       name,
       capacity,
@@ -75,8 +59,6 @@ export default function AddSpaceModal(props) {
         {item}
       </MenuItem>
     ));
-
-    // return <MenuItem value={10}>Ten</MenuItem>;
   };
 
   return (
@@ -96,6 +78,9 @@ export default function AddSpaceModal(props) {
           </IconButton>
         </div>
         <div className={classes.modalForm}>
+          <Typography style={{ marginBottom: "20px" }}>
+            Tell us the basics.
+          </Typography>
           <Typography variant="h6">Name</Typography>
           <TextField
             id="outlined-name"
