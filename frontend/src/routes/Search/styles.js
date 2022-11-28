@@ -12,6 +12,8 @@ export default makeStyles((theme) => ({
   searchbar: {
     width: "100%",
     marginBottom: "15px",
+    display: "flex",
+    justifyContent: "space-between",
   },
 
   searchTextField: {
@@ -47,4 +49,46 @@ export default makeStyles((theme) => ({
     },
   },
 
+  modalContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80vw",
+    maxWidth: "800px",
+    backgroundColor: "white",
+    boxShadow: 24,
+    p: 4,
+    padding: "20px 30px 30px",
+    maxHeight: "80vh",
+    // overflow: "scroll",
+  },
+
+  modalHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "5px",
+  },
+
+  modalImages: {
+    maxHeight: "65vh",
+    overflow: "scroll",
+  },
+
+  modalForm: {
+    maxHeight: "65vh",
+    overflow: "scroll",
+
+    display: "flex",
+    flexDirection: "column",
+
+    "& h6": {
+      fontWeight: 400,
+      fontSize: "18px",
+      marginBottom: "5px",
+    },
+  },
+
+  selectForm: {},
 }));
