@@ -198,6 +198,16 @@ def get_locations():
     locations = [location for (location,) in table]
     return locations
 
+
+def get_types():
+    with sqlalchemy.orm.Session(engine) as session:
+        table = session.query(models.Space.type).distinct().all()
+
+    # some of the EMS location types have hyphens, so we'll remove them
+    # here, but they should really be removed when seeding
+    types = [type.split(" - ")[0] for (type,) in table]
+    return list(set(types)) # keep only unique types
+
 # ----------------------------------------------------------------------
 
 def get_user(puid):
@@ -543,6 +553,10 @@ def _test_spaces():
     print("-" * 25)
     locations = get_locations()
     print(locations)
+
+    print("-" * 25)
+    types = get_types()
+    print(types)
 
 
 def _test_users():

@@ -50,6 +50,10 @@ api.add_resource(SpacesApi, "/spaces", "/spaces/<space_id>")
 def locations():
     return jsonify({"locations": db.get_locations()})
 
+@app.route('/types')
+def types():
+    return jsonify({"types": db.get_types()})
+
 # ---------------------------------------------
 # Routes for reviews.
 # ---------------------------------------------
