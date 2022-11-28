@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Typography,
   Box,
@@ -26,6 +27,7 @@ export default function AddSpaceModal(props) {
   const { open, handleClose } = props;
   const classes = useStyles();
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [capacity, setCapacity] = useState("");
@@ -38,16 +40,35 @@ export default function AddSpaceModal(props) {
 
     const reviewResponse = {
       puid: user?.netid,
-
       name,
       capacity,
       location,
       type,
     };
 
+    console.log("post: ", reviewResponse);
     // obviously this becomes a put request
     // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
-    console.log(reviewResponse);
+
+    if (user) {
+      axios
+        .post("/spaces", reviewResponse)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/profile");
+          } else {
+            // TODO: show server error modal
+            console.log(res);
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      // TODO: show modal that user must login before performing
+      // such an actions
+      console.log("user unauthenticated, can't create a space");
+    }
+
+    // console.log(reviewResponse);
     handleClose();
   };
 

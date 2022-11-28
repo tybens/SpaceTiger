@@ -30,8 +30,14 @@ class SpacesApi(Resource):
         parser.add_argument("type", type=str)
         args = parser.parse_args()
 
-        return database.add_space(args["puid"], args["name"],
-            args["capacity"], args["location"], args["type"])
+        print(args["puid"])
+        print(args["name"])
+        print(args["capacity"])
+        print(args["location"])
+        print(args["type"])
+
+        # return database.add_space(args["puid"], args["name"],
+        #     args["capacity"], args["location"], args["type"])
 
     def put(self, space_id):
         dict_of_changes = json.loads(request.data)
