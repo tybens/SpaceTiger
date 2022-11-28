@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import locationData from "./locations.json";
+import locationData from '../../data/locations.json'
 // import detailData from "./details.json";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
