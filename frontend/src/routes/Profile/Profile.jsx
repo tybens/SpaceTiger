@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Favorites from "./components/Favorites";
 import MyReviews from "./components/MyReviews";
+import MySpaces from "./components/MySpaces";
 import data from "../Details/details.json";
 import { UserContext } from "../../context";
 
@@ -41,6 +42,7 @@ export default function Profile() {
     >
       <Favorites user={user} />
       <MyReviews reviews={reviewData?.reviews} />
+      <MySpaces user={user} />
     </Grid>
   );
 }

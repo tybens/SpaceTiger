@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Favorites = ({ user }) => {
+const MySpaces = ({ user }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [numSpaces, setNumSpaces] = useState(4);
@@ -26,7 +26,7 @@ const Favorites = ({ user }) => {
 
   const getData = () => {
     axios
-      .get("/getfavorites", {
+      .get("/getuserspaces", {
         params: { user_id: user?.netid },
       })
       .then((res) => {
@@ -55,8 +55,8 @@ const Favorites = ({ user }) => {
     ) : (
       <Grid item>
         <Typography variant="body1" color="initial">
-          You don't have any favorites! Click <Link to={"/search"}>here</Link>{" "}
-          to find your next favorite space.
+          You haven't created any spaces! Click <Link to={"/search"}>here</Link>{" "}
+          to add a space.
         </Typography>
       </Grid>
     );
@@ -74,7 +74,7 @@ const Favorites = ({ user }) => {
     <Grid item container className={classes.block} spacing={3}>
       <Grid item xs={12}>
         <Typography variant="h4" className={classes.header}>
-          Your favorites ({data?.length})
+          Your created spaces ({data?.length})
         </Typography>
       </Grid>
       {error ? (
@@ -106,4 +106,4 @@ const Favorites = ({ user }) => {
   );
 };
 
-export default Favorites;
+export default MySpaces;
