@@ -14,6 +14,16 @@ export default makeStyles((theme) => ({
     marginBottom: "15px",
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+    },
+  },
+
+  addBtn: {
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "10px",
+    },
   },
 
   searchTextField: {
@@ -91,4 +101,25 @@ export default makeStyles((theme) => ({
   },
 
   selectForm: {},
+
+  headerBtns: {
+    "& button": {
+      borderColor: "black",
+      textTransform: "none",
+      marginLeft: "5px",
+      marginBottom: "10px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      marginTop: "30px",
+      justifyContent: "flex-start !important",
+      order: 0,
+      marginLeft: "2px",
+      marginBottom: "15px",
+      "& button": {
+        marginRight: "5px",
+        marginLeft: "0px",
+      },
+    },
+  },
 }));

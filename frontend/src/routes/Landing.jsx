@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 // import { useContext, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "80vh",
     padding: "10%",
     [theme.breakpoints.up("lg")]: {
-      padding: "5% 10%"
-    }
+      padding: "5% 10%",
+    },
   },
 
   image: {
@@ -52,7 +52,7 @@ const MemberCard = ({ member }) => {
       </CardContent>
       <CardContent>
         <img
-          style={{ borderRadius: 2 }}
+          style={{ objectFit: "cover", height: "300px", borderRadius: 2 }}
           src={member.image}
           alt={member.name}
           height="100%"
@@ -78,25 +78,29 @@ export default function Landing() {
     },
     {
       name: "Thanya Begum",
-      descrip: "I'm a junior majoring in Computer Science with a passion for the intersection of technology and design. Outside of classes, you can finding me watching Netflix, listening to music, or crocheting.",
+      descrip:
+        "I'm a junior majoring in Computer Science with a passion for the intersection of technology and design. Outside of classes, you can finding me watching Netflix, listening to music, or crocheting.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1668629614/SpaceTiger/thanya_vqebct.jpg",
     },
     {
       name: "Chenhan Zhang",
-      descrip: "I'm a Junior in AB Computer Science. In my free time, I love listening to music and roller skating.",
+      descrip:
+        "I'm a Junior in AB Computer Science. In my free time, I love listening to music and roller skating.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1668620418/SpaceTiger/IMG_7678_scu9k4.jpg",
     },
     {
       name: "Tri Giao Vu Dinh",
-      descrip: "I'm a Junior in the COS Department.",
+      descrip:
+        "I'm a Junior in the COS department with a minor in Neuroscience. In my free time I like to work on music for my acapella group, theater productions, drawing, and playing video games.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1668373257/SpaceTiger/photo_zu7wd4.jpg",
     },
     {
       name: "Eva Vesely",
-      descrip: "I'm a Junior studying Computer Science with a certificate in Statistics and Machine Learning. In my free time I like to do yoga, write, and discover new drink recipes at my barista job.",
+      descrip:
+        "I'm a Junior studying Computer Science with a certificate in Statistics and Machine Learning. In my free time I like to do yoga, write, and discover new drink recipes at my barista job.",
       image:
         "https://res.cloudinary.com/chickennuggets/image/upload/v1668390229/SpaceTiger/PPic_ye5r3p.jpg",
     },
@@ -130,14 +134,23 @@ export default function Landing() {
           >
             Find your new favorite space to&nbsp;
             <ReactRotatingText
-              items={["study", "hangout", "chill", "study break", "party", "host a meeting"]}
+              items={[
+                "study",
+                "hangout",
+                "chill",
+                "study break",
+                "party",
+                "host a meeting",
+              ]}
               pause={2500}
             />
           </Typography>
           <Typography variant="h5" color="initial" gutterBottom>
-            Whether you're looking for a loud, secret, comfy, or any kind of space, SpaceTiger makes it easy to search through spots on campus that are perfectly suited to your needs. 
+            Whether you're looking for a loud, secret, comfy, or any kind of
+            space, SpaceTiger makes it easy to search through spots on campus
+            that are perfectly suited to your needs.
           </Typography>
-          <Grid item>
+          <Grid item style={{ marginTop: "20px" }}>
             <Button
               variant="contained"
               color="primary"

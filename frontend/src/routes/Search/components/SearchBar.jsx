@@ -44,6 +44,7 @@ export default function SearchBar(props) {
         />
         {user && (
           <Button
+            className={classes.addBtn}
             variant="contained"
             disableElevation
             onClick={handleOpen}

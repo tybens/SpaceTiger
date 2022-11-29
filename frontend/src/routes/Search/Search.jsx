@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import SearchResults from "./components/SearchResults.jsx";
 import SearchBar from "./components/SearchBar.jsx";
-import SearchFilters from "./components/SearchFilters";
+// import SearchFilters from "./components/SearchFilters";
 
 import useStyles from "./styles.js";
 
@@ -17,7 +17,7 @@ export default function Search() {
   return (
     <div className={classes.container}>
       <SearchBar query={query} handleChange={updateQuery} />
-      <SearchFilters />
+      {/* <SearchFilters /> */}
       <SearchResults query={query} />
     </div>
   );
