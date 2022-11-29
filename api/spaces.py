@@ -1,4 +1,5 @@
 from flask import jsonify, json, request
+import flask
 from flask_restful import Resource, reqparse
 
 import database
@@ -28,10 +29,16 @@ class SpacesApi(Resource):
         parser.add_argument("capacity", type=int)
         parser.add_argument("location", type=str)
         parser.add_argument("type", type=str)
-        args = parser.parse_args()
-
-        return database.add_space(args["puid"], args["name"],
+        parser.add_argument("images", type=str, action='append')
+        
+        args = parser.parse_args()            
+        space_id = database.add_space(args["puid"], args["name"],
             args["capacity"], args["location"], args["type"])
+        
+        for image in args['images']:
+            url = database.upload_photo_to_cloudinary(image)
+            database.add_photo(space_id, url, None)
+            
 
     def put(self, space_id):
         dict_of_changes = json.loads(request.data)
