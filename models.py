@@ -64,7 +64,6 @@ class Space(Base):
             "rating": self.rating,
             "numvisits": self.numvisits,
             "approved": self.approved,
-            
         }
 
 
