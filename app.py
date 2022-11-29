@@ -132,8 +132,9 @@ def handle_approve():
         username = session.get("username")
         
     space_id = request.args.get('space_id')
-    approval = request.args.get('approval')
+    approval = request.args.get('approval') == "true"
     admin = db.check_user_admin(username)
+    print(approval)
     if admin:
         ret = db.handle_approval(space_id, approval)
     else:

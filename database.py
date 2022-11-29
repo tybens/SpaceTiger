@@ -314,16 +314,15 @@ def check_user_admin(user_id):
     
 
 def handle_approval(space_id, approval):
-    with sqlalchemy.orm.Session(engine) as session:
-        space = session.query(models.Space).get(space_id)
-        if approval:
+    if approval:
+        with sqlalchemy.orm.Session(engine) as session:
+            space = session.query(models.Space).get(space_id)
             space.approved = True
             ret = f"space {space.name} approved"
-        else:
-            # item is disapproved, delete it
-            space.delete(synchronize_session=False)
-            ret = f"space {space.name} deleted"
-        session.commit()
+    else:
+        remove_space(space_id)
+        ret = f"space {space_id} deleted"
+    session.commit()
     return ret
 
 # -----------------------------------------------------
