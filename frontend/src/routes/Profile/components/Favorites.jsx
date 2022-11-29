@@ -47,7 +47,7 @@ const Favorites = ({ user }) => {
     return numSpaces !== 0 ? (
       <>
         {data?.slice(0, numSpaces).map((space, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
             <SpaceItem key={index} space={space} />
           </Grid>
         ))}
@@ -94,9 +94,9 @@ const Favorites = ({ user }) => {
                 onClick={handleViewMore}
                 fullWidth
               >
-                <IconButton aria-label="load more">
-                  <AddIcon />
-                </IconButton>
+                {/* <IconButton aria-label="load more"> */}
+                <AddIcon />
+                {/* </IconButton> */}
               </Button>
             </Grid>
           )}
