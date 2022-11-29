@@ -35,9 +35,14 @@ class SpacesApi(Resource):
         space_id = database.add_space(args["puid"], args["name"],
             args["capacity"], args["location"], args["type"])
         
-        for image in args['images']:
-            url = database.upload_photo_to_cloudinary(image)
-            database.add_photo(space_id, url, None)
+        if (args['images']):
+            for image in args['images']:
+                url = database.upload_photo_to_cloudinary(image)
+                database.add_photo(space_id, url, None)
+
+        # for image in args['images']:
+        #     url = database.upload_photo_to_cloudinary(image)
+        #     database.add_photo(space_id, url, None)
             
 
     def put(self, space_id):
