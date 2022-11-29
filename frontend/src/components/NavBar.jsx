@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     letterSpacing: "-0.03em",
     fontWeight: "bold !important",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "20px !important",
+    },
   },
 
   logo: {
@@ -33,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
 
   navLink: {
     textDecoration: "none",
+  },
+
+  rightNav: {
+    [theme.breakpoints.down("sm")]: {
+      // marginTop: "10px !important",
+    },
   },
 }));
 
@@ -82,7 +91,7 @@ const NavBar = () => {
                 </Typography>
               </Link>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.rightNav}>
               <div style={{ display: "flex" }}>
                 <Link to="/search">
                   <Button

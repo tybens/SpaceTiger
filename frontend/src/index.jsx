@@ -6,9 +6,9 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 // import { ThemeProvider } from "@mui/material/styles";
 import router from "./router";
 
-import store from "./store";
+// import store from "./store";
 import theme from "./theme";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 import { UserContext } from "./context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -26,12 +26,12 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </Provider>
+      {/* <Provider store={store}> */}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+      {/* </Provider> */}
     </UserContext.Provider>
   );
 };

@@ -47,6 +47,7 @@ export default makeStyles((theme) => ({
       marginBottom: "10px",
     },
     [theme.breakpoints.down("sm")]: {
+      justifyContent: "flex-start !important",
       order: 0,
       marginLeft: "2px",
       marginBottom: "15px",
