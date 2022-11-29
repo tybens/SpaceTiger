@@ -193,6 +193,13 @@ def remove_space(space_id):
 
     return ret
 
+# returns spaces created by a specific user
+def get_user_spaces(puid):
+    with sqlalchemy.orm.Session(engine) as session:
+        # query for all spaces that match a user_id
+        table = session.query(models.Space).filter(models.Space.user_id == puid).all()
+    return table
+
 
 def get_locations():
     with sqlalchemy.orm.Session(engine) as session:
@@ -254,6 +261,7 @@ def get_favorites(puid):
         # query for all spaces that match a space_id
         table = session.query(models.Space).filter(models.Space.id.in_(space_ids)).all()
     return table
+
 
 
 # returns whether or not a user has favorited a specific space
@@ -543,6 +551,10 @@ def _test_spaces():
     print("-" * 25)
     space = get_space("Scully 3rd Floor Common Area")
     print(space)
+
+    print("-" * 25)
+    spaces = get_user_spaces("tbegum")
+    print(spaces)
 
     print("-" * 25)
     ret = update_space(space.id, {"capacity": 15})
