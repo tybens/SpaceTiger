@@ -50,9 +50,9 @@ export default function MyReviews({ reviews }) {
             onClick={handleViewMore}
             fullWidth
           >
-            <IconButton aria-label="load more">
-              <AddIcon />
-            </IconButton>
+            {/* <IconButton aria-label="load more"> */}
+            <AddIcon />
+            {/* </IconButton> */}
           </Button>
         </Grid>
       )}
