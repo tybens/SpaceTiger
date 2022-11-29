@@ -14,7 +14,7 @@ class User(Base):
     puid = Column(String, primary_key=True)
     spaces = relationship("Space", back_populates="user")
     reviews = relationship("Review", back_populates="user")
-    favorites = relationship("Favorite", back_populates="user")
+    favorites = relationship("Favorite", cascade="all,delete", back_populates="user")
     admin = Column(Boolean, default=False)
 
     def __repr__(self):
@@ -42,8 +42,8 @@ class Space(Base):
     user = relationship("User", back_populates="spaces")
     reviews = relationship("Review", cascade="all,delete", back_populates="space")
     favorites = relationship("Favorite", cascade="all,delete", back_populates="space")
-    tags = relationship("Tag", back_populates="space")
-    amenities = relationship("Amenity", back_populates="space")
+    tags = relationship("Tag", cascade="all,delete", back_populates="space")
+    amenities = relationship("Amenity", cascade="all,delete", back_populates="space")
     photos = relationship("Photo", cascade="all,delete", back_populates="space")
 
     def __repr__(self):
@@ -77,9 +77,9 @@ class Review(Base):
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
-    tags = relationship("Tag", back_populates="review")
+    tags = relationship("Tag", cascade="all,delete", back_populates="review")
     amenities = relationship("Amenity", back_populates="review")
-    photos = relationship("Photo", back_populates="review")
+    photos = relationship("Photo", cascade="all,delete", back_populates="review")
 
     def __repr__(self):
         repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
