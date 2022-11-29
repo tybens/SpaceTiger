@@ -14,7 +14,7 @@ DATABASE_URL = os.getenv("TEST_DB_URL")
 spaces = pd.read_csv("scraper/spaces.csv", index_col="id")
 reviews = pd.read_csv("scraper/reviews.csv", index_col="id")
 amenities = pd.read_csv("scraper/amenities.csv")
-photos = pd.read_csv("scraper/photos.csv")
+photos = pd.read_csv("scraper/photos_urls.csv")
 
 # ----------------------------------------------------------------------
 

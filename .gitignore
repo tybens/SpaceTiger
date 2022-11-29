@@ -8,3 +8,5 @@ frontend/.env
 .env
 
 scraper/*.csv
+
+*.ipynb
