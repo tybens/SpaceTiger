@@ -45,7 +45,6 @@ const NavBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-    console.log(user)
   const handleLogout = () => {
     // reset the user context
     setUser(null);
