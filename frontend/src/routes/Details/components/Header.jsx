@@ -1,10 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import { Rating } from "@mui/material";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 
 import ReviewModal from "./ReviewModal.jsx";
@@ -16,6 +19,8 @@ export default function Header({ name, rating, numreviews, space_id }) {
   const [open, setOpen] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -23,6 +28,22 @@ export default function Header({ name, rating, numreviews, space_id }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDelete = () => {
+    if (user?.admin) {
+      axios
+        .delete(`/spaces/${space_id}`)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate(-1);
+          } else {
+            // TODO: show server error modal
+            console.log(res);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const handleFavorite = () => {
@@ -97,6 +118,17 @@ export default function Header({ name, rating, numreviews, space_id }) {
               style={{ backgroundColor: "black", color: "white" }}
             >
               Write a review
+            </Button>
+          )}
+          {user?.admin && (
+            <Button
+              variant="contained"
+              disableElevation
+              startIcon={<DeleteIcon />}
+              onClick={handleDelete}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Delete
             </Button>
           )}
         </div>

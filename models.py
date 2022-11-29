@@ -40,11 +40,11 @@ class Space(Base):
     approved = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="spaces")
-    reviews = relationship("Review", back_populates="space")
-    favorites = relationship("Favorite", back_populates="space")
+    reviews = relationship("Review", cascade="all,delete", back_populates="space")
+    favorites = relationship("Favorite", cascade="all,delete", back_populates="space")
     tags = relationship("Tag", back_populates="space")
     amenities = relationship("Amenity", back_populates="space")
-    photos = relationship("Photo", back_populates="space")
+    photos = relationship("Photo", cascade="all,delete", back_populates="space")
 
     def __repr__(self):
         repr = f"Space(id={self.id!r}, name={self.name!r}, "
