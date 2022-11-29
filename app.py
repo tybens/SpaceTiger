@@ -7,11 +7,11 @@ from flask import (
     send_from_directory,
     jsonify,
     request,
+    session
 )
 from flask_restful import Api
 from flask_cors import CORS
 
-# from errors import init_handler
 from api.spaces import SpacesApi
 from api.reviews import ReviewsApi
 import database as db
@@ -23,7 +23,6 @@ app = Flask(__name__, static_url_path="", static_folder="frontend/build")
 app.secret_key = os.environ["APP_SECRET_KEY"]
 if "FLASK_ENV" in os.environ and os.environ.get("FLASK_ENV") == "development":
     CORS(app)
-    # init_handler(app) 1 # initialise error handling
 
 api = Api(app)
 
@@ -129,11 +128,12 @@ def get_awaiting_approval():
 
 @app.route('/approve')
 def handle_approve():
-    user_id = request.args.get('user_id')
+    if "username" in session:
+        username = session.get("username")
+        
     space_id = request.args.get('space_id')
     approval = request.args.get('approval')
-    print(user_id, space_id, approval)
-    admin = db.check_user_admin(user_id)
+    admin = db.check_user_admin(username)
     if admin:
         ret = db.handle_approval(space_id, approval)
     else:
@@ -159,7 +159,7 @@ def login():
 @app.route("/user_logged_in", methods=["GET"])
 def user_logged_in():
     username = auth.authenticate()
-    return jsonify({"netid": username})
+    return jsonify({"netid": username, "admin": db.check_user_admin(username)})
 
 # ----------------------------------------------------------------------
 

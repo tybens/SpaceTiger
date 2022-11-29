@@ -20,6 +20,7 @@ import typesData from "../../../data/types.json";
 import locationsData from "../../../data/locations.json";
 
 import { UserContext } from "../../../context.js";
+import UploadAndDisplayImage from "./UploadPhoto";
 
 import useStyles from "../styles.js";
 
@@ -34,9 +35,11 @@ export default function AddSpaceModal(props) {
   const [location, setLocation] = useState("");
   const [locationInput, setLocationInput] = useState("");
   const [type, setType] = useState("");
+  const [images, setImages] = useState([]);
 
   const handleSubmit = () => {
     // this is where the dispatch/fetch is
+    const dataImages = images.map((i) => i.data)
 
     const reviewResponse = {
       puid: user?.netid,
@@ -44,6 +47,7 @@ export default function AddSpaceModal(props) {
       capacity,
       location,
       type,
+      images: dataImages
     };
 
     console.log("post: ", reviewResponse);
@@ -156,6 +160,13 @@ export default function AddSpaceModal(props) {
             onInputChange={(_, newInputValue) => {
               setLocationInput(newInputValue);
             }}
+            style={{ width: "60%", marginBottom: "20px" }}
+          />
+
+          <Typography variant="h6">Upload Photo</Typography>
+          <UploadAndDisplayImage
+            setImages={setImages}
+            images={images}
             style={{ width: "60%", marginBottom: "20px" }}
           />
 
