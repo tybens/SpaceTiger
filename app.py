@@ -152,7 +152,7 @@ def login():
 @app.route("/user_logged_in", methods=["GET"])
 def user_logged_in():
     username = auth.authenticate()
-    return jsonify({"netid": username})
+    return jsonify({"netid": username, "admin": db.check_user_admin(username)})
 
 # ----------------------------------------------------------------------
 

@@ -15,7 +15,7 @@ const LoginRedirect = () => {
           let data = res.data;
           // setting user from login data
           if (data.netid) {
-            setUser({ netid: data.netid });
+            setUser({ netid: data.netid, admin: data.admin });
           }
         })
         .catch((error) => {

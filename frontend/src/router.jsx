@@ -33,7 +33,7 @@ const PageWrapper = ({ Page, auth, admin }) => {
           // setting user from login data
           // TODO: update backend to return admin
           if (data.netid) {
-            setUser({ netid: data.netid, admin: data?.admin });
+            setUser({ netid: data.netid, admin: data.admin });
           }
         })
         .catch((error) => {
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     // TODO: change this back to true, true
-    element: <PageWrapper Page={Admin} auth={false} admin={false} />,
+    element: <PageWrapper Page={Admin} auth={false} admin={true} />,
     errorElement: <NotFound />,
   },
   {
