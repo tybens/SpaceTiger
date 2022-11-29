@@ -3,6 +3,9 @@ import os
 import sqlalchemy
 import sqlalchemy.orm
 
+import cloudinary 
+import cloudinary.uploader
+
 import models
 
 # ----------------------------------------------------------------------
@@ -136,25 +139,25 @@ def get_details(id):
 
 
 def add_space(puid, name, capacity, location, type):
+    return_id = None
+    
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(
             models.Space.user_id == puid, models.Space.name == name
         )
         table = query.all()
 
-        if table:
-            ret = f"space with name {name} already exists"
-        else:
-            new_space = models.Space(
-                user_id=puid, name=name, numreviews=0, capacity=capacity,
-                rating=0, numvisits=0, location=location, type=type
-            )
-            session.add(new_space)
-            ret = f"created space with name: {name}"
+        new_space = models.Space(
+            user_id=puid, name=name, numreviews=0, capacity=capacity,
+            rating=0, numvisits=0, location=location, type=type
+        )
+        session.add(new_space)
 
         session.commit()
+        
+        return_id = new_space.id
 
-    return ret
+    return return_id
 
 
 def update_space(space_id, dict_of_changes):
@@ -491,7 +494,13 @@ def remove_amenity(amenity_id):
     return ret
 
 # ----------------------------------------------------------------------
+def upload_photo_to_cloudinary(src):
+    cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('CLOUD_API_KEY'), 
+        api_secret=os.getenv('CLOUD_API_SECRET'))
+    upload_result = cloudinary.uploader.upload(src, resource_type="raw", folder="SpaceTiger/photos/")
+    return upload_result['url']
 
+    
 def add_photo(space_id, src, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Photo).filter(

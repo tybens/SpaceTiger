@@ -142,6 +142,15 @@ const NavBar = () => {
                         <MenuItem onClick={handleClose}>Your Profile</MenuItem>
                       </NavLink>
                       <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                      {user.admin && (
+                        <NavLink
+                          className={classes.navLink}
+                          strict="true"
+                          to="/admin"
+                        >
+                          <MenuItem onClick={handleClose}>Moderation</MenuItem>
+                        </NavLink>
+                      )}
                     </Menu>
                   </div>
                 )}
