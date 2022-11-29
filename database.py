@@ -14,7 +14,7 @@ engine = sqlalchemy.create_engine(DATABASE_URL)
 
 def get_spaces():
     with sqlalchemy.orm.Session(engine) as session:
-        space_query = session.query(models.Space)
+        space_query = session.query(models.Space).filter(models.Space.approved == "true")
         amenities_query = session.query(models.Amenity)
         photos_query = session.query(models.Photo)
 
