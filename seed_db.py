@@ -24,8 +24,9 @@ try:
     database.post_user("emssystem")
 
     for _, space in spaces.iterrows():
-        puid, name, _, capacity, _, _, location, type = space
-        database.add_space(puid, name, capacity, location, type)
+        puid, name, _, capacity, _, _, location, bad_type = space
+        type = bad_type.split(" - ")[0] # removes the hyphen
+        database.add_space(puid, name, capacity, location, type, True)
 
     for _, review in reviews.iterrows():
         space_id, puid, rating, content = review

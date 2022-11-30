@@ -138,23 +138,25 @@ def get_details(id):
     return details
 
 
-def add_space(puid, name, capacity, location, type):
+def add_space(puid, name, capacity, location, type, approved=False):
     return_id = None
-    
+
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(
             models.Space.user_id == puid, models.Space.name == name
         )
         table = query.all()
 
+        if table:
+            return f"space with name {name} already exists"
+
         new_space = models.Space(
             user_id=puid, name=name, numreviews=0, capacity=capacity,
-            rating=0, numvisits=0, location=location, type=type
+            rating=0, numvisits=0, location=location, type=type,
+            approved=approved
         )
         session.add(new_space)
-
         session.commit()
-        
         return_id = new_space.id
 
     return return_id
@@ -310,8 +312,10 @@ def check_user_admin(user_id):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.User).filter(models.User.puid == user_id)
         table = query.all()
-    return table[0].admin
-    
+    if len(table) > 0:
+        return table[0].admin
+    return False
+
 
 def handle_approval(space_id, approval):
     if approval:
@@ -606,9 +610,10 @@ def _test_reviews():
     ret = add_review(1000, "tbegum", 2, "This space could use some cleaning")
     print(ret)
 
-    print("-" * 25)
-    ret = update_review(1000, "tbegum", 1, "This space has become so gross")
-    print(ret)
+    # TODO: Update this call to use dict_of_changes
+    # print("-" * 25)
+    # ret = update_review(1000, "tbegum", 1, "This space has become so gross")
+    # print(ret)
 
     print("-" * 25)
     user_reviews = get_user_reviews("tbegum")
