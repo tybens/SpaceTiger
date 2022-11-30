@@ -319,10 +319,10 @@ def handle_approval(space_id, approval):
             space = session.query(models.Space).get(space_id)
             space.approved = True
             ret = f"space {space.name} approved"
+            session.commit()
     else:
         remove_space(space_id)
         ret = f"space {space_id} deleted"
-    session.commit()
     return ret
 
 # -----------------------------------------------------
