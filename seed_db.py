@@ -53,6 +53,8 @@ try:
             database.add_photo(space_id, url)
     print("Finished adding photos")
 
+    engine.dispose()
+
 except IntegrityError:
     print("Nothing to worry about if you know what you're doing.")
 
