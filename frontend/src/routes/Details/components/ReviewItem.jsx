@@ -18,7 +18,7 @@ export default function ReviewItem(props) {
         readOnly
         style={{ marginBottom: "10px" }}
       />
-      <Typography variant="p" style={{ marginBottom: "15px" }}>
+      <Typography variant="p" style={{ marginBottom: "15px", minHeight: "50%"}}>
         {review?.content}
       </Typography>
       <Typography style={{ fontSize: "13px", marginTop: "auto", marginBottom: "15px"}}>
