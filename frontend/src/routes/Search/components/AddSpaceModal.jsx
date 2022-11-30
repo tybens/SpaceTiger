@@ -133,7 +133,7 @@ export default function AddSpaceModal(props) {
   };
 
   const renderTypes = () => {
-    let sorted = typesData.sort();
+    let sorted = [...typesData].sort();
 
     return sorted.map((item) => (
       <MenuItem key={item} value={item}>

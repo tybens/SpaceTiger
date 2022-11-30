@@ -7,16 +7,29 @@ import typesData from "../../../data/types.json";
 
 import useStyles from "../styles.js";
 
-typesData.unshift("")
-amenitiesData.unshift("")
+typesData.unshift("Select");
+amenitiesData.unshift("Select");
 
 const TYPE = typesData;
 const AMENITIES = amenitiesData;
-const NOISINESS = ["", "Silent", "Soft Whisper", "Normal Conversation", "Shouting in Ear"];
-const PRIVACY = ["", "Private", "Semi-private", "Semi-public", "Public"];
-const LIGHTING = ["", "", "Dim", "Normal", "Bright"];
+const NOISINESS = [
+  "Select",
+  "Silent",
+  "Soft Whisper",
+  "Normal Conversation",
+  "Shouting in Ear",
+];
+const PRIVACY = ["Select", "Private", "Semi-private", "Semi-public", "Public"];
+const LIGHTING = ["Select", "", "Dim", "Normal", "Bright"];
 // taken from https://spaces4learning.com/articles/2018/10/01/cleanliness.aspx
-const CLEANLINESS = ["", "Orderly Spotlessness", "Ordinary Tidiness", "Casual Inattention", "Moderate Dinginess", "Unkempt Neglect"];
+const CLEANLINESS = [
+  "Select",
+  "Orderly Spotlessness",
+  "Ordinary Tidiness",
+  "Casual Inattention",
+  "Moderate Dinginess",
+  "Unkempt Neglect",
+];
 
 export default function SearchFilters(props) {
   const { handleChange } = props;
@@ -32,14 +45,22 @@ export default function SearchFilters(props) {
   useEffect(() => {
     // getData();
     handleChange({
-      "type": type,
-      "noisiness": noisiness,
-      "amenities": amenities,
-      "privacy": privacy,
-      "lighting": lighting,
-      "cleanliness": cleanliness,
-    })
-  }, [type, noisiness, amenities, privacy, lighting, cleanliness]);
+      type: type,
+      noisiness: noisiness,
+      amenities: amenities,
+      privacy: privacy,
+      lighting: lighting,
+      cleanliness: cleanliness,
+    });
+  }, [
+    type,
+    noisiness,
+    amenities,
+    privacy,
+    lighting,
+    cleanliness,
+    handleChange,
+  ]);
 
   // I'm gonna make this a hamburger menu for mobile, but i don't feel like doing that right now
 
@@ -57,7 +78,13 @@ export default function SearchFilters(props) {
           id="type"
           value={type}
           label="type"
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setType("");
+            } else {
+              setType(e.target.value);
+            }
+          }}
         >
           {TYPE.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
@@ -79,7 +106,13 @@ export default function SearchFilters(props) {
           id="amenities"
           value={amenities}
           label="Amenity"
-          onChange={(e) => setAmenities(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setAmenities("");
+            } else {
+              setAmenities(e.target.value);
+            }
+          }}
         >
           {AMENITIES.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
@@ -101,7 +134,13 @@ export default function SearchFilters(props) {
           id="noisiness"
           value={noisiness}
           label="Noisiness"
-          onChange={(e) => setNoisiness(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setNoisiness("");
+            } else {
+              setNoisiness(e.target.value);
+            }
+          }}
         >
           {NOISINESS.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
@@ -123,7 +162,13 @@ export default function SearchFilters(props) {
           id="privacy"
           value={privacy}
           label="Privacy"
-          onChange={(e) => setPrivacy(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setPrivacy("");
+            } else {
+              setPrivacy(e.target.value);
+            }
+          }}
         >
           {PRIVACY.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
@@ -145,7 +190,13 @@ export default function SearchFilters(props) {
           id="lighting"
           value={lighting}
           label="lighting"
-          onChange={(e) => setLighting(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setLighting("");
+            } else {
+              setLighting(e.target.value);
+            }
+          }}
         >
           {LIGHTING.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
@@ -167,7 +218,13 @@ export default function SearchFilters(props) {
           id="cleanliness"
           value={cleanliness}
           label="cleanliness"
-          onChange={(e) => setCleanliness(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === "Select") {
+              setCleanliness("");
+            } else {
+              setCleanliness(e.target.value);
+            }
+          }}
         >
           {CLEANLINESS.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
