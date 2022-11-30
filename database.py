@@ -189,7 +189,7 @@ def update_space_helper(
     else:
         numreviews = space.numreviews + 1
 
-    if space.avgnoisiness is None:
+    if space.avgnoise is None:
         avgnoise = noisiness / numreviews
     else:
         avgnoise = (space.avgnoise + noisiness) / numreviews
@@ -197,7 +197,7 @@ def update_space_helper(
     if space.avgprivacy is None:
         avgprivacy = privacy / numreviews
     else:
-        avgprivacy = (space.avgnprivacy + privacy) / numreviews
+        avgprivacy = (space.avgprivacy + privacy) / numreviews
 
     if space.avglighting is None:
         avglighting = lighting / numreviews

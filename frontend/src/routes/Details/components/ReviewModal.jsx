@@ -104,8 +104,6 @@ export default function ReviewModal(props) {
       setStatus("error");
       setMessage("User unauthenticated, can't create a space!");
     }
-    // obviously this becomes a put request
-    // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
     console.log(reviewResponse);
     handleClose();
   };
