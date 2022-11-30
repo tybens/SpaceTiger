@@ -178,6 +178,70 @@ def update_space(space_id, dict_of_changes):
 
     return ret
 
+def update_space_helper(space, noisiness, privacy, lighting, productivity, cleanliness,  amenities_rating):
+    noisiness = 0 if noisiness is None else noisiness
+    privacy = 0 if privacy is None else privacy
+    lighting = 0 if lighting is None else lighting
+    productivity = 0 if productivity is None else productivity
+    cleanliness = 0 if cleanliness is None else cleanliness
+    amenities_rating = 0 if amenities_rating is None else amenities_rating
+    if space.numreviews is None:
+        numreviews = 1
+    else:
+        numreviews = space.numreviews + 1
+    if space.avgnoise is None:
+        avgnoise = noisiness / numreviews
+    else:
+        avgnoise = (space.avgnoise + noisiness) / numreviews
+    if space.avgprivacy is None:
+        avgprivacy = privacy / numreviews
+    else:
+        avgprivacy = (space.avgnprivacy + privacy) / numreviews
+    if space.avglighting is None:
+        avglighting = lighting / numreviews
+    else:
+        avglighting = (space.avglighting + lighting) / numreviews
+    if space.avgproductivity is None:
+        avgproductivity = productivity / numreviews
+    else:
+        avgproductivity = (space.avgproductivity + productivity) / numreviews
+    if space.avgcleanliness is None:
+        avgcleanliness = cleanliness / numreviews
+    else:
+        avgcleanliness = (space.avgcleanliness + cleanliness) / numreviews
+    if space.avgamenities is None:
+        avgamenities = amenities_rating / numreviews
+    else:
+        avgamenities = (space.avgamenities + amenities_rating) / numreviews
+
+    return {
+        "numreviews": numreviews,
+        "avgnoise": avgnoise,
+        "avgprivacy": avgprivacy,
+        "avglighting": avglighting,
+        "avgproductivity": avgproductivity,
+        "avgcleanliness": avgcleanliness,
+        "avgamenities": avgamenities
+    }
+
+def update_space_from_review(space_id, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating):
+    with sqlalchemy.orm.Session(engine) as session:
+        query = session.query(models.Space).filter(
+            models.Space.id == space_id
+        )
+        table = query.all()
+        space = table[0]
+
+        dict_of_changes = update_space_helper(space, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating)
+
+        if table:
+            query.update(dict_of_changes, synchronize_session=False)
+            ret = f"space with id '{space_id}' updated"
+
+        session.commit()
+
+    return ret
+
 
 def remove_space(space_id):
     with sqlalchemy.orm.Session(engine) as session:
@@ -365,7 +429,8 @@ def add_review(
     puid,
     rating,
     content,
-    noise,
+    noisiness,
+    privacy, 
     lighting,
     productivity,
     cleanliness,
@@ -379,7 +444,8 @@ def add_review(
             user_id=puid,
             rating=rating,
             content=content,
-            noise=noise,
+            noisiness=noisiness,
+            privacy=privacy, 
             lighting=lighting,
             productivity=productivity,
             cleanliness=cleanliness,
@@ -392,7 +458,7 @@ def add_review(
         session.commit()
         print(ret)
         review_id = new_review.id
-
+        
     return review_id
 
 
@@ -632,7 +698,7 @@ def _test_favorites():
     print(spaces)
 
     print("-" * 25)
-    ret = post_favorite("tb19", 0)
+    ret = post_favorite("tb19", 1)
     print(ret)
 
 

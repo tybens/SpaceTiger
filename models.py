@@ -1,3 +1,5 @@
+from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, create_engine
+from sqlalchemy.orm import declarative_base, relationship
 import uuid
 import os
 from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, create_engine
@@ -38,6 +40,14 @@ class Space(Base):
     rating = Column(Integer)
     numvisits = Column(Integer)
     approved = Column(Boolean, default=False)
+    avgcleanliness = Column(Float)
+    avgnoise = Column(Float)
+    avgprivacy = Column(Float)
+    avglighting = Column(Float)
+    avgproductivity = Column(Float)
+    avgamenities = Column(Float)
+
+    
 
     user = relationship("User", back_populates="spaces")
     reviews = relationship("Review", cascade="all,delete", back_populates="space")
@@ -75,7 +85,7 @@ class Review(Base):
     rating = Column(Integer)
     content = Column(String)
     cleanliness = Column(Integer)
-    noise = Column(Integer)
+    noisiness = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
     productivity = Column(Integer)
@@ -102,7 +112,7 @@ class Review(Base):
             "rating": self.rating,
             "content": self.content,
             "cleanliness": self.cleanliness,
-            "noise": self.noise,
+            "noisiness": self.noisiness,
             "privacy": self.privacy,
             "lighting": self.lighting,
             "amenities_rating": self.amenities_rating,
