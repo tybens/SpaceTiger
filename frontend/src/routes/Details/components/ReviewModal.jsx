@@ -15,23 +15,13 @@ import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { UserContext } from "../../../context.js";
+import tagsData from "../../../data/tags.json";
+import amenitiesData from "../../../data/amenities.json";
 
 import useStyles from "../styles.js";
 
-// TODO: THESE NEED TO BE UPDATED!
-const TAGS = [
-  {
-    label: "cozy",
-  },
-  { label: "social" },
-];
-
-const AMENITIES = [
-  {
-    label: "TV",
-  },
-  { label: "couch" },
-];
+const TAGS = tagsData.reduce((acc, val) => acc.concat({"label": val}), []);
+const AMENITIES = amenitiesData.reduce((acc, val) => acc.concat({"label": val}), []);
 
 export default function ReviewModal(props) {
   const { open, handleClose } = props;
@@ -168,7 +158,7 @@ export default function ReviewModal(props) {
               />
             </div>
             <div className={classes.featureItem}>
-              <Typography variant="p">Natural Light</Typography>
+              <Typography variant="p">Lighting</Typography>
               <Rating
                 className={classes.stars}
                 name="light"
