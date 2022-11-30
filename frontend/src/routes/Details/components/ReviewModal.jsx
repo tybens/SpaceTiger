@@ -10,6 +10,8 @@ import {
   Rating,
   Autocomplete,
 } from "@mui/material";
+import axios from "axios";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 import { UserContext } from "../../../context.js";
@@ -37,6 +39,9 @@ export default function ReviewModal(props) {
   const { query } = useParams();
   const { user } = useContext(UserContext);
 
+  const [status, setStatus] = useState("none");
+  const [message, setMessage] = useState("");
+
   const [exp, setExp] = useState("");
   const [rating, setRating] = useState(0);
   const [noise, setNoise] = useState(0);
@@ -53,19 +58,49 @@ export default function ReviewModal(props) {
     const reviewResponse = {
       rating,
       space_id: query,
-      // user id when we have it
       content: exp,
       // photos
       noisiness: noise,
       light,
       productivity: prod,
       cleanliness: clean,
-      // gonna leave out amenity for now
+      amenities_rating: amenity,
       tags,
       amenities,
-      user_id: user.netid,
+      puid: user.netid,
     };
 
+    if (user) {
+      axios
+        .post("/reviews", reviewResponse)
+        .then((res) => {
+          if (res.status === 200) {
+            setStatus("success");
+            setMessage(
+              "Success! After an administrator approves your space, you will be able to search and review it. "
+            );
+            // navigate("/profile");
+          } else {
+            // TODO: show server error modal
+            console.log(res);
+            setStatus("error");
+            setMessage("Adding the space failed. Please try again later. ");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setStatus("error");
+          setMessage(
+            "An error occured with our systems. Please try again later."
+          );
+        });
+    } else {
+      // TODO: show modal that user must login before performing
+      // such an actions
+      console.log("user unauthenticated, can't create a space");
+      setStatus("error");
+      setMessage("User unauthenticated, can't create a space!");
+    }
     // obviously this becomes a put request
     // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
     console.log(reviewResponse);

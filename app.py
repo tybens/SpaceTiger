@@ -83,7 +83,7 @@ def tags():
 def get_is_favorite():
     user_id = request.args.get('user_id')
     space_id = request.args.get('space_id')
-    
+
     return jsonify({"is_favorite": db.get_favorite(user_id, space_id)})
 
 
@@ -93,7 +93,7 @@ def post_is_favorite():
     space_id = request.args.get('space_id')
     if not user_id or not space_id:
         return jsonify({"status": 400, "response": "error: invalid parameters in request"})
-        
+
     try:
         res = db.post_favorite(user_id, space_id)
         return jsonify({"status": 200, "response": res})
@@ -110,7 +110,7 @@ def post_is_favorite():
 def get_list_favorites():
     user_id = request.args.get('user_id')
     data = db.get_favorites(user_id)
-    
+
     return jsonify(items=[i.to_json() for i in data])
 
 @app.route('/getuserspaces')
@@ -141,7 +141,7 @@ def get_awaiting_approval():
 def handle_approve():
     if "username" in session:
         username = session.get("username")
-        
+
     space_id = request.args.get('space_id')
     approval = request.args.get('approval') == "true"
     admin = db.check_user_admin(username)
@@ -150,7 +150,7 @@ def handle_approve():
         ret = db.handle_approval(space_id, approval)
     else:
         ret = "user isn't admin, operation disallowed"
-    
+
     return jsonify({"response": ret})
 
 # ---------------------------------------------

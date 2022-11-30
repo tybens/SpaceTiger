@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from sqlalchemy import create_engine
-import cloudinary 
+import cloudinary
 import cloudinary.uploader
 # ----------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ photos = pd.read_csv("scraper/photos.csv")
 # ----------------------------------------------------------------------
 
 engine = create_engine(DATABASE_URL)
-cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'), 
+cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'),
     api_secret=os.getenv('API_SECRET'))
 
 urls = []
@@ -26,3 +26,4 @@ for _, photo in photos.iterrows():
 
 df = pd.concat([photos, pd.DataFrame(urls)], axis=1)
 df.to_csv("scraper/photos_urls.csv", index=False)
+engine.dispose()
