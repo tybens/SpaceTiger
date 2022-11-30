@@ -1,4 +1,4 @@
-from flask import json, request
+from flask import json, request, jsonify
 from flask_restful import Resource, reqparse
 
 import database
@@ -7,6 +7,15 @@ import database
 
 
 class ReviewsApi(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("space_id", type=int)
+        parser.add_argument("user_id", type=str)
+        args = parser.parse_args()
+        
+        data = database.get_reviews(space_id=args['space_id'], puid=args['user_id'])
+        return jsonify(data)
+    
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument("space_id", type=int)
@@ -29,7 +38,7 @@ class ReviewsApi(Resource):
             rating=args["rating"],
             content=args["content"],
             noise=args["noisiness"],
-            light=args["light"],
+            lighting=args["light"],
             productivity=args["productivity"],
             cleanliness=args['cleanliness'],
             amenities_rating=args['amenities_rating']

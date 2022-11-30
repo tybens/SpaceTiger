@@ -15,9 +15,12 @@ engine = sqlalchemy.create_engine(DATABASE_URL)
 
 # ----------------------------------------------------------------------
 
+
 def get_spaces():
     with sqlalchemy.orm.Session(engine) as session:
-        space_query = session.query(models.Space).filter(models.Space.approved == "true")
+        space_query = session.query(models.Space).filter(
+            models.Space.approved == "true"
+        )
         amenities_query = session.query(models.Amenity)
         photos_query = session.query(models.Photo)
 
@@ -25,66 +28,62 @@ def get_spaces():
         amenities = amenities_query.all()
         photos = photos_query.all()
 
-        data = {
-            "spaces": spaces,
-            "amenities": amenities,
-            "photos": photos
-        }
+        data = {"spaces": spaces, "amenities": amenities, "photos": photos}
 
     return data
 
-        # friendly_spaces = []
-        # # friendly_photos = []
-        # # friendly_amenities = []
+    # friendly_spaces = []
+    # # friendly_photos = []
+    # # friendly_amenities = []
 
-        # for space in spaces:
-        #     friendly_photos = []
-        #     friendly_amenities = []
+    # for space in spaces:
+    #     friendly_photos = []
+    #     friendly_amenities = []
 
-        #     photos = (
-        #         session.query(models.Photo)
-        #         .filter(models.Photo.space_id == space.id)
-        #         .all()
-        #     )
-        #     amenities = (
-        #         session.query(models.Amenity)
-        #         .filter(models.Amenity.space_id == space.id)
-        #         .all()
-        #     )
-        #     for photo in photos:
-        #         friendly_photos.append(photo.to_json())
-        #     for amenity in amenities:
-        #         friendly_amenities.append(amenity.to_json())
+    #     photos = (
+    #         session.query(models.Photo)
+    #         .filter(models.Photo.space_id == space.id)
+    #         .all()
+    #     )
+    #     amenities = (
+    #         session.query(models.Amenity)
+    #         .filter(models.Amenity.space_id == space.id)
+    #         .all()
+    #     )
+    #     for photo in photos:
+    #         friendly_photos.append(photo.to_json())
+    #     for amenity in amenities:
+    #         friendly_amenities.append(amenity.to_json())
 
-        #     # print("amenities", friendly_amenities)
-        #     # print(space.to_json())
+    #     # print("amenities", friendly_amenities)
+    #     # print(space.to_json())
 
-        #     space_json = space.to_json()
+    #     space_json = space.to_json()
 
-        #     space = {
-        #         "space": space_json,
-        #         # "space": space.to_json(),
-        #         "amenities": friendly_amenities
-        #     }
+    #     space = {
+    #         "space": space_json,
+    #         # "space": space.to_json(),
+    #         "amenities": friendly_amenities
+    #     }
 
-        #     # print("space", space)
+    #     # print("space", space)
 
-        #     friendly_spaces.append(space)
+    #     friendly_spaces.append(space)
 
-        #     # print("photos", friendly_photos)
-        #     # print("amenities", friendly_amenities)
-        #     # friendly_spaces.append({
-        #     #     "space": space.to_json(),
-        #     #     "photos": friendly_photos,
-        #     #     "amenities": friendly_amenities
-        #     # })
+    #     # print("photos", friendly_photos)
+    #     # print("amenities", friendly_amenities)
+    #     # friendly_spaces.append({
+    #     #     "space": space.to_json(),
+    #     #     "photos": friendly_photos,
+    #     #     "amenities": friendly_amenities
+    #     # })
 
-        # print("ended loop")
-        # print("amenities", friendly_amenities)
-        # print("spaces", friendly_spaces)
-        # print("spaces", friendly_spaces)
-        # print("photos", friendly_photos)
-        # print("amenities", friendly_amenities)
+    # print("ended loop")
+    # print("amenities", friendly_amenities)
+    # print("spaces", friendly_spaces)
+    # print("spaces", friendly_spaces)
+    # print("photos", friendly_photos)
+    # print("amenities", friendly_amenities)
     # return friendly_spaces
 
 
@@ -105,9 +104,7 @@ def get_details(id):
             .all()
         )
         photos = (
-            session.query(models.Photo)
-            .filter(models.Photo.space_id == space.id)
-            .all()
+            session.query(models.Photo).filter(models.Photo.space_id == space.id).all()
         )
         amenities = (
             session.query(models.Amenity)
@@ -151,9 +148,15 @@ def add_space(puid, name, capacity, location, type, approved=False):
             return f"space with name {name} already exists"
 
         new_space = models.Space(
-            user_id=puid, name=name, numreviews=0, capacity=capacity,
-            rating=0, numvisits=0, location=location, type=type,
-            approved=approved
+            user_id=puid,
+            name=name,
+            numreviews=0,
+            capacity=capacity,
+            rating=0,
+            numvisits=0,
+            location=location,
+            type=type,
+            approved=approved,
         )
         session.add(new_space)
         session.commit()
@@ -164,9 +167,7 @@ def add_space(puid, name, capacity, location, type, approved=False):
 
 def update_space(space_id, dict_of_changes):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Space).filter(
-            models.Space.id == space_id
-        )
+        query = session.query(models.Space).filter(models.Space.id == space_id)
         table = query.all()
 
         if table:
@@ -180,9 +181,7 @@ def update_space(space_id, dict_of_changes):
 
 def remove_space(space_id):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Space).filter(
-            models.Space.id == space_id
-        )
+        query = session.query(models.Space).filter(models.Space.id == space_id)
         table = query.all()
 
         if table:
@@ -194,6 +193,7 @@ def remove_space(space_id):
         session.commit()
 
     return ret
+
 
 # returns spaces created by a specific user
 def get_user_spaces(puid):
@@ -218,9 +218,11 @@ def get_types():
     # some of the EMS location types have hyphens, so we'll remove them
     # here, but they should really be removed when seeding
     types = [type.split(" - ")[0] for (type,) in table]
-    return list(set(types)) # keep only unique types
+    return list(set(types))  # keep only unique types
+
 
 # ----------------------------------------------------------------------
+
 
 def get_user(puid):
     with sqlalchemy.orm.Session(engine) as session:
@@ -250,6 +252,7 @@ def post_user(puid):
 
     return ret
 
+
 # ----------------------------------------------------------------------
 # Functions for favoriting
 # ----------------------------------------------------------------------
@@ -257,13 +260,14 @@ def post_user(puid):
 # returns spaces that are favorited
 def get_favorites(puid):
     with sqlalchemy.orm.Session(engine) as session:
-        table = session.query(models.Favorite).filter(models.Favorite.user_id == puid).all()
+        table = (
+            session.query(models.Favorite).filter(models.Favorite.user_id == puid).all()
+        )
         # table is a list of {space_id: space_id}
         space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
         table = session.query(models.Space).filter(models.Space.id.in_(space_ids)).all()
     return table
-
 
 
 # returns whether or not a user has favorited a specific space
@@ -297,9 +301,11 @@ def post_favorite(puid, space_id):
 
     return ret
 
+
 # -----------------------------------------------------
 # Functions for moderation
 # -----------------------------------------------------
+
 
 def get_awaiting_approval():
     with sqlalchemy.orm.Session(engine) as session:
@@ -307,6 +313,7 @@ def get_awaiting_approval():
         query = session.query(models.Space).filter(models.Space.approved is False)
         table = query.all()
     return table
+
 
 def check_user_admin(user_id):
     with sqlalchemy.orm.Session(engine) as session:
@@ -316,7 +323,7 @@ def check_user_admin(user_id):
         return table[0].admin
     else:
         return False
-    
+
 
 def handle_approval(space_id, approval):
     if approval:
@@ -330,42 +337,53 @@ def handle_approval(space_id, approval):
         ret = f"space {space_id} deleted"
     return ret
 
+
 # -----------------------------------------------------
 # Functions for reviews
 # -----------------------------------------------------
 
 # get the reviews associated with a space specified by space_id
-def get_space_reviews(space_id):
+def get_reviews(space_id=None, puid=None):
+    ret = []
     with sqlalchemy.orm.Session(engine) as session:
-        table = session.query(models.Review).filter(
-            models.Review.space_id == space_id
-        ).all()
-    return table
+        if space_id:
+            q = session.query(models.Review).filter(models.Review.space_id == space_id)
+        elif puid:
+            q = session.query(models.Review).filter(models.Review.user_id == puid)
+        else:
+            q = session.query(models.Review)
 
+        table = q.all()
+        ret = [review.to_json() for review in table]
 
-# get the reviews created by a user specified by puid
-def get_user_reviews(puid):
-    with sqlalchemy.orm.Session(engine) as session:
-        table = session.query(models.Review).filter(
-            models.Review.user_id == puid
-        ).all()
-    return table
+    return ret
 
 
 # add a review consisting of rating and content
-def add_review(space_id, puid, rating, content, noise, light, productivity, cleanliness, amenities_rating):
+def add_review(
+    space_id,
+    puid,
+    rating,
+    content,
+    noise,
+    lighting,
+    productivity,
+    cleanliness,
+    amenities_rating,
+):
     review_id = None
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Review).filter(
-            models.Review.space_id == space_id, models.Review.user_id == puid
-        )
-        table = query.all()
 
         new_review = models.Review(
-            space_id=space_id, user_id=puid, rating=rating, 
-            content=content, noise=noise, light=light,
-            productivity=productivity, cleanliness=cleanliness, 
-            amenities_rating=amenities_rating
+            space_id=space_id,
+            user_id=puid,
+            rating=rating,
+            content=content,
+            noise=noise,
+            lighting=lighting,
+            productivity=productivity,
+            cleanliness=cleanliness,
+            amenities_rating=amenities_rating,
         )
         session.add(new_review)
         ret = f"created review for space {space_id} by user {puid} with "
@@ -374,7 +392,6 @@ def add_review(space_id, puid, rating, content, noise, light, productivity, clea
         session.commit()
         print(ret)
         review_id = new_review.id
-        
 
     return review_id
 
@@ -382,9 +399,7 @@ def add_review(space_id, puid, rating, content, noise, light, productivity, clea
 # update a review for space with space_id by user with id of puid
 def update_review(review_id, dict_of_changes):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Review).filter(
-            models.Review.id == review_id
-        )
+        query = session.query(models.Review).filter(models.Review.id == review_id)
         table = query.all()
 
         if table:
@@ -399,9 +414,7 @@ def update_review(review_id, dict_of_changes):
 # delete a review for space with space_id created by user specified by puid
 def remove_review(review_id):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Review).filter(
-            models.Review.id == review_id
-        )
+        query = session.query(models.Review).filter(models.Review.id == review_id)
         table = query.all()
 
         if table:
@@ -414,7 +427,9 @@ def remove_review(review_id):
 
     return ret
 
+
 # ----------------------------------------------------------------------
+
 
 def get_tags():
     with sqlalchemy.orm.Session(engine) as session:
@@ -426,11 +441,6 @@ def get_tags():
 
 def add_tag(tag, space_id=None, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Tag).filter(
-            models.Tag.space_id == space_id, models.Tag.tag == tag
-        )
-        table = query.all()
-
         new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
         session.add(new_tag)
         ret = f"added tag '{tag}' for space with id {space_id}"
@@ -439,6 +449,7 @@ def add_tag(tag, space_id=None, review_id=None):
         print(ret)
 
     return ret
+
 
 def remove_tag(tag_id):
     with sqlalchemy.orm.Session(engine) as session:
@@ -456,7 +467,9 @@ def remove_tag(tag_id):
 
     return ret
 
+
 # ----------------------------------------------------------------------
+
 
 def get_amenities():
     with sqlalchemy.orm.Session(engine) as session:
@@ -476,7 +489,9 @@ def add_amenity(amenity, space_id=None, review_id=None):
         if table:
             ret = f"amenity '{amenity}' for space with id {space_id} already exists"
         else:
-            new_amenity = models.Amenity(space_id=space_id, review_id=review_id, amenity=amenity)
+            new_amenity = models.Amenity(
+                space_id=space_id, review_id=review_id, amenity=amenity
+            )
             session.add(new_amenity)
             ret = f"added amenity '{amenity}' for space with id {space_id}"
 
@@ -502,12 +517,18 @@ def remove_amenity(amenity_id):
 
     return ret
 
+
 # ----------------------------------------------------------------------
 def upload_photo_to_cloudinary(src):
-    cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('CLOUD_API_KEY'),
-        api_secret=os.getenv('CLOUD_API_SECRET'))
-    upload_result = cloudinary.uploader.upload(src, resource_type="raw", folder="SpaceTiger/photos/")
-    return upload_result['url']
+    cloudinary.config(
+        cloud_name=os.getenv("CLOUD_NAME"),
+        api_key=os.getenv("CLOUD_API_KEY"),
+        api_secret=os.getenv("CLOUD_API_SECRET"),
+    )
+    upload_result = cloudinary.uploader.upload(
+        src, resource_type="raw", folder="SpaceTiger/photos/"
+    )
+    return upload_result["url"]
 
 
 def add_photo(space_id, src, review_id=None):
@@ -544,17 +565,23 @@ def remove_photo(photo_id):
 
     return ret
 
+
 # ----------------------------------------------------------------------
+
 
 def _test_spaces():
     print("-" * 25)
-    details = get_details(1) # works best once the database is seeded
+    details = get_details(1)  # works best once the database is seeded
     print(details)
 
     print("-" * 25)
-    ret = add_space("tbegum", "Scully 3rd Floor Common Area", 10, "Scully Hall", "Lounge")
+    ret = add_space(
+        "tbegum", "Scully 3rd Floor Common Area", 10, "Scully Hall", "Lounge"
+    )
     print(ret)
-    ret = add_space("tbegum", "Scully 4th Floor Study Room", 15, "Scully Hall", "Study Room")
+    ret = add_space(
+        "tbegum", "Scully 4th Floor Study Room", 15, "Scully Hall", "Study Room"
+    )
     print(ret)
 
     print("-" * 25)
@@ -622,14 +649,6 @@ def _test_reviews():
     # print(ret)
 
     print("-" * 25)
-    user_reviews = get_user_reviews("tbegum")
-    print(user_reviews)
-
-    print("-" * 25)
-    user_reviews = get_space_reviews(999)
-    print(user_reviews)
-
-    print("-" * 25)
     ret = remove_review(77)
     print(ret)
     ret = remove_review(78)
@@ -668,12 +687,16 @@ def _test_amenities():
 
 def _test_photos():
     print("-" * 25)
-    ret = add_photo(999, src="https://images.unsplash.com/photo-1668934807804-908534048c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80")
+    ret = add_photo(
+        999,
+        src="https://images.unsplash.com/photo-1668934807804-908534048c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+    )
     print(ret)
 
     print("-" * 25)
     ret = remove_photo(1394)
     print(ret)
+
 
 # ----------------------------------------------------------------------
 
