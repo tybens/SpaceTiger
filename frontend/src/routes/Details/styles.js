@@ -6,12 +6,19 @@ export default makeStyles((theme) => ({
     height: "320px",
     overflow: "hidden",
     display: "flex",
-    justifyContent: "end",
+    justifyContent: "space-between",
     alignItems: "flex-end",
-
+    flexDirection: "column",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPositionY: "40%",
+  },
+
+  backbutton: {
+    margin: "30px",
+    backgroundColor: "white",
+    textTransform: "none",
+    font_weight: "bold",
   },
 
   bannerBtn: {

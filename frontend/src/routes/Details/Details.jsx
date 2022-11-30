@@ -19,6 +19,7 @@ export default function Details() {
   const { query } = useParams();
   const classes = useStyles();
 
+
   const getData = useCallback(() => {
     axios
       .get(`/spaces/${query}`)
@@ -48,13 +49,14 @@ export default function Details() {
   return (
     <div>
       <Banner photos={data?.photos} />
+      
       <Header
         name={data?.space.name}
         rating={data?.space.rating}
         numreviews={data?.space.numreviews}
         space_id={query}
       />
-
+      
       <div className={classes.itemContainer}>
         {loaded && (
           <Amenities
