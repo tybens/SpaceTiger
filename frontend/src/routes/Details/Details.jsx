@@ -54,6 +54,7 @@ export default function Details() {
         name={data?.space.name}
         rating={data?.space.rating}
         numreviews={data?.space.numreviews}
+        getData={getData}
         space_id={query}
       />
       

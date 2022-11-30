@@ -19,12 +19,12 @@ export default function MyReviews({ user }) {
 
   const getData = () => {
     axios
-      .get("/get_userreviews", {
+      .get("/reviews", {
         params: { user_id: user?.netid },
       })
       .then((res) => {
         let data = res.data;
-        setReviewData(data.items);
+        setReviewData(data);
       })
       .catch((err) => console.log(err));
   };

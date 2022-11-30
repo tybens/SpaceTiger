@@ -15,12 +15,11 @@ import ReviewModal from "./ReviewModal.jsx";
 import useStyles from "../styles.js";
 import { UserContext } from "../../../context";
 
-export default function Header({ name, rating, numreviews, space_id }) {
+export default function Header({ name, rating, numreviews, space_id, getData }) {
   const [open, setOpen] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -87,6 +86,10 @@ export default function Header({ name, rating, numreviews, space_id }) {
     getFavorite();
     // eslint-disable-next-line
   }, [user]);
+
+  useEffect(() => {
+    getData();
+  }, [getData, open]);
 
   const classes = useStyles();
 

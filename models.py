@@ -78,6 +78,7 @@ class Review(Base):
     noise = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
+    productivity = Column(Integer)
     amenities_rating = Column(Integer)
 
     user = relationship("User", back_populates="reviews")
@@ -104,7 +105,10 @@ class Review(Base):
             "noise": self.noise,
             "privacy": self.privacy,
             "lighting": self.lighting,
-            "amenities_rating": self.amenities_rating
+            "amenities_rating": self.amenities_rating,
+            "tags": [tag.to_json() for tag in self.tags],
+            "amenities": [i.to_json() for i in self.amenities],
+            "photos": [i.to_json() for i in self.photos]
         }
 
 
