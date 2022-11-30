@@ -3,7 +3,7 @@ import os
 import sqlalchemy
 import sqlalchemy.orm
 
-import cloudinary 
+import cloudinary
 import cloudinary.uploader
 
 import models
@@ -243,7 +243,7 @@ def post_user(puid):
                 new_user = models.User(puid=puid, admin=True)
             else:
                 new_user = models.User(puid=puid)
-            
+
             session.add(new_user)
             session.commit()
             ret = "user created"
@@ -304,7 +304,7 @@ def post_favorite(puid, space_id):
 def get_awaiting_approval():
     with sqlalchemy.orm.Session(engine) as session:
         # models.Space.approved is False doesn't work, but == False does:
-        query = session.query(models.Space).filter(models.Space.approved == False)
+        query = session.query(models.Space).filter(models.Space.approved is False)
         table = query.all()
     return table
 
@@ -504,12 +504,12 @@ def remove_amenity(amenity_id):
 
 # ----------------------------------------------------------------------
 def upload_photo_to_cloudinary(src):
-    cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('CLOUD_API_KEY'), 
+    cloudinary.config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('CLOUD_API_KEY'),
         api_secret=os.getenv('CLOUD_API_SECRET'))
     upload_result = cloudinary.uploader.upload(src, resource_type="raw", folder="SpaceTiger/photos/")
     return upload_result['url']
 
-    
+
 def add_photo(space_id, src, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Photo).filter(

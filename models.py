@@ -1,7 +1,7 @@
-from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, create_engine
-from sqlalchemy.orm import declarative_base, relationship
 import uuid
 import os
+from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, create_engine
+from sqlalchemy.orm import declarative_base, relationship
 
 from guid import GUID
 
@@ -101,7 +101,7 @@ class Review(Base):
             "rating": self.rating,
             "content": self.content,
             "cleanliness": self.cleanliness,
-            "noise": self.noise, 
+            "noise": self.noise,
             "privacy": self.privacy,
             "lighting": self.lighting,
             "amenities_rating": self.amenities_rating
