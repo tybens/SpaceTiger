@@ -26,3 +26,4 @@ for _, photo in photos.iterrows():
 
 df = pd.concat([photos, pd.DataFrame(urls)], axis=1)
 df.to_csv("scraper/photos_urls.csv", index=False)
+engine.dispose()
