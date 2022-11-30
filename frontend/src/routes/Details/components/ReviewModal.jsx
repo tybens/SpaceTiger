@@ -70,6 +70,7 @@ export default function ReviewModal(props) {
       puid: user.netid,
     };
 
+
     if (user) {
       axios
         .post("/reviews", reviewResponse)
@@ -93,6 +94,8 @@ export default function ReviewModal(props) {
           setMessage(
             "An error occured with our systems. Please try again later."
           );
+          console.log(status);
+          console.log(message);
         });
     } else {
       // TODO: show modal that user must login before performing
