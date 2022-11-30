@@ -15,7 +15,13 @@ import ReviewModal from "./ReviewModal.jsx";
 import useStyles from "../styles.js";
 import { UserContext } from "../../../context";
 
-export default function Header({ name, rating, numreviews, space_id, getData }) {
+export default function Header({
+  name,
+  rating,
+  numreviews,
+  space_id,
+  getData,
+}) {
   const [open, setOpen] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const { user } = useContext(UserContext);
@@ -98,17 +104,21 @@ export default function Header({ name, rating, numreviews, space_id, getData }) 
       <div className={classes.headerFirst}>
         <Typography variant="h4">{name}</Typography>
         <div className={classes.headerBtns}>
-          <Button variant="outlined" startIcon={<ReportProblemIcon />}>
-            Report
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<FavoriteIcon />}
-            color={favorite ? "error" : "inherit"}
-            onClick={handleFavorite}
-          >
-            {favorite ? "Un-Favorite" : "Favorite"}
-          </Button>
+          {user && (
+            <Button variant="outlined" startIcon={<ReportProblemIcon />}>
+              Report
+            </Button>
+          )}
+          {user && (
+            <Button
+              variant="outlined"
+              startIcon={<FavoriteIcon />}
+              color={favorite ? "error" : "inherit"}
+              onClick={handleFavorite}
+            >
+              {favorite ? "Un-Favorite" : "Favorite"}
+            </Button>
+          )}
           <Button variant="outlined" startIcon={<DirectionsIcon />}>
             Directions
           </Button>
