@@ -5,7 +5,6 @@ import database
 
 # ----------------------------------------------------------------------
 
-
 class ReviewsApi(Resource):
     def get(self):
         parser = reqparse.RequestParser()

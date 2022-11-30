@@ -1,13 +1,7 @@
-import os
 import pandas as pd
-from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 
 import database
-
-# ----------------------------------------------------------------------
-
-DATABASE_URL = os.getenv("TEST_DB_URL")
 
 # ----------------------------------------------------------------------
 
@@ -19,21 +13,22 @@ photos = pd.read_csv("scraper/photos_urls.csv")
 # ----------------------------------------------------------------------
 
 try:
-    engine = create_engine(DATABASE_URL)
-
     database.post_user("emssystem")
 
     print("Starting to add spaces")
     for _, space in spaces.iterrows():
         puid, name, _, capacity, _, _, location, bad_type = space
         type = bad_type.split(" - ")[0] # removes the hyphen
-        database.add_space(puid, name, capacity, location, type, True)
+        database.add_space(puid=puid, name=name, capacity=capacity,
+            location=location, type=type, approved=True)
     print("Finished adding spaces")
 
     print("Starting to add reviews")
     for _, review in reviews.iterrows():
         space_id, puid, rating, content = review
-        database.add_review(space_id, puid, rating, content)
+        database.add_review(space_id=space_id, puid=puid, rating=rating,
+            content=content, noisiness=0, lighting=0, privacy=0,
+            cleanliness=0, amenities_rating=0)
     print("Finished adding reviews")
 
     print("Starting to add amenities")
@@ -41,7 +36,8 @@ try:
         space_id, amenity, _ = amenity
         if isinstance(amenity, str):
             try:
-                print(database.add_amenity(space_id, amenity))
+                print(database.add_amenity(space_id=space_id,
+                    amenity=amenity))
             except IntegrityError: # need to be a bit more specific
                 pass
     print("Finished adding amenities")
@@ -50,10 +46,8 @@ try:
     for _, photo in photos.iterrows():
         space_id, _, _, url = photo
         if isinstance(url, str):
-            database.add_photo(space_id, url)
+            database.add_photo(space_id=space_id, src=url)
     print("Finished adding photos")
-
-    engine.dispose()
 
 except IntegrityError:
     print("Nothing to worry about if you know what you're doing.")

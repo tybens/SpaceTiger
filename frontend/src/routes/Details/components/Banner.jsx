@@ -37,7 +37,7 @@ export default function Banner(props) {
     } else {
       // placeholder
       setImg(
-        "https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+        "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
       );
     }
   }, [photos]);

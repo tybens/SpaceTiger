@@ -74,6 +74,13 @@ class Space(Base):
             "rating": self.rating,
             "numvisits": self.numvisits,
             "approved": self.approved,
+            "cleanliness": self.avgcleanliness,
+            "noisiness": self.avgnoise,
+            "privacy": self.avgprivacy,
+            "lighting": self.avglighting,
+            "productivity": self.avgproductivity,
+            "amenities_rating": self.avgamenities,
+            "amenities": [amenity.amenity for amenity in self.amenities],
         }
 
 
@@ -100,7 +107,7 @@ class Review(Base):
     def __repr__(self):
         repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
         repr += f"rating={self.rating!r}, content={self.content!r},"
-        repr += f"cleanliness={self.cleanliness!r}, noise={self.noise!r},"
+        repr += f"cleanliness={self.cleanliness!r}, noisiness={self.noisiness!r},"
         repr += f"privacy={self.privacy!r}, lighting={self.lighting!r})"
         return repr
 
@@ -117,8 +124,8 @@ class Review(Base):
             "lighting": self.lighting,
             "amenities_rating": self.amenities_rating,
             "tags": [tag.to_json() for tag in self.tags],
-            "amenities": [i.to_json() for i in self.amenities],
-            "photos": [i.to_json() for i in self.photos]
+            "amenities": [amenity.to_json() for amenity in self.amenities],
+            "photos": [photo.to_json() for photo in self.photos]
         }
 
 

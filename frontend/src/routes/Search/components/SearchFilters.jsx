@@ -1,34 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { FormControl, MenuItem, InputLabel, Select } from "@mui/material";
 
+import amenitiesData from "../../../data/amenities.json";
+import typesData from "../../../data/types.json";
+
 import useStyles from "../styles.js";
 
-// okay this is just me defining categories. feel free to change
-// ideally i should be able to fetch this from the backend
-const POPULAR_FOR = [
-  "",
-  "studying",
-  "group work",
-  "social events",
-  "hanging out",
-  "rehearsals",
-];
-const NOISE = ["", "quiet", "loud"];
-const PRIVACY = ["", "low", "medium", "high"];
-const LIGHTING = ["", "low", "medium", "high"];
-const SEATING = ["", "chairs", "couches"];
-const TYPE = ["", "nook", "room", "classroom", "rehearsal", "outdoors"];
+typesData.unshift("")
+amenitiesData.unshift("")
+
+const TYPE = typesData;
+const AMENITIES = amenitiesData;
+const NOISINESS = ["", "Silent", "Soft Whisper", "Normal Conversation", "Shouting in Ear"];
+const PRIVACY = ["", "Private", "Semi-private", "Semi-public", "Public"];
+const LIGHTING = ["", "", "Dim", "Normal", "Bright"];
+// taken from https://spaces4learning.com/articles/2018/10/01/cleanliness.aspx
+const CLEANLINESS = ["", "Orderly Spotlessness", "Ordinary Tidiness", "Casual Inattention", "Moderate Dinginess", "Unkempt Neglect"];
 
 export default function SearchFilters(props) {
+  const { handleChange } = props;
   const classes = useStyles();
 
-  const [noise, setNoise] = useState("");
-  const [popfor, setPopFor] = useState("");
+  const [type, setType] = useState("");
+  const [noisiness, setNoisiness] = useState("");
+  const [amenities, setAmenities] = useState("");
   const [privacy, setPrivacy] = useState("");
   const [lighting, setLighting] = useState("");
-  const [seating, setSeating] = useState("");
-  const [type, setType] = useState("");
+  const [cleanliness, setCleanliness] = useState("");
+
+  useEffect(() => {
+    // getData();
+    handleChange({
+      "type": type,
+      "noisiness": noisiness,
+      "amenities": amenities,
+      "privacy": privacy,
+      "lighting": lighting,
+      "cleanliness": cleanliness,
+    })
+  }, [type, noisiness, amenities, privacy, lighting, cleanliness]);
 
   // I'm gonna make this a hamburger menu for mobile, but i don't feel like doing that right now
 
@@ -37,19 +48,41 @@ export default function SearchFilters(props) {
       <FormControl
         sx={{ m: 1, minWidth: 120 }}
         size="small"
-        style={{ width: "150px" }}
+        style={{ width: "160px" }}
       >
-        <InputLabel id="popfor">Popular for</InputLabel>
+        <InputLabel id="type">Type</InputLabel>
         <Select
           displayEmpty
-          labelId="popfor"
-          id="popfor"
-          value={popfor}
-          label="Popular for"
-          onChange={(e) => setPopFor(e.target.value)}
+          labelId="type"
+          id="type"
+          value={type}
+          label="type"
+          onChange={(e) => setType(e.target.value)}
         >
-          {POPULAR_FOR.map((item) => (
-            <MenuItem key={item} value={item}>
+          {TYPE.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        size="small"
+        style={{ width: "150px" }}
+      >
+        <InputLabel id="amenities">Amenity</InputLabel>
+        <Select
+          displayEmpty
+          labelId="amenities"
+          id="amenities"
+          value={amenities}
+          label="Amenity"
+          onChange={(e) => setAmenities(e.target.value)}
+        >
+          {AMENITIES.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -61,17 +94,17 @@ export default function SearchFilters(props) {
         style={{ width: "100px" }}
         size="small"
       >
-        <InputLabel id="noise">Noise</InputLabel>
+        <InputLabel id="noisiness">Noisiness</InputLabel>
         <Select
           displayEmpty
-          labelId="noise"
-          id="noise"
-          value={noise}
-          label="Noise"
-          onChange={(e) => setNoise(e.target.value)}
+          labelId="noisiness"
+          id="noisiness"
+          value={noisiness}
+          label="Noisiness"
+          onChange={(e) => setNoisiness(e.target.value)}
         >
-          {NOISE.map((item) => (
-            <MenuItem key={item} value={item}>
+          {NOISINESS.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -92,8 +125,8 @@ export default function SearchFilters(props) {
           label="Privacy"
           onChange={(e) => setPrivacy(e.target.value)}
         >
-          {PRIVACY.map((item) => (
-            <MenuItem key={item} value={item}>
+          {PRIVACY.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -105,7 +138,7 @@ export default function SearchFilters(props) {
         size="small"
         style={{ width: "160px" }}
       >
-        <InputLabel id="lighting">Natural Light</InputLabel>
+        <InputLabel id="lighting">Lighting</InputLabel>
         <Select
           displayEmpty
           labelId="lighting"
@@ -114,30 +147,8 @@ export default function SearchFilters(props) {
           label="lighting"
           onChange={(e) => setLighting(e.target.value)}
         >
-          {LIGHTING.map((item) => (
-            <MenuItem key={item} value={item}>
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl
-        sx={{ m: 1, minWidth: 120 }}
-        size="small"
-        style={{ width: "150px" }}
-      >
-        <InputLabel id="seating">Seating</InputLabel>
-        <Select
-          displayEmpty
-          labelId="seating"
-          id="seating"
-          value={seating}
-          label="seating"
-          onChange={(e) => setSeating(e.target.value)}
-        >
-          {SEATING.map((item) => (
-            <MenuItem key={item} value={item}>
+          {LIGHTING.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -149,17 +160,17 @@ export default function SearchFilters(props) {
         size="small"
         style={{ width: "160px" }}
       >
-        <InputLabel id="type">Type</InputLabel>
+        <InputLabel id="Cleanliness">Cleanliness</InputLabel>
         <Select
           displayEmpty
-          labelId="type"
-          id="type"
-          value={type}
-          label="type"
-          onChange={(e) => setType(e.target.value)}
+          labelId="cleanliness"
+          id="cleanliness"
+          value={cleanliness}
+          label="cleanliness"
+          onChange={(e) => setCleanliness(e.target.value)}
         >
-          {TYPE.map((item) => (
-            <MenuItem key={item} value={item}>
+          {CLEANLINESS.map((item, idx) => (
+            <MenuItem key={item + idx} value={item}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}

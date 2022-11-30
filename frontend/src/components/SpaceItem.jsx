@@ -53,11 +53,11 @@ export default function SpaceItem(props) {
   useEffect(() => {
     if (!photo) {
       setSrc(
-        "https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+        "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
       );
     } else if (photo?.src === "") {
       setSrc(
-        "https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png"
+        "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
       );
     } else {
       setSrc(photo?.src);
