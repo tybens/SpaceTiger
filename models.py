@@ -74,6 +74,10 @@ class Review(Base):
     user_id = Column(String, ForeignKey("users.puid"))
     rating = Column(Integer)
     content = Column(String)
+    cleanliness = Column(Integer)
+    noise = Column(Integer)
+    privacy = Column(Integer)
+    lighting = Column(Integer)
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
@@ -83,7 +87,9 @@ class Review(Base):
 
     def __repr__(self):
         repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
-        repr += f"rating={self.rating!r}, content={self.content!r})"
+        repr += f"rating={self.rating!r}, content={self.content!r},"
+        repr += f"cleanliness={self.cleanliness!r}, noise={self.noise!r},"
+        repr += f"privacy={self.privacy!r}, lighting={self.lighting!r})"
         return repr
 
     def to_json(self):
@@ -93,6 +99,10 @@ class Review(Base):
             "userid": self.user_id,
             "rating": self.rating,
             "content": self.content,
+            "cleanliness": self.amenity,
+            "noise": self.noise, 
+            "privacy": self.privacy,
+            "lighting": self.lighting
         }
 
 
@@ -162,7 +172,6 @@ class Amenity(Base):
             "reviewid": self.review_id,
             "amenity": self.amenity,
         }
-
 
 class Photo(Base):
     __tablename__ = "photos"
