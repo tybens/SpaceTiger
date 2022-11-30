@@ -78,6 +78,7 @@ class Review(Base):
     noise = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
+    amenities_rating = Column(Integer)
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
@@ -99,10 +100,11 @@ class Review(Base):
             "userid": self.user_id,
             "rating": self.rating,
             "content": self.content,
-            "cleanliness": self.amenity,
+            "cleanliness": self.cleanliness,
             "noise": self.noise, 
             "privacy": self.privacy,
-            "lighting": self.lighting
+            "lighting": self.lighting,
+            "amenities_rating": self.amenities_rating
         }
 
 
