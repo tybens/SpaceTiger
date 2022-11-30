@@ -5,17 +5,22 @@ import useStyles from "../styles.js";
 
 import SpaceItem from "../../../components/SpaceItem";
 import { Loader } from "../../../components/Loader.jsx";
+import {
+  matchNoisiness,
+  matchPrivacy,
+  matchLighting,
+  matchCleanliness,
+} from "../utils.js";
 
 import { Typography, Button } from "@mui/material";
 
 const NUM_SHOWN = 20;
 
 export default function SearchResults(props) {
-  const { query } = props;
+  const { query, filters } = props;
   const [received, setReceived] = useState(false);
   const [data, setData] = useState([]);
   const [photos, setPhotos] = useState([]);
-  // const [amenities, setAmenities] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [error, setError] = useState(false);
   const [next, setNext] = useState(NUM_SHOWN);
@@ -33,7 +38,6 @@ export default function SearchResults(props) {
         let data = res.data;
         setData(data.spaces);
         setPhotos(data.photos);
-        // setAmenities(data.amenities);
         setReceived(true);
       })
       .catch((err) => setError(true));
@@ -43,12 +47,26 @@ export default function SearchResults(props) {
     setNext(NUM_SHOWN);
     setFiltered(
       data.filter(
-        (space) =>
-          space.name.toLowerCase().includes(query.toLowerCase()) ||
-          space.location.toLowerCase().includes(query.toLowerCase())
+        (space) => {
+          const matchesQuery = space.name.toLowerCase().includes(query.toLowerCase()) ||
+          space.location.toLowerCase().includes(query.toLowerCase());
+
+          const matchesType = filters.type ? space.type === filters.type : true;
+          const matchesAmenities = filters.amenities ? space.amenities.includes(filters.amenities): true;
+          const matchesFilters = (
+            matchesType
+            && matchesAmenities
+            && matchNoisiness(filters.noisiness, space.noisiness)
+            && matchPrivacy(filters.privacy, space.privacy)
+            && matchLighting(filters.lighting, space.lighting)
+            && matchCleanliness(filters.cleanliness, space.cleanliness)
+          );
+
+          return matchesQuery && matchesFilters;
+        }
       )
     );
-  }, [data, query]);
+  }, [data, query, filters]);
 
   const renderSpaces = () => {
     if (filtered.length === 0) return <p>No spaces match this query.</p>;

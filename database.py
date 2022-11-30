@@ -21,14 +21,12 @@ def get_spaces():
         space_query = session.query(models.Space).filter(
             models.Space.approved == "true"
         )
-        amenities_query = session.query(models.Amenity)
         photos_query = session.query(models.Photo)
 
-        spaces = space_query.all()
-        amenities = amenities_query.all()
+        spaces = [space.to_json() for space in space_query.all()]
         photos = photos_query.all()
 
-        data = {"spaces": spaces, "amenities": amenities, "photos": photos}
+        data = {"spaces": spaces, "photos": photos}
 
     return data
 
@@ -150,10 +148,7 @@ def add_space(puid, name, capacity, location, type, approved=False):
         new_space = models.Space(
             user_id=puid,
             name=name,
-            numreviews=0,
             capacity=capacity,
-            rating=0,
-            numvisits=0,
             location=location,
             type=type,
             approved=approved,
@@ -188,30 +183,37 @@ def update_space_helper(
     productivity = 0 if productivity is None else productivity
     cleanliness = 0 if cleanliness is None else cleanliness
     amenities_rating = 0 if amenities_rating is None else amenities_rating
+
     if space.numreviews is None:
         numreviews = 1
     else:
         numreviews = space.numreviews + 1
-    if space.avgnoise is None:
+
+    if space.avgnoisiness is None:
         avgnoise = noisiness / numreviews
     else:
         avgnoise = (space.avgnoise + noisiness) / numreviews
+
     if space.avgprivacy is None:
         avgprivacy = privacy / numreviews
     else:
         avgprivacy = (space.avgnprivacy + privacy) / numreviews
+
     if space.avglighting is None:
         avglighting = lighting / numreviews
     else:
         avglighting = (space.avglighting + lighting) / numreviews
+
     if space.avgproductivity is None:
         avgproductivity = productivity / numreviews
     else:
         avgproductivity = (space.avgproductivity + productivity) / numreviews
+
     if space.avgcleanliness is None:
         avgcleanliness = cleanliness / numreviews
     else:
         avgcleanliness = (space.avgcleanliness + cleanliness) / numreviews
+
     if space.avgamenities is None:
         avgamenities = amenities_rating / numreviews
     else:
@@ -476,7 +478,6 @@ def add_review(
 ):
     review_id = None
     with sqlalchemy.orm.Session(engine) as session:
-
         new_review = models.Review(
             space_id=space_id,
             user_id=puid,
@@ -672,143 +673,5 @@ def remove_photo(photo_id):
 
 # ----------------------------------------------------------------------
 
-
-def _test_spaces():
-    print("-" * 25)
-    details = get_details(1)  # works best once the database is seeded
-    print(details)
-
-    print("-" * 25)
-    ret = add_space(
-        "tbegum", "Scully 3rd Floor Common Area", 10, "Scully Hall", "Lounge"
-    )
-    print(ret)
-    ret = add_space(
-        "tbegum", "Scully 4th Floor Study Room", 15, "Scully Hall", "Study Room"
-    )
-    print(ret)
-
-    print("-" * 25)
-    space = get_space("Scully 3rd Floor Common Area")
-    print(space)
-
-    print("-" * 25)
-    spaces = get_user_spaces("tbegum")
-    print(spaces)
-
-    print("-" * 25)
-    ret = update_space(space.id, {"capacity": 15})
-    print(ret)
-
-    print("-" * 25)
-    spaces = get_spaces()["spaces"]
-    print(spaces[:10])
-
-    print("-" * 25)
-    ret = remove_space(space.id)
-    print(ret)
-    space = get_space("Scully 4th Floor Study Room")
-    ret = remove_space(space.id)
-    print(ret)
-
-    print("-" * 25)
-    locations = get_locations()
-    print(locations)
-
-    print("-" * 25)
-    types = get_types()
-    print(types)
-
-
-def _test_users():
-    print("-" * 25)
-    user = get_user("tb19")
-    print(user)
-
-    print("-" * 25)
-    ret = post_user("tb19")
-    print(ret)
-
-
-def _test_favorites():
-    print("-" * 25)
-    spaces = get_favorites("tb19")
-    print(spaces)
-
-    print("-" * 25)
-    ret = post_favorite("tb19", 1)
-    print(ret)
-
-
-def _test_reviews():
-    print("-" * 25)
-    # ret = add_review(999, "tbegum", 5, "Really love this room for studying")
-    # print(ret)
-    # ret = add_review(1000, "tbegum", 2, "This space could use some cleaning")
-    # print(ret)
-
-    # TODO: Update this call to use dict_of_changes
-    # print("-" * 25)
-    # ret = update_review(1000, "tbegum", 1, "This space has become so gross")
-    # print(ret)
-
-    print("-" * 25)
-    ret = remove_review(77)
-    print(ret)
-    ret = remove_review(78)
-    print(ret)
-
-
-def _test_tags():
-    print("-" * 25)
-    ret = add_tag(tag="Cozy", space_id=0)
-    print(ret)
-
-    print("-" * 25)
-    ret = add_tag(tag="Social", space_id=0)
-    print(ret)
-
-    print("-" * 25)
-    tags = get_tags()
-    print(tags)
-
-
-def _test_amenities():
-    print("-" * 25)
-    ret = add_amenity(amenity="Dummy Amenity 1", space_id=999)
-    print(ret)
-    ret = add_amenity(amenity="Dummy Amenity 2", space_id=999)
-    print(ret)
-
-    print("-" * 25)
-    amenities = get_amenities()
-    print(amenities)
-
-    print("-" * 25)
-    ret = remove_amenity(5184)
-    print(ret)
-
-
-def _test_photos():
-    print("-" * 25)
-    ret = add_photo(
-        999,
-        src="https://images.unsplash.com/photo-1668934807804-908534048c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-    )
-    print(ret)
-
-    print("-" * 25)
-    ret = remove_photo(1394)
-    print(ret)
-
-
-# ----------------------------------------------------------------------
-
 if __name__ == "__main__":
-    _test_spaces()
-    _test_users()
-    _test_favorites()
-    _test_reviews()
-    _test_tags()
-    _test_amenities()
-    _test_photos()
+    pass # can add testing here
