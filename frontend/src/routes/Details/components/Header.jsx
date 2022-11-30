@@ -3,9 +3,9 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { Rating } from "@mui/material";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+// import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import DirectionsIcon from "@mui/icons-material/Directions";
+// import DirectionsIcon from "@mui/icons-material/Directions";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -104,11 +104,11 @@ export default function Header({
       <div className={classes.headerFirst}>
         <Typography variant="h4">{name}</Typography>
         <div className={classes.headerBtns}>
-          {user && (
+          {/* {user && (
             <Button variant="outlined" startIcon={<ReportProblemIcon />}>
               Report
             </Button>
-          )}
+          )} */}
           {user && (
             <Button
               variant="outlined"
@@ -119,9 +119,9 @@ export default function Header({
               {favorite ? "Un-Favorite" : "Favorite"}
             </Button>
           )}
-          <Button variant="outlined" startIcon={<DirectionsIcon />}>
+          {/* <Button variant="outlined" startIcon={<DirectionsIcon />}>
             Directions
-          </Button>
+          </Button> */}
           {user && (
             <Button
               variant="contained"
