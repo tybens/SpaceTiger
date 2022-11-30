@@ -85,7 +85,7 @@ class Review(Base):
     rating = Column(Integer)
     content = Column(String)
     cleanliness = Column(Integer)
-    noise = Column(Integer)
+    noisiness = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
     productivity = Column(Integer)
@@ -112,7 +112,7 @@ class Review(Base):
             "rating": self.rating,
             "content": self.content,
             "cleanliness": self.cleanliness,
-            "noise": self.noise,
+            "noisiness": self.noisiness,
             "privacy": self.privacy,
             "lighting": self.lighting,
             "amenities_rating": self.amenities_rating,

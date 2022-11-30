@@ -23,7 +23,8 @@ class ReviewsApi(Resource):
         parser.add_argument("rating", type=int)
         parser.add_argument("content", type=str)
         parser.add_argument("noisiness", type=int)
-        parser.add_argument("light", type=int)
+        parser.add_argument("privacy", type=int)
+        parser.add_argument("lighting", type=int)
         parser.add_argument("productivity", type=int)
         parser.add_argument("cleanliness", type=int)
         parser.add_argument("amenities_rating", type=int)
@@ -37,8 +38,9 @@ class ReviewsApi(Resource):
             puid=args["puid"],
             rating=args["rating"],
             content=args["content"],
-            noise=args["noisiness"],
-            lighting=args["light"],
+            noisiness=args["noisiness"],
+            privacy=args["privacy"],
+            lighting=args["lighting"],
             productivity=args["productivity"],
             cleanliness=args['cleanliness'],
             amenities_rating=args['amenities_rating']
@@ -49,6 +51,16 @@ class ReviewsApi(Resource):
 
         for tag in args["tags"]:
             database.add_tag(tag=tag, space_id=None, review_id=review_id)
+        
+        database.update_space_from_review(
+            space_id = args["space_id"],
+            noisiness = args["noisiness"], 
+            privacy = args["privacy"], 
+            lighting = args["lighting"], 
+            productivity = args["productivity"], 
+            cleanliness = args["cleanliness"], 
+            amenities_rating = args["amenities_rating"]
+        )
 
     def put(self, review_id):
         dict_of_changes = json.loads(request.data)
