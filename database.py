@@ -179,6 +179,12 @@ def update_space(space_id, dict_of_changes):
     return ret
 
 def update_space_helper(space, noisiness, privacy, lighting, productivity, cleanliness,  amenities_rating):
+    noisiness = 0 if noisiness is None else noisiness
+    privacy = 0 if privacy is None else privacy
+    lighting = 0 if lighting is None else lighting
+    productivity = 0 if productivity is None else productivity
+    cleanliness = 0 if cleanliness is None else cleanliness
+    amenities_rating = 0 if amenities_rating is None else amenities_rating
     if space.numreviews is None:
         numreviews = 1
     else:
@@ -424,6 +430,7 @@ def add_review(
     rating,
     content,
     noisiness,
+    privacy, 
     lighting,
     productivity,
     cleanliness,
@@ -437,7 +444,8 @@ def add_review(
             user_id=puid,
             rating=rating,
             content=content,
-            noise=noisiness,
+            noisiness=noisiness,
+            privacy=privacy, 
             lighting=lighting,
             productivity=productivity,
             cleanliness=cleanliness,
