@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Favorites = ({ user }) => {
   const [data, setData] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [error, setError] = useState(false);
   const [numSpaces, setNumSpaces] = useState(4);
 
@@ -31,7 +32,8 @@ const Favorites = ({ user }) => {
       })
       .then((res) => {
         let data = res.data;
-        setData(data.items);
+        setData(data.spaces);
+        setPhotos(data.photos);
       })
       .catch((err) => console.log(err));
   };
@@ -46,9 +48,13 @@ const Favorites = ({ user }) => {
   const RenderSpaces = ({ numSpaces }) => {
     return data?.length ? (
       <>
-      {data?.slice(0, numSpaces).map((space, index) => (
+        {data?.slice(0, numSpaces).map((space, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <SpaceItem key={index} space={space} />
+            <SpaceItem
+              key={index}
+              space={space}
+              photo={photos.find((item) => item.spaceid === space.id)}
+            />
           </Grid>
         ))}
       </>

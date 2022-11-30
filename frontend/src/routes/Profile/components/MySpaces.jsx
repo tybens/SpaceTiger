@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MySpaces = ({ user }) => {
   const [data, setData] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [error, setError] = useState(false);
   const [numSpaces, setNumSpaces] = useState(4);
 
@@ -26,12 +27,13 @@ const MySpaces = ({ user }) => {
 
   const getData = () => {
     axios
-      .get("/getuserspaces", {
-        params: { user_id: user?.netid },
+      .get("/spaces", {
+        params: { puid: user?.netid },
       })
       .then((res) => {
         let data = res.data;
-        setData(data.items);
+        setData(data.spaces);
+        setPhotos(data.photos);
       })
       .catch((err) => console.log(err));
   };
@@ -48,7 +50,11 @@ const MySpaces = ({ user }) => {
       <>
         {data?.slice(0, numSpaces).map((space, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <SpaceItem key={index} space={space} />
+            <SpaceItem
+              key={index}
+              space={space}
+              photo={photos.find((item) => item.spaceid === space.id)}
+            />
           </Grid>
         ))}
       </>

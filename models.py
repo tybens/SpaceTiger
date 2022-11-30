@@ -34,7 +34,7 @@ class Space(Base):
     user_id = Column(String, ForeignKey("users.puid"))
     name = Column(String)
     type = Column(String)
-    location = Column(String)
+    location = Column(String)   
     capacity = Column(Integer)
     numreviews = Column(Integer)
     rating = Column(Integer)

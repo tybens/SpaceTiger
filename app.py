@@ -111,14 +111,7 @@ def get_list_favorites():
     user_id = request.args.get('user_id')
     data = db.get_favorites(user_id)
 
-    return jsonify(items=[i.to_json() for i in data])
-
-@app.route('/getuserspaces')
-def get_user_spaces():
-    user_id = request.args.get('user_id')
-    data = db.get_user_spaces(user_id)
-    return jsonify(items=[i.to_json() for i in data])
-
+    return jsonify(data)
 # ---------------------------------------------
 # API: for moderation
 # ---------------------------------------------

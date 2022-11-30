@@ -178,7 +178,10 @@ def update_space(space_id, dict_of_changes):
 
     return ret
 
-def update_space_helper(space, noisiness, privacy, lighting, productivity, cleanliness,  amenities_rating):
+
+def update_space_helper(
+    space, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating
+):
     noisiness = 0 if noisiness is None else noisiness
     privacy = 0 if privacy is None else privacy
     lighting = 0 if lighting is None else lighting
@@ -221,18 +224,27 @@ def update_space_helper(space, noisiness, privacy, lighting, productivity, clean
         "avglighting": avglighting,
         "avgproductivity": avgproductivity,
         "avgcleanliness": avgcleanliness,
-        "avgamenities": avgamenities
+        "avgamenities": avgamenities,
     }
 
-def update_space_from_review(space_id, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating):
+
+def update_space_from_review(
+    space_id, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating
+):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Space).filter(
-            models.Space.id == space_id
-        )
+        query = session.query(models.Space).filter(models.Space.id == space_id)
         table = query.all()
         space = table[0]
 
-        dict_of_changes = update_space_helper(space, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating)
+        dict_of_changes = update_space_helper(
+            space,
+            noisiness,
+            privacy,
+            lighting,
+            productivity,
+            cleanliness,
+            amenities_rating,
+        )
 
         if table:
             query.update(dict_of_changes, synchronize_session=False)
@@ -263,8 +275,24 @@ def remove_space(space_id):
 def get_user_spaces(puid):
     with sqlalchemy.orm.Session(engine) as session:
         # query for all spaces that match a user_id
-        table = session.query(models.Space).filter(models.Space.user_id == puid).all()
-    return table
+        table = (
+            session.query(models.Space).filter(models.Space.user_id == puid).all()
+        )
+        # table is a list of {space_id: space_id}
+        space_ids = [t.space_id for t in table]
+        # query for all spaces that match a space_id
+        space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
+        photos_query = session.query(models.Photo).filter(models.Photo.space_id.in_(space_ids))
+
+        spaces = space_query.all()
+        photos = photos_query.all()
+
+        data = {
+            "spaces": [item.to_json() for item in spaces],
+            "photos": [item.to_json() for item in photos],
+        }
+
+    return data
 
 
 def get_locations():
@@ -330,8 +358,18 @@ def get_favorites(puid):
         # table is a list of {space_id: space_id}
         space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
-        table = session.query(models.Space).filter(models.Space.id.in_(space_ids)).all()
-    return table
+        space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
+        photos_query = session.query(models.Photo).filter(models.Photo.space_id.in_(space_ids))
+
+        spaces = space_query.all()
+        photos = photos_query.all()
+
+        data = {
+            "spaces": [item.to_json() for item in spaces],
+            "photos": [item.to_json() for item in photos],
+        }
+
+    return data
 
 
 # returns whether or not a user has favorited a specific space
@@ -374,7 +412,7 @@ def post_favorite(puid, space_id):
 def get_awaiting_approval():
     with sqlalchemy.orm.Session(engine) as session:
         # models.Space.approved is False doesn't work, but == False does:
-        query = session.query(models.Space).filter(models.Space.approved == False) 
+        query = session.query(models.Space).filter(models.Space.approved == False)
         table = query.all()
     return table
 
@@ -430,7 +468,7 @@ def add_review(
     rating,
     content,
     noisiness,
-    privacy, 
+    privacy,
     lighting,
     productivity,
     cleanliness,
@@ -445,7 +483,7 @@ def add_review(
             rating=rating,
             content=content,
             noisiness=noisiness,
-            privacy=privacy, 
+            privacy=privacy,
             lighting=lighting,
             productivity=productivity,
             cleanliness=cleanliness,
@@ -458,7 +496,7 @@ def add_review(
         session.commit()
         print(ret)
         review_id = new_review.id
-        
+
     return review_id
 
 

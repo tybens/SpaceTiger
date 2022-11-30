@@ -139,7 +139,7 @@ export default function Header({
               disableElevation
               startIcon={<DeleteIcon />}
               onClick={handleDelete}
-              style={{ backgroundColor: "black", color: "white" }}
+              color="error"
             >
               Delete
             </Button>
