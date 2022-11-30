@@ -310,7 +310,10 @@ def check_user_admin(user_id):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.User).filter(models.User.puid == user_id)
         table = query.all()
-    return table[0].admin
+    if table:
+        return table[0].admin
+    else:
+        return False
     
 
 def handle_approval(space_id, approval):
