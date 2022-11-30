@@ -374,7 +374,7 @@ def post_favorite(puid, space_id):
 def get_awaiting_approval():
     with sqlalchemy.orm.Session(engine) as session:
         # models.Space.approved is False doesn't work, but == False does:
-        query = session.query(models.Space).filter(models.Space.approved is False)
+        query = session.query(models.Space).filter(models.Space.approved == False) 
         table = query.all()
     return table
 
