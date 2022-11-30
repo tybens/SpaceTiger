@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Favorites from "./components/Favorites";
 import MyReviews from "./components/MyReviews";
 import MySpaces from "./components/MySpaces";
-import data from "../Details/details.json";
 import { UserContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,17 +20,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile() {
   const { user } = useContext(UserContext);
 
-  const [reviewData, setReviewData] = useState(null);
   const classes = useStyles();
 
-  const getData = () => {
-    // TODO: query database for all reviews from a specific user
-    setReviewData(JSON.parse(JSON.stringify(data)));
-  };
 
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <Grid
@@ -41,7 +32,7 @@ export default function Profile() {
       className={classes.container}
     >
       <Favorites user={user} />
-      <MyReviews reviews={reviewData?.reviews} />
+      <MyReviews user={user} />
       <MySpaces user={user} />
     </Grid>
   );

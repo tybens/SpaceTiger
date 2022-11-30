@@ -101,6 +101,11 @@ def post_is_favorite():
         return jsonify({"status": 500, "response": err})
 
 
+# ---------------------------------------------
+# Routes for Profile page.
+# ---------------------------------------------
+
+
 @app.route('/getfavorites')
 def get_list_favorites():
     user_id = request.args.get('user_id')
