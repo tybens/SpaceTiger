@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import ImageModal from "./ImageModal.jsx";
 
@@ -22,8 +23,8 @@ export default function Banner(props) {
   };
 
   const handleClick = () => {
-    navigate('/search')
-  }
+    navigate(-1);
+  };
 
   const { photos } = props;
   const classes = useStyles();
@@ -51,27 +52,30 @@ export default function Banner(props) {
             : "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
         })`,
       }}
-      
-      
     >
       {img.trim() && (
         <>
-          <Button 
-            variant="contained" 
-            onClick={handleClick} 
-            startIcon={<startIcon />}
-            className={classes.backbutton}>
-            Back to Search
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<PhotoLibraryIcon />}
-            className={classes.bannerBtn}
-            onClick={handleOpen}
-          >
-            {photos?.length} Photos
-          </Button>
-          
+          <div>
+            <Button
+              variant="contained"
+              onClick={handleClick}
+              startIcon={<ArrowBackIcon />}
+              className={classes.backbutton}
+            >
+              Back
+            </Button>
+          </div>
+          <div style={{height: "100%", display: "flex", alignItems: "flex-end"}}>
+            <Button
+              variant="contained"
+              startIcon={<PhotoLibraryIcon />}
+              className={classes.bannerBtn}
+              onClick={handleOpen}
+            >
+              {photos?.length} Photos
+            </Button>
+          </div>
+
           <ImageModal open={open} handleClose={handleClose} photos={photos} />
         </>
       )}

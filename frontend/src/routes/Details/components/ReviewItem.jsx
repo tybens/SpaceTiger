@@ -18,17 +18,17 @@ export default function ReviewItem(props) {
         readOnly
         style={{ marginBottom: "10px" }}
       />
-      <Typography variant="p" style={{ marginBottom: "15px", minHeight: "50%"}}>
+      <Typography variant="p" style={{ marginBottom: "auto"}}>
         {review?.content}
       </Typography>
-      <Typography style={{ fontSize: "13px", marginTop: "auto", marginBottom: "15px"}}>
+      <Typography style={{ fontSize: "13px", margin: "15px 0"}}>
         Tags:
         {review.tags.map((item) => (<span key={item.id} className={classes.tag}>
           {item.tag}
         </span>))}
       </Typography>
 
-      <Typography style={{ fontSize: "13px", marginTop: "auto"}}>
+      <Typography style={{ fontSize: "13px"}}>
         Amenities:
         {review.amenities.map((item) => (<span key={item.id} className={classes.tag}>
           {item.amenity}
