@@ -44,7 +44,6 @@ class Space(Base):
     favorites = relationship("Favorite", cascade="all,delete", back_populates="space")
     tags = relationship("Tag", cascade="all,delete", back_populates="space")
     amenities = relationship("Amenity", cascade="all,delete", back_populates="space")
-    features = relationship("Feature", cascade="all,delete", back_populates="space")
     photos = relationship("Photo", cascade="all,delete", back_populates="space")
 
     def __repr__(self):
@@ -75,17 +74,22 @@ class Review(Base):
     user_id = Column(String, ForeignKey("users.puid"))
     rating = Column(Integer)
     content = Column(String)
+    cleanliness = Column(Integer)
+    noise = Column(Integer)
+    privacy = Column(Integer)
+    lighting = Column(Integer)
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
     tags = relationship("Tag", cascade="all,delete", back_populates="review")
     amenities = relationship("Amenity", back_populates="review")
-    features = relationship("Feature", back_populates="review")
     photos = relationship("Photo", cascade="all,delete", back_populates="review")
 
     def __repr__(self):
         repr = f"Review(space_id={self.space_id!r}, user_id={self.user_id!r}, "
-        repr += f"rating={self.rating!r}, content={self.content!r})"
+        repr += f"rating={self.rating!r}, content={self.content!r},"
+        repr += f"cleanliness={self.cleanliness!r}, noise={self.noise!r},"
+        repr += f"privacy={self.privacy!r}, lighting={self.lighting!r})"
         return repr
 
     def to_json(self):
@@ -95,6 +99,10 @@ class Review(Base):
             "userid": self.user_id,
             "rating": self.rating,
             "content": self.content,
+            "cleanliness": self.amenity,
+            "noise": self.noise, 
+            "privacy": self.privacy,
+            "lighting": self.lighting
         }
 
 
@@ -164,40 +172,6 @@ class Amenity(Base):
             "reviewid": self.review_id,
             "amenity": self.amenity,
         }
-
-
-class Feature(Base):
-    __tablename__ = "features"
-    id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id"))
-    review_id = Column(Integer, ForeignKey("reviews.id"))
-    cleanliness = Column(Integer)
-    noise = Column(Integer)
-    privacy = Column(Integer)
-    lighting = Column(Integer)
-
-
-    space = relationship("Space", back_populates="features")
-    review = relationship("Review", back_populates="features")
-
-    def __repr__(self):
-        repr = f"Amenity(space_id={self.space_id!r}, "
-        repr += f"review_id={self.review_id!r}, cleanliness={self.cleanliness!r})"
-        repr += f"noise={self.noise!r}, privacy={self.privacy!r})"
-        repre += f"lighting={self.lighting!r}"
-        return repr
-
-    def to_json(self):
-        return {
-            "id": self.id,
-            "spaceid": self.space_id,
-            "reviewid": self.review_id,
-            "cleanliness": self.amenity,
-            "noise": self.noise, 
-            "privacy": self.privacy,
-            "lighting": self.lighting
-        }
-
 
 class Photo(Base):
     __tablename__ = "photos"
