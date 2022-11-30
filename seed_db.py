@@ -23,23 +23,35 @@ try:
 
     database.post_user("emssystem")
 
+    print("Starting to add spaces")
     for _, space in spaces.iterrows():
-        puid, name, _, capacity, _, _, location, type = space
-        database.add_space(puid, name, capacity, location, type)
+        puid, name, _, capacity, _, _, location, bad_type = space
+        type = bad_type.split(" - ")[0] # removes the hyphen
+        database.add_space(puid, name, capacity, location, type, True)
+    print("Finished adding spaces")
 
+    print("Starting to add reviews")
     for _, review in reviews.iterrows():
         space_id, puid, rating, content = review
         database.add_review(space_id, puid, rating, content)
+    print("Finished adding reviews")
 
+    print("Starting to add amenities")
     for _, amenity in amenities.iterrows():
         space_id, amenity, _ = amenity
         if isinstance(amenity, str):
-            database.add_amenity(space_id, amenity)
+            try:
+                print(database.add_amenity(space_id, amenity))
+            except IntegrityError: # need to be a bit more specific
+                pass
+    print("Finished adding amenities")
 
+    print("Starting to add photos")
     for _, photo in photos.iterrows():
         space_id, _, _, url = photo
         if isinstance(url, str):
-            print(database.add_photo(space_id, url))
+            database.add_photo(space_id, url)
+    print("Finished adding photos")
 
 except IntegrityError:
     print("Nothing to worry about if you know what you're doing.")

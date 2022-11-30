@@ -70,19 +70,20 @@ class Space(Base):
 class Review(Base):
     __tablename__ = "reviews"
     id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id"))
-    user_id = Column(String, ForeignKey("users.puid"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADE"))
+    user_id = Column(String, ForeignKey("users.puid", ondelete="CASCADE"))
     rating = Column(Integer)
     content = Column(String)
     cleanliness = Column(Integer)
     noise = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
+    amenities_rating = Column(Integer)
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
     tags = relationship("Tag", cascade="all,delete", back_populates="review")
-    amenities = relationship("Amenity", back_populates="review")
+    amenities = relationship("Amenity", cascade="all,delete", back_populates="review")
     photos = relationship("Photo", cascade="all,delete", back_populates="review")
 
     def __repr__(self):
@@ -99,18 +100,19 @@ class Review(Base):
             "userid": self.user_id,
             "rating": self.rating,
             "content": self.content,
-            "cleanliness": self.amenity,
+            "cleanliness": self.cleanliness,
             "noise": self.noise, 
             "privacy": self.privacy,
-            "lighting": self.lighting
+            "lighting": self.lighting,
+            "amenities_rating": self.amenities_rating
         }
 
 
 class Favorite(Base):
     __tablename__ = "favorites"
     id = Column(GUID, primary_key=True, default=uuid.uuid4)
-    user_id = Column(String, ForeignKey("users.puid"))
-    space_id = Column(Integer, ForeignKey("spaces.id"))
+    user_id = Column(String, ForeignKey("users.puid", ondelete="CASCADE"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADE"))
 
     user = relationship("User", back_populates="favorites")
     space = relationship("Space", back_populates="favorites")
@@ -129,8 +131,8 @@ class Favorite(Base):
 class Tag(Base):
     __tablename__ = "tags"
     id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id"))
-    review_id = Column(Integer, ForeignKey("reviews.id"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADE"))
+    review_id = Column(Integer, ForeignKey("reviews.id", ondelete="CASCADE"))
     tag = Column(String)
 
     space = relationship("Space", back_populates="tags")
@@ -153,8 +155,8 @@ class Tag(Base):
 class Amenity(Base):
     __tablename__ = "amenities"
     id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id"))
-    review_id = Column(Integer, ForeignKey("reviews.id"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADE"))
+    review_id = Column(Integer, ForeignKey("reviews.id", ondelete="CASCADE"))
     amenity = Column(String)
 
     space = relationship("Space", back_populates="amenities")
@@ -176,8 +178,8 @@ class Amenity(Base):
 class Photo(Base):
     __tablename__ = "photos"
     id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id"))
-    review_id = Column(Integer, ForeignKey("reviews.id"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADe"))
+    review_id = Column(Integer, ForeignKey("reviews.id", ondelete="CASCADE"))
     src = Column(String)
 
     space = relationship("Space", back_populates="photos")
@@ -200,4 +202,5 @@ class Photo(Base):
 
 if __name__ == "__main__":
     e = create_engine(os.getenv("TEST_DB_URL"))
+    # Base.metadata.drop_all(e) # drops all the tables
     Base.metadata.create_all(e) # runs CREATE TABLE for all models here
