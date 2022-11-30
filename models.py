@@ -204,3 +204,4 @@ if __name__ == "__main__":
     e = create_engine(os.getenv("TEST_DB_URL"))
     # Base.metadata.drop_all(e) # drops all the tables
     Base.metadata.create_all(e) # runs CREATE TABLE for all models here
+    e.dispose()
