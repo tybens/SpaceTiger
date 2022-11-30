@@ -586,19 +586,20 @@ def get_amenities():
 
 def add_amenity(amenity, space_id=None, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
-        query = session.query(models.Amenity).filter(
-            models.Amenity.space_id == space_id, models.Amenity.amenity == amenity
-        )
-        table = query.all()
-
-        if table:
-            ret = f"amenity '{amenity}' for space with id {space_id} already exists"
-        else:
-            new_amenity = models.Amenity(
-                space_id=space_id, review_id=review_id, amenity=amenity
+        if space_id:
+            query = session.query(models.Amenity).filter(
+                models.Amenity.space_id == space_id, models.Amenity.amenity == amenity
             )
-            session.add(new_amenity)
-            ret = f"added amenity '{amenity}' for space with id {space_id}"
+            table = query.all()
+
+            if table:
+                return f"amenity '{amenity}' for space with id {space_id} already exists"
+            
+        new_amenity = models.Amenity(
+            space_id=space_id, review_id=review_id, amenity=amenity
+        )
+        session.add(new_amenity)
+        ret = f"added amenity '{amenity}' for space with id {space_id}"
 
         session.commit()
         print(ret)

@@ -30,8 +30,8 @@ export default function ReviewItem(props) {
 
       <Typography style={{ fontSize: "13px"}}>
         Amenities:
-        {review.amenities.map((amenity) => (<span key={amenity.id} className={classes.tag}>
-          {amenity}
+        {review.amenities.map((item) => (<span key={item.id} className={classes.tag}>
+          {item.amenity}
         </span>))}
       </Typography>
     </div>
