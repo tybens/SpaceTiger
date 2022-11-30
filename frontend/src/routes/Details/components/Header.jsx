@@ -86,7 +86,7 @@ export default function Header({ name, rating, numreviews, space_id }) {
   useEffect(() => {
     getFavorite();
     // eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   const classes = useStyles();
 
