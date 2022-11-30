@@ -365,7 +365,7 @@ def add_review(
     puid,
     rating,
     content,
-    noise,
+    noisiness,
     lighting,
     productivity,
     cleanliness,
@@ -379,7 +379,7 @@ def add_review(
             user_id=puid,
             rating=rating,
             content=content,
-            noise=noise,
+            noise=noisiness,
             lighting=lighting,
             productivity=productivity,
             cleanliness=cleanliness,
@@ -392,7 +392,7 @@ def add_review(
         session.commit()
         print(ret)
         review_id = new_review.id
-
+        
     return review_id
 
 
@@ -632,7 +632,7 @@ def _test_favorites():
     print(spaces)
 
     print("-" * 25)
-    ret = post_favorite("tb19", 0)
+    ret = post_favorite("tb19", 1)
     print(ret)
 
 
