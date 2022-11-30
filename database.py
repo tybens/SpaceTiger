@@ -348,26 +348,30 @@ def get_user_reviews(puid):
 
 
 # add a review consisting of rating and content
-def add_review(space_id, puid, rating, content):
+def add_review(space_id, puid, rating, content, noise, light, productivity, cleanliness, amenities_rating):
+    review_id = None
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Review).filter(
             models.Review.space_id == space_id, models.Review.user_id == puid
         )
         table = query.all()
 
-        if table: # if review already exists, then say so
-            ret = f"user {puid} review for this space {space_id} already exists"
-        else:
-            new_review = models.Review(
-                space_id=space_id, user_id=puid, rating=rating, content=content
-            )
-            session.add(new_review)
-            ret = f"created review for space {space_id} by user {puid} with "
-            ret += f"rating {rating} and content: {content}"
+        new_review = models.Review(
+            space_id=space_id, user_id=puid, rating=rating, 
+            content=content, noise=noise, light=light,
+            productivity=productivity, cleanliness=cleanliness, 
+            amenities_rating=amenities_rating
+        )
+        session.add(new_review)
+        ret = f"created review for space {space_id} by user {puid} with "
+        ret += f"rating {rating} and content: {content}"
 
         session.commit()
+        print(ret)
+        review_id = new_review.id
+        
 
-    return ret
+    return review_id
 
 
 # update a review for space with space_id by user with id of puid
@@ -415,21 +419,19 @@ def get_tags():
     return tags
 
 
-def add_tag(space_id, tag, review_id=None):
+def add_tag(tag, space_id=None, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Tag).filter(
             models.Tag.space_id == space_id, models.Tag.tag == tag
         )
         table = query.all()
 
-        if table:
-            ret = f"tag '{tag}' for space with id {space_id} already exists"
-        else:
-            new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
-            session.add(new_tag)
-            ret = f"added tag '{tag}' for space with id {space_id}"
+        new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
+        session.add(new_tag)
+        ret = f"added tag '{tag}' for space with id {space_id}"
 
         session.commit()
+        print(ret)
 
     return ret
 
@@ -445,6 +447,7 @@ def remove_tag(tag_id):
             ret = f"tag with id {tag_id} does not exist"
 
         session.commit()
+        print(ret)
 
     return ret
 
@@ -458,7 +461,7 @@ def get_amenities():
     return amenities
 
 
-def add_amenity(space_id, amenity, review_id=None):
+def add_amenity(amenity, space_id=None, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Amenity).filter(
             models.Amenity.space_id == space_id, models.Amenity.amenity == amenity
@@ -473,6 +476,7 @@ def add_amenity(space_id, amenity, review_id=None):
             ret = f"added amenity '{amenity}' for space with id {space_id}"
 
         session.commit()
+        print(ret)
 
     return ret
 
@@ -489,6 +493,7 @@ def remove_amenity(amenity_id):
             ret = f"amenity with id {amenity_id} does not exist"
 
         session.commit()
+        print(ret)
 
     return ret
 
@@ -627,11 +632,11 @@ def _test_reviews():
 
 def _test_tags():
     print("-" * 25)
-    ret = add_tag(0, tag="Cozy")
+    ret = add_tag(tag="Cozy", space_id=0)
     print(ret)
 
     print("-" * 25)
-    ret = add_tag(0, tag="Social")
+    ret = add_tag(tag="Social", space_id=0)
     print(ret)
 
     print("-" * 25)
@@ -641,9 +646,9 @@ def _test_tags():
 
 def _test_amenities():
     print("-" * 25)
-    ret = add_amenity(999, amenity="Dummy Amenity 1")
+    ret = add_amenity(amenity="Dummy Amenity 1", space_id=999)
     print(ret)
-    ret = add_amenity(999, amenity="Dummy Amenity 2")
+    ret = add_amenity(amenity="Dummy Amenity 2", space_id=999)
     print(ret)
 
     print("-" * 25)

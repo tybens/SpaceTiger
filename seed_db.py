@@ -34,7 +34,7 @@ try:
     for _, amenity in amenities.iterrows():
         space_id, amenity, _ = amenity
         if isinstance(amenity, str):
-            database.add_amenity(space_id, amenity)
+            database.add_amenity(amenity, space_id)
 
     for _, photo in photos.iterrows():
         space_id, _, _, url = photo
