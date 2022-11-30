@@ -30,7 +30,6 @@ export default function SearchFilters(props) {
   const [cleanliness, setCleanliness] = useState("");
 
   useEffect(() => {
-    // getData();
     handleChange({
       "type": type,
       "noisiness": noisiness,
@@ -39,7 +38,7 @@ export default function SearchFilters(props) {
       "lighting": lighting,
       "cleanliness": cleanliness,
     })
-  }, [type, noisiness, amenities, privacy, lighting, cleanliness]);
+  }, [handleChange, type, noisiness, amenities, privacy, lighting, cleanliness]);
 
   // I'm gonna make this a hamburger menu for mobile, but i don't feel like doing that right now
 
