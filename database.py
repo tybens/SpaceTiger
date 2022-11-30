@@ -328,7 +328,7 @@ def get_user(puid):
 
 def post_user(puid):
     ret = ""
-    admins = ["tb19", "chenhanz", "evesely", "tbegum", "tgdinh"]
+    admins = ["tb19", "chenhanz", "evesely", "tbegum", "tgdinh", "xl2493"]
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.User).filter(models.User.puid == puid)
         table = query.all()
