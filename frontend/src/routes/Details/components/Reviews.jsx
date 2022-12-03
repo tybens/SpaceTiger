@@ -4,8 +4,7 @@ import ReviewItem from "./ReviewItem.jsx";
 
 import useStyles from "../styles.js";
 
-export default function Reviews(props) {
-  const { reviews } = props;
+export default function Reviews({ reviews, getData }) {
   const classes = useStyles();
 
   const createItems = () => {
@@ -13,7 +12,7 @@ export default function Reviews(props) {
       return <p>No reviews.</p>;
     }
     return reviews?.map((r, index) => {
-      return <ReviewItem key={index} review={r} />;
+      return <ReviewItem key={index} getData={getData} review={r} />;
     });
   };
 
