@@ -31,60 +31,6 @@ def get_spaces():
 
     return data
 
-    # friendly_spaces = []
-    # # friendly_photos = []
-    # # friendly_amenities = []
-
-    # for space in spaces:
-    #     friendly_photos = []
-    #     friendly_amenities = []
-
-    #     photos = (
-    #         session.query(models.Photo)
-    #         .filter(models.Photo.space_id == space.id)
-    #         .all()
-    #     )
-    #     amenities = (
-    #         session.query(models.Amenity)
-    #         .filter(models.Amenity.space_id == space.id)
-    #         .all()
-    #     )
-    #     for photo in photos:
-    #         friendly_photos.append(photo.to_json())
-    #     for amenity in amenities:
-    #         friendly_amenities.append(amenity.to_json())
-
-    #     # print("amenities", friendly_amenities)
-    #     # print(space.to_json())
-
-    #     space_json = space.to_json()
-
-    #     space = {
-    #         "space": space_json,
-    #         # "space": space.to_json(),
-    #         "amenities": friendly_amenities
-    #     }
-
-    #     # print("space", space)
-
-    #     friendly_spaces.append(space)
-
-    #     # print("photos", friendly_photos)
-    #     # print("amenities", friendly_amenities)
-    #     # friendly_spaces.append({
-    #     #     "space": space.to_json(),
-    #     #     "photos": friendly_photos,
-    #     #     "amenities": friendly_amenities
-    #     # })
-
-    # print("ended loop")
-    # print("amenities", friendly_amenities)
-    # print("spaces", friendly_spaces)
-    # print("spaces", friendly_spaces)
-    # print("photos", friendly_photos)
-    # print("amenities", friendly_amenities)
-    # return friendly_spaces
-
 
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
