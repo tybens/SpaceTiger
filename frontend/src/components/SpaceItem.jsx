@@ -7,7 +7,6 @@ import StarIcon from "@mui/icons-material/Star";
 // import { Rating } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
-
   spaceItem: {
     // border: "1px solid #b8b8b8",
     // padding: "15px",
@@ -43,22 +42,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function SpaceItem(props) {
-  const { space, photo } = props;
+  const { space, photo, approved, mySpaces } = props;
   const [src, setSrc] = useState("");
 
   const classes = useStyles();
 
   useEffect(() => {
     if (!photo) {
-      setSrc(
-        "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
-      );
+      setSrc("https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png");
     } else if (photo?.src === "") {
-      setSrc(
-        "https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png"
-      );
+      setSrc("https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png");
     } else {
       setSrc(photo?.src);
     }
@@ -76,6 +70,19 @@ export default function SpaceItem(props) {
               alt={space.name}
             />
             <div className={classes.spaceText}>
+              {mySpaces && !approved && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <span
+                    style={{
+                      border: "solid 1px red",
+                      padding: "0 5px",
+                      color: "red",
+                    }}
+                  >
+                    Awaiting Mod Approval
+                  </span>
+                </div>
+              )}
               <Typography variant="h6">{space.name}</Typography>
               <p>{space.location}</p>
               <div style={{ display: "flex", alignItems: "center" }}>

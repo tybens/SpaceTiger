@@ -120,7 +120,7 @@ def get_list_favorites():
 def get_awaiting_approval():
     data = db.get_awaiting_approval()
 
-    return jsonify(items=[i.to_json() for i in data])
+    return jsonify(data)
 
 
 @app.route('/approve')

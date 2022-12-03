@@ -280,7 +280,7 @@ def get_user_spaces(puid):
         # query for all spaces that match a user_id
         table = session.query(models.Space).filter(models.Space.user_id == puid).all()
         # table is a list of {space_id: space_id}
-        space_ids = [t.space_id for t in table]
+        space_ids = [t.id for t in table]
         # query for all spaces that match a space_id
         space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
         photos_query = session.query(models.Photo).filter(
@@ -419,7 +419,21 @@ def get_awaiting_approval():
         # models.Space.approved is False doesn't work, but == False does:
         query = session.query(models.Space).filter(models.Space.approved == False)
         table = query.all()
-    return table
+        
+        space_ids = [t.id for t in table]
+        # query for all photos that match a space_id
+        photos_query = session.query(models.Photo).filter(
+            models.Photo.space_id.in_(space_ids)
+        )
+
+        spaces = table
+        photos = photos_query.all()
+
+        data = {
+            "spaces": [item.to_json() for item in spaces],
+            "photos": [item.to_json() for item in photos],
+        }
+    return data
 
 
 def check_user_admin():

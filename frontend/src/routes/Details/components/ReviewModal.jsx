@@ -260,7 +260,7 @@ export default function ReviewModal(props) {
             </Button>
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               onClick={handleSubmit}
               style={{ backgroundColor: "black", color: "white" }}
             >

@@ -110,7 +110,7 @@ export default function AddSpaceModal(props) {
           {status === "error" && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               onClick={onClose}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -120,7 +120,7 @@ export default function AddSpaceModal(props) {
           {status === "success" && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               onClick={() => navigate("/profile")}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -224,7 +224,7 @@ export default function AddSpaceModal(props) {
           </Button>
           <Button
             variant="contained"
-            disableElevation
+            disableelevationevation
             onClick={handleSubmit}
             style={{ backgroundColor: "black", color: "white" }}
           >
