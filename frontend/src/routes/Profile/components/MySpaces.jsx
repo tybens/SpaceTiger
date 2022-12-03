@@ -3,9 +3,8 @@ import { Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import RenderSpaces from "../../../components/RenderSpaces";
 
-import SpaceItem from "../../../components/SpaceItem";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,30 +44,6 @@ const MySpaces = ({ user }) => {
     // eslint-disable-next-line
   }, []);
 
-  const RenderSpaces = ({ numSpaces, mySpaces=false }) => {
-    return data?.length ? (
-      <>
-        {data?.slice(0, numSpaces).map((space, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <SpaceItem
-              key={index}
-              space={space}
-              photo={photos.find((item) => item.spaceid === space.id)}
-              mySpaces={mySpaces}
-              approved={space.approved}
-            />
-          </Grid>
-        ))}
-      </>
-    ) : (
-      <Grid item>
-        <Typography variant="body1" color="initial">
-          You haven't created any spaces! Click <Link to={"/search"}>here</Link>{" "}
-          to add a space.
-        </Typography>
-      </Grid>
-    );
-  };
 
   const handleViewMore = () => {
     if (numSpaces + 4 > data?.length) {
@@ -93,7 +68,7 @@ const MySpaces = ({ user }) => {
         </Grid>
       ) : (
         <>
-          <RenderSpaces numSpaces={numSpaces} mySpaces={true} />
+          <RenderSpaces spaces={data} photos={photos} numSpaces={numSpaces} mySpaces={true} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
               <Button

@@ -3,9 +3,9 @@ import { Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-import SpaceItem from "../../../components/SpaceItem";
+import RenderSpaces from "../../../components/RenderSpaces"
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,28 +45,6 @@ const Favorites = ({ user }) => {
     // eslint-disable-next-line
   }, []);
 
-  const RenderSpaces = ({ numSpaces }) => {
-    return data?.length ? (
-      <>
-        {data?.slice(0, numSpaces).map((space, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <SpaceItem
-              key={index}
-              space={space}
-              photo={photos.find((item) => item.spaceid === space.id)}
-            />
-          </Grid>
-        ))}
-      </>
-    ) : (
-      <Grid item>
-        <Typography variant="body1" color="initial">
-          You don't have any favorites! Click <Link to={"/search"}>here</Link>{" "}
-          to find your next favorite space.
-        </Typography>
-      </Grid>
-    );
-  };
 
   const handleViewMore = () => {
     if (numSpaces + 4 > data?.length) {
@@ -91,7 +69,7 @@ const Favorites = ({ user }) => {
         </Grid>
       ) : (
         <>
-          <RenderSpaces numSpaces={numSpaces} />
+          <RenderSpaces spaces={data} photos={photos} numSpaces={numSpaces} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
               <Button
