@@ -31,35 +31,15 @@ const CLEANLINESS = [
   "Unkempt Neglect",
 ];
 
-export default function SearchFilters(props) {
-  const { handleChange } = props;
+export default function SearchFilters({ filters, setFilters }) {
   const classes = useStyles();
 
-  const [type, setType] = useState("");
-  const [noisiness, setNoisiness] = useState("");
-  const [amenities, setAmenities] = useState("");
-  const [privacy, setPrivacy] = useState("");
-  const [lighting, setLighting] = useState("");
-  const [cleanliness, setCleanliness] = useState("");
-
-  useEffect(() => {
-    handleChange({
-      type: type,
-      noisiness: noisiness,
-      amenities: amenities,
-      privacy: privacy,
-      lighting: lighting,
-      cleanliness: cleanliness,
-    });
-  }, [
-    handleChange,
-    type,
-    noisiness,
-    amenities,
-    privacy,
-    lighting,
-    cleanliness,
-  ]);
+  const handleUpdateFilter = (filterId, newFilter) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterId]: newFilter,
+    }));
+  };
 
   // I'm gonna make this a hamburger menu for mobile, but i don't feel like doing that right now
 
@@ -75,13 +55,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="type"
           id="type"
-          value={type}
+          value={filters.type}
           label="type"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setType("");
+              handleUpdateFilter("type", "");
             } else {
-              setType(e.target.value);
+              handleUpdateFilter("type", e.target.value);
             }
           }}
         >
@@ -103,13 +83,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="amenities"
           id="amenities"
-          value={amenities}
+          value={filters.amenities}
           label="Amenity"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setAmenities("");
+              handleUpdateFilter("amenities", "");
             } else {
-              setAmenities(e.target.value);
+              handleUpdateFilter("amenities", e.target.value);
             }
           }}
         >
@@ -131,13 +111,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="noisiness"
           id="noisiness"
-          value={noisiness}
+          value={filters.noisiness}
           label="Noisiness"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setNoisiness("");
+              handleUpdateFilter("noisiness", "");
             } else {
-              setNoisiness(e.target.value);
+              handleUpdateFilter("noisiness", e.target.value);
             }
           }}
         >
@@ -159,13 +139,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="privacy"
           id="privacy"
-          value={privacy}
+          value={filters.privacy}
           label="Privacy"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setPrivacy("");
+              handleUpdateFilter("privacy", "");
             } else {
-              setPrivacy(e.target.value);
+              handleUpdateFilter("privacy", e.target.value);
             }
           }}
         >
@@ -187,13 +167,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="lighting"
           id="lighting"
-          value={lighting}
+          value={filters.lighting}
           label="lighting"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setLighting("");
+              handleUpdateFilter("lighting", "");
             } else {
-              setLighting(e.target.value);
+              handleUpdateFilter("lighting", e.target.value);
             }
           }}
         >
@@ -215,13 +195,13 @@ export default function SearchFilters(props) {
           displayEmpty
           labelId="cleanliness"
           id="cleanliness"
-          value={cleanliness}
+          value={filters.cleanliness}
           label="cleanliness"
           onChange={(e) => {
             if (e.target.value === "Select") {
-              setCleanliness("");
+              handleUpdateFilter("cleanliness", "");
             } else {
-              setCleanliness(e.target.value);
+              handleUpdateFilter("cleanliness", e.target.value);
             }
           }}
         >
