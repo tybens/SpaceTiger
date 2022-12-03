@@ -1,9 +1,10 @@
-from flask import json, request, jsonify
+from flask import json, request, jsonify, session
 from flask_restful import Resource, reqparse
 
 import database
 
 # ----------------------------------------------------------------------
+
 
 class ReviewsApi(Resource):
     def get(self):
@@ -11,10 +12,10 @@ class ReviewsApi(Resource):
         parser.add_argument("space_id", type=int)
         parser.add_argument("user_id", type=str)
         args = parser.parse_args()
-        
-        data = database.get_reviews(space_id=args['space_id'], puid=args['user_id'])
+
+        data = database.get_reviews(space_id=args["space_id"], puid=args["user_id"])
         return jsonify(data)
-    
+
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument("space_id", type=int)
@@ -41,8 +42,8 @@ class ReviewsApi(Resource):
             privacy=args["privacy"],
             lighting=args["lighting"],
             productivity=args["productivity"],
-            cleanliness=args['cleanliness'],
-            amenities_rating=args['amenities_rating']
+            cleanliness=args["cleanliness"],
+            amenities_rating=args["amenities_rating"],
         )
 
         for amenity in args["amenities"]:
@@ -50,20 +51,27 @@ class ReviewsApi(Resource):
 
         for tag in args["tags"]:
             database.add_tag(tag=tag, space_id=None, review_id=review_id)
-        
+
         database.update_space_from_review(
-            space_id = args["space_id"],
-            noisiness = args["noisiness"], 
-            privacy = args["privacy"], 
-            lighting = args["lighting"], 
-            productivity = args["productivity"], 
-            cleanliness = args["cleanliness"], 
-            amenities_rating = args["amenities_rating"]
+            space_id=args["space_id"],
+            noisiness=args["noisiness"],
+            privacy=args["privacy"],
+            lighting=args["lighting"],
+            productivity=args["productivity"],
+            cleanliness=args["cleanliness"],
+            amenities_rating=args["amenities_rating"],
         )
 
     def put(self, review_id):
+        if "username" in session:
+            user_id = session.get("username")
+
         dict_of_changes = json.loads(request.data)
-        return database.update_review(review_id, dict_of_changes)
+        return database.update_review(review_id, user_id, dict_of_changes)
 
     def delete(self, review_id):
-        return database.remove_review(review_id)
+        if "username" in session:
+            user_id = session.get("username")
+        admin = database.check_user_admin()
+
+        return database.remove_review(review_id, user_id, admin)

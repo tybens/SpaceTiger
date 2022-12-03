@@ -8,6 +8,7 @@ import cloudinary.uploader
 
 import models
 
+from flask import session as sesh
 # ----------------------------------------------------------------------
 
 DATABASE_URL = os.getenv("TEST_DB_URL")
@@ -277,14 +278,14 @@ def remove_space(space_id):
 def get_user_spaces(puid):
     with sqlalchemy.orm.Session(engine) as session:
         # query for all spaces that match a user_id
-        table = (
-            session.query(models.Space).filter(models.Space.user_id == puid).all()
-        )
+        table = session.query(models.Space).filter(models.Space.user_id == puid).all()
         # table is a list of {space_id: space_id}
         space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
         space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
-        photos_query = session.query(models.Photo).filter(models.Photo.space_id.in_(space_ids))
+        photos_query = session.query(models.Photo).filter(
+            models.Photo.space_id.in_(space_ids)
+        )
 
         spaces = space_query.all()
         photos = photos_query.all()
@@ -361,7 +362,9 @@ def get_favorites(puid):
         space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
         space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
-        photos_query = session.query(models.Photo).filter(models.Photo.space_id.in_(space_ids))
+        photos_query = session.query(models.Photo).filter(
+            models.Photo.space_id.in_(space_ids)
+        )
 
         spaces = space_query.all()
         photos = photos_query.all()
@@ -419,7 +422,12 @@ def get_awaiting_approval():
     return table
 
 
-def check_user_admin(user_id):
+def check_user_admin():
+    if "username" in sesh:
+        user_id = sesh.get("username")
+    else:
+        return False
+    
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.User).filter(models.User.puid == user_id)
         table = query.all()
@@ -501,32 +509,39 @@ def add_review(
     return review_id
 
 
-# update a review for space with space_id by user with id of puid
-def update_review(review_id, dict_of_changes):
+# update a review for space with space_id by user with id of user_id
+def update_review(review_id, user_id, dict_of_changes):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Review).filter(models.Review.id == review_id)
         table = query.all()
 
-        if table:
+        if not table:
+            ret = f"no review with id {review_id} exists"
+        elif table[0].user_id == user_id: # permission handling
             query.update(dict_of_changes, synchronize_session=False)
             ret = f"review with id '{review_id}' updated"
-
+        else:
+            ret = f"{user_id} has insufficient permissions to udpate review with id {review_id}"
         session.commit()
 
     return ret
 
 
-# delete a review for space with space_id created by user specified by puid
-def remove_review(review_id):
+# delete a review for space with space_id created by user specified by user_id
+def remove_review(review_id, user_id, admin):
+
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Review).filter(models.Review.id == review_id)
         table = query.all()
 
-        if table:
+        # add verification for permissions on delete.
+        if not table:
+            ret = f"review with id {review_id} does not exist"
+        elif (table[0].user_id == user_id or admin):
             query.delete(synchronize_session=False)
             ret = f"deleted review with id {review_id}"
         else:
-            ret = f"review with id {review_id} does not exist"
+            ret = f"{user_id} has insufficient permissions to delete review with id {review_id}"
 
         session.commit()
 
@@ -593,8 +608,10 @@ def add_amenity(amenity, space_id=None, review_id=None):
             table = query.all()
 
             if table:
-                return f"amenity '{amenity}' for space with id {space_id} already exists"
-            
+                return (
+                    f"amenity '{amenity}' for space with id {space_id} already exists"
+                )
+
         new_amenity = models.Amenity(
             space_id=space_id, review_id=review_id, amenity=amenity
         )
@@ -675,4 +692,4 @@ def remove_photo(photo_id):
 # ----------------------------------------------------------------------
 
 if __name__ == "__main__":
-    pass # can add testing here
+    pass  # can add testing here

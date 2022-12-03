@@ -125,13 +125,10 @@ def get_awaiting_approval():
 
 @app.route('/approve')
 def handle_approve():
-    if "username" in session:
-        username = session.get("username")
-
+    
     space_id = request.args.get('space_id')
     approval = request.args.get('approval') == "true"
-    admin = db.check_user_admin(username)
-    print(approval)
+    admin = db.check_user_admin()
     if admin:
         ret = db.handle_approval(space_id, approval)
     else:
@@ -157,7 +154,7 @@ def login():
 @app.route("/user_logged_in", methods=["GET"])
 def user_logged_in():
     username = auth.authenticate()
-    return jsonify({"netid": username, "admin": db.check_user_admin(username)})
+    return jsonify({"netid": username, "admin": db.check_user_admin()})
 
 # ----------------------------------------------------------------------
 
