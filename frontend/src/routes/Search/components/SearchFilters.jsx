@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import { FormControl, MenuItem, InputLabel, Select } from "@mui/material";
 
 import amenitiesData from "../../../data/amenities.json";
