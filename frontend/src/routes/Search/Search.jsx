@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import SearchResults from "./components/SearchResults.jsx";
 import SearchBar from "./components/SearchBar.jsx";
@@ -8,22 +8,25 @@ import useStyles from "./styles.js";
 
 export default function Search() {
   const [query, setQuery] = useState("");
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    type: "",
+    noisiness: "",
+    amenities: "",
+    privacy: "",
+    lighting: "",
+    cleanliness: "",
+  });
   const classes = useStyles();
 
   const updateQuery = (q) => {
     setQuery(q);
   };
 
-  const updateFilters = (filters) => {
-    setFilters(filters);
-  };
-
   return (
     <div className={classes.container}>
       <SearchBar query={query} handleChange={updateQuery} />
-      <SearchFilters handleChange={updateFilters} />
-      <SearchResults query={query} filters={filters} />
+      <SearchFilters filters={filters} setFilters={setFilters} />
+      <SearchResults filters={filters} query={query} />
     </div>
   );
 }
