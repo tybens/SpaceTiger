@@ -45,7 +45,7 @@ const MySpaces = ({ user }) => {
     // eslint-disable-next-line
   }, []);
 
-  const RenderSpaces = ({ numSpaces }) => {
+  const RenderSpaces = ({ numSpaces, mySpaces=false }) => {
     return data?.length ? (
       <>
         {data?.slice(0, numSpaces).map((space, index) => (
@@ -54,6 +54,8 @@ const MySpaces = ({ user }) => {
               key={index}
               space={space}
               photo={photos.find((item) => item.spaceid === space.id)}
+              mySpaces={mySpaces}
+              approved={space.approved}
             />
           </Grid>
         ))}
@@ -91,7 +93,7 @@ const MySpaces = ({ user }) => {
         </Grid>
       ) : (
         <>
-          <RenderSpaces numSpaces={numSpaces} />
+          <RenderSpaces numSpaces={numSpaces} mySpaces={true} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
               <Button

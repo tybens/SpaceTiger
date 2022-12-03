@@ -125,7 +125,7 @@ export default function Header({
           {user && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               startIcon={<CreateIcon />}
               onClick={handleOpen}
               style={{ backgroundColor: "black", color: "white" }}
@@ -136,7 +136,7 @@ export default function Header({
           {user?.admin && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               startIcon={<DeleteIcon />}
               onClick={handleDelete}
               color="error"

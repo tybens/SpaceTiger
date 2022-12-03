@@ -67,6 +67,7 @@ const NewSpaces = () => {
 
   const [numSpaces, setNumSpaces] = useState(4);
   const [data, setNewSpaceData] = useState(null);
+  const [photos, setPhotos] = useState(null);
   const [error, setError] = useState(false);
 
   const classes = useStyles();
@@ -78,7 +79,8 @@ const NewSpaces = () => {
         .get("/getawaitingapproval")
         .then((res) => {
           let data = res.data;
-          setNewSpaceData(data.items);
+          setNewSpaceData(data.spaces);
+          setPhotos(data.photos);
         })
         .catch((err) => setError(true));
     }
@@ -107,12 +109,18 @@ const NewSpaces = () => {
   };
 
   const RenderSpaces = ({ numSpaces }) => {
-    return numSpaces !== 0 ? (
+    return data?.length ? (
       <>
         {data?.slice(0, numSpaces).map((space, index) => (
           <Grid item key={index} container xs={12} sm={6} md={4} lg={3}>
-            <SpaceItem space={space} />
-            <ApprovalDissaproval spaceId={space.id} handleClick={handleApproval} />
+            <SpaceItem
+              space={space}
+              photo={photos.find((item) => item.spaceid === space.id)}
+            />
+            <ApprovalDissaproval
+              spaceId={space.id}
+              handleClick={handleApproval}
+            />
           </Grid>
         ))}
       </>
@@ -151,7 +159,12 @@ const NewSpaces = () => {
           <RenderSpaces numSpaces={numSpaces} />
           {numSpaces < data?.length && (
             <Grid item xs={12}>
-              <Button variant="outlined" color="primary" onClick={handleViewMore} fullWidth>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleViewMore}
+                fullWidth
+              >
                 <IconButton aria-label="load more">
                   <AddIcon />
                 </IconButton>

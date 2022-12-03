@@ -41,7 +41,6 @@ export default function ReviewItem({ review, getData }) {
         />
         {((user?.netid === review.userid) || user?.admin) && (
           <IconButton
-            disableElevation
             children={<DeleteIcon />}
             onClick={handleDelete}
             color="error"
