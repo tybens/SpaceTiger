@@ -20,8 +20,11 @@ import amenitiesData from "../../../data/amenities.json";
 
 import useStyles from "../styles.js";
 
-const TAGS = tagsData.reduce((acc, val) => acc.concat({"label": val}), []);
-const AMENITIES = amenitiesData.reduce((acc, val) => acc.concat({"label": val}), []);
+const TAGS = tagsData.reduce((acc, val) => acc.concat({ label: val }), []);
+const AMENITIES = amenitiesData.reduce(
+  (acc, val) => acc.concat({ label: val }),
+  []
+);
 
 export default function ReviewModal(props) {
   const { open, handleClose } = props;
@@ -41,9 +44,34 @@ export default function ReviewModal(props) {
   const [amenity, setAmenity] = useState(0);
   const [tags, setTags] = useState([]);
   const [amenities, setAmenities] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+
+  const closeModal = () => {
+    setStatus("none");
+    setMessage("");
+    setSubmitted(false);
+    setExp("");
+    setRating(0);
+    setNoise(0);
+    setLight(0);
+    setProd(0);
+    setClean(0);
+    setAmenity(0);
+    setTags([]);
+    setAmenities([]);
+    handleClose();
+  };
 
   const handleSubmit = () => {
     // this is where the dispatch/fetch is
+
+    // error handling
+    setSubmitted(true);
+
+    if (exp === "") {
+      console.log("inputs are invalid");
+      return;
+    }
 
     const reviewResponse = {
       rating,
@@ -60,7 +88,6 @@ export default function ReviewModal(props) {
       puid: user.netid,
     };
 
-
     if (user) {
       axios
         .post("/reviews", reviewResponse)
@@ -70,6 +97,7 @@ export default function ReviewModal(props) {
             setMessage(
               "Success! After an administrator approves your space, you will be able to search and review it. "
             );
+            closeModal();
             // navigate("/profile");
           } else {
             // TODO: show server error modal
@@ -95,13 +123,13 @@ export default function ReviewModal(props) {
       setMessage("User unauthenticated, can't create a space!");
     }
     console.log(reviewResponse);
-    handleClose();
+    // handleClose();
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={closeModal}
       aria-labelledby="review-modal"
       aria-describedby="review"
     >
@@ -110,7 +138,7 @@ export default function ReviewModal(props) {
           <Typography variant="h5" style={{ fontWeight: 600 }}>
             Write a Review
           </Typography>
-          <IconButton aria-label="close" onClick={handleClose}>
+          <IconButton aria-label="close" onClick={closeModal}>
             <CloseIcon />
           </IconButton>
         </div>
@@ -127,10 +155,16 @@ export default function ReviewModal(props) {
               setRating(newValue);
             }}
             size="large"
-            style={{ marginBottom: "20px" }}
           />
+          {submitted && rating === 0 && (
+            <Typography style={{ color: "#d32f2f" }}>
+              You must specify a rating.
+            </Typography>
+          )}
 
-          <Typography variant="h6">Rate Features</Typography>
+          <Typography variant="h6" style={{ marginTop: "20px" }}>
+            Rate Features
+          </Typography>
 
           <div className={classes.featureContainer}>
             <div className={classes.featureItem}>
@@ -204,6 +238,7 @@ export default function ReviewModal(props) {
             }}
             style={{ width: "100%", marginBottom: "20px" }}
             rows={3}
+            error={submitted && exp === ""}
           />
 
           <Typography variant="h6">Add tags</Typography>
@@ -255,7 +290,7 @@ export default function ReviewModal(props) {
               justifyContent: "flex-end",
             }}
           >
-            <Button variant="outlined" onClick={handleClose}>
+            <Button variant="outlined" onClick={closeModal}>
               Cancel
             </Button>
             <Button
