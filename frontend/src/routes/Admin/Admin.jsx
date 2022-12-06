@@ -2,6 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import NewSpaces from "./NewSpaces";
+import ReportedReviews from "./ReportedReviews";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,6 +25,7 @@ export default function Admin() {
       className={classes.container}
     >
       <NewSpaces />
+      <ReportedReviews />
       {/* <MyReviews reviews={reviewData?.reviews} /> */}
     </Grid>
   );

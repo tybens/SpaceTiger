@@ -46,7 +46,7 @@ export default function SearchBar(props) {
           <Button
             className={classes.addBtn}
             variant="contained"
-            disableElevation
+            disableelevationevation
             onClick={handleOpen}
             style={{ backgroundColor: "black", color: "white" }}
           >

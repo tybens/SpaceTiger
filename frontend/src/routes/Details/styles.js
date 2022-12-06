@@ -77,12 +77,12 @@ export default makeStyles((theme) => ({
     },
   },
 
-  tag: {  
-    margin: '0 5px',
-    borderRadius: '10px',
-    backgroundColor: 'antiquewhite',
-    padding: '5px',
-    color: 'black',
+  tag: {
+    margin: "0 5px",
+    borderRadius: "10px",
+    backgroundColor: "antiquewhite",
+    padding: "5px",
+    color: "black",
   },
 
   itemContainer: {

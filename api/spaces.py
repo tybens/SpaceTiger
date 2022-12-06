@@ -5,6 +5,7 @@ import database
 
 # ----------------------------------------------------------------------
 
+
 class SpacesApi(Resource):
     def get(self, space_id=None):
         parser = reqparse.RequestParser()
@@ -13,10 +14,9 @@ class SpacesApi(Resource):
 
         if args["puid"]:
             data = database.get_user_spaces(args["puid"])
-        
             return jsonify(data)
 
-        elif space_id is None:  # if space isn't specified, get all spaces
+        if space_id is None:  # if space isn't specified, get all spaces
             data = database.get_spaces()
             spaces = data["spaces"]
             photos = [i.to_json() for i in data["photos"]]

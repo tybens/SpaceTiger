@@ -46,11 +46,13 @@ class ReviewsApi(Resource):
             amenities_rating=args["amenities_rating"],
         )
 
-        for amenity in args["amenities"]:
-            database.add_amenity(amenity=amenity, space_id=None, review_id=review_id)
+        if args["amenities"]:
+            for amenity in args["amenities"]:
+                database.add_amenity(amenity=amenity, space_id=None, review_id=review_id)
 
-        for tag in args["tags"]:
-            database.add_tag(tag=tag, space_id=None, review_id=review_id)
+        if args["tags"]:
+            for tag in args["tags"]:
+                database.add_tag(tag=tag, space_id=None, review_id=review_id)
 
         database.update_space_from_review(
             space_id=args["space_id"],

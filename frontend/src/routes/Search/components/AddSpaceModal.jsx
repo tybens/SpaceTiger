@@ -39,16 +39,32 @@ export default function AddSpaceModal(props) {
   const [locationInput, setLocationInput] = useState("");
   const [type, setType] = useState("");
   const [images, setImages] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   const onClose = () => {
     setStatus("none");
     setMessage("");
+    setName("");
+    setCapacity("");
+    setLocation("");
+    setLocationInput("");
+    setType("");
+    setImages([]);
+    setSubmitted(false);
     handleClose();
   };
 
   const handleSubmit = () => {
     // this is where the dispatch/fetch is
     const dataImages = images.map((i) => i.data);
+
+    // error handling
+    setSubmitted(true);
+
+    if (name === "" || capacity === "" || location === "" || type === "") {
+      // console.log("inputs are invalid");
+      return;
+    }
 
     const reviewResponse = {
       puid: user?.netid,
@@ -110,7 +126,7 @@ export default function AddSpaceModal(props) {
           {status === "error" && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               onClick={onClose}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -120,7 +136,7 @@ export default function AddSpaceModal(props) {
           {status === "success" && (
             <Button
               variant="contained"
-              disableElevation
+              disableelevationevation
               onClick={() => navigate("/profile")}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -158,6 +174,7 @@ export default function AddSpaceModal(props) {
             setName(e.target.value);
           }}
           style={{ width: "60%", marginBottom: "20px" }}
+          error={submitted && name === ""}
         />
 
         <Typography variant="h6">Capacity</Typography>
@@ -171,10 +188,14 @@ export default function AddSpaceModal(props) {
           }}
           style={{ width: "60%", marginBottom: "20px" }}
           type="number"
+          error={submitted && capacity === ""}
         />
 
         <Typography variant="h6">Type</Typography>
-        <FormControl className={classes.selectForm}>
+        <FormControl
+          className={classes.selectForm}
+          error={submitted && type === ""}
+        >
           <InputLabel htmlFor="type-select">Type</InputLabel>
           <Select
             labelId="type-select-label"
@@ -197,7 +218,13 @@ export default function AddSpaceModal(props) {
           onChange={(_, newValue) => {
             setLocation(newValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Location" />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              error={submitted && location === ""}
+              label="Location"
+            />
+          )}
           inputValue={locationInput}
           onInputChange={(_, newInputValue) => {
             setLocationInput(newInputValue);
@@ -224,7 +251,7 @@ export default function AddSpaceModal(props) {
           </Button>
           <Button
             variant="contained"
-            disableElevation
+            disableelevationevation
             onClick={handleSubmit}
             style={{ backgroundColor: "black", color: "white" }}
           >
