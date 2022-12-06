@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, create_engine
+from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, DateTime, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 import uuid
 import os
@@ -17,6 +17,7 @@ class User(Base):
     spaces = relationship("Space", back_populates="user")
     reviews = relationship("Review", back_populates="user")
     favorites = relationship("Favorite", cascade="all,delete", back_populates="user")
+    reports = relationship("Report", cascade="all, delete", back_populates="user")
     admin = Column(Boolean, default=False)
 
     def __repr__(self):
@@ -100,6 +101,7 @@ class Review(Base):
 
     user = relationship("User", back_populates="reviews")
     space = relationship("Space", back_populates="reviews")
+    reports = relationship("Report", cascade="all, delete", back_populates="review")
     tags = relationship("Tag", cascade="all,delete", back_populates="review")
     amenities = relationship("Amenity", cascade="all,delete", back_populates="review")
     photos = relationship("Photo", cascade="all,delete", back_populates="review")
@@ -146,6 +148,32 @@ class Favorite(Base):
             "id": self.id,
             "user_id": self.user_id,
             "space_id": self.space_id,
+        }
+
+class Report(Base):
+    __tablename__ = "reports"
+    id = Column(GUID, primary_key=True, default=uuid.uuid4)
+    user_id = Column(String, ForeignKey("users.puid", ondelete="CASCADE"))
+    review_id = Column(Integer, ForeignKey("reviews.id", ondelete="CASCADE"))
+    content = Column(String)
+    date = Column(DateTime)
+
+    user = relationship("User", back_populates="reports")
+    review = relationship("Review", back_populates="reports")
+
+    def __repr__(self):
+        repr = f"Report(id={self.id!r}, user_id={self.user_id!r}, "
+        repr += f"review_id={self.review_id!r}, content={self.content!r}, "
+        repr += f"date={self.date!r})"
+        return repr
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "review_id": self.review_id,
+            "content": self.content,
+            "date": self.date,
         }
 
 

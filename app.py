@@ -14,6 +14,7 @@ from flask_cors import CORS
 
 from api.spaces import SpacesApi
 from api.reviews import ReviewsApi
+from api.reports import ReportsApi
 import database as db
 import auth
 
@@ -58,6 +59,11 @@ def types():
 # ---------------------------------------------
 
 api.add_resource(ReviewsApi, "/reviews", "/reviews/<review_id>")
+
+# ---------------------------------------------
+# Routes for reports.
+# ---------------------------------------------
+api.add_resource(ReportsApi, "/reports", "/reports/<report_id>")
 
 # ---------------------------------------------
 # Routes for amenities.
