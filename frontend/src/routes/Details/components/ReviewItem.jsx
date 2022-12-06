@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { UserContext } from "../../../context.js";
 
-export default function ReviewItem({ review, getData }) {
+export default function ReviewItem({ review, getData, reported }) {
   const { user } = useContext(UserContext);
 
   const [open, setOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function ReviewItem({ review, getData }) {
             readOnly
             style={{ marginBottom: "10px" }}
           />
-          {(user?.netid === review.userid || user?.admin) && (
+          {(user?.netid === review.userid || user?.admin) && !reported && (
             <IconButton
               children={<DeleteIcon />}
               onClick={handleDelete}
@@ -80,7 +80,7 @@ export default function ReviewItem({ review, getData }) {
             </span>
           ))}
         </Typography>
-        {user && (
+        {user && !reported && (
           <Button
             size="small"
             onClick={handleOpen}
