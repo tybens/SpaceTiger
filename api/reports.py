@@ -5,6 +5,9 @@ import database
 
 # ----------------------------------------------------------------------
 class ReportsApi(Resource):
+    def get(self):
+        data = database.get_reports()
+        return jsonify(data)
 
     def post(self):
         parser = reqparse.RequestParser()

@@ -64,6 +64,9 @@ api.add_resource(ReviewsApi, "/reviews", "/reviews/<review_id>")
 # Routes for reports.
 # ---------------------------------------------
 api.add_resource(ReportsApi, "/reports", "/reports/<report_id>")
+@app.route('/reports')
+def reports():
+    return jsonify(db.get_reports())
 
 # ---------------------------------------------
 # Routes for amenities.

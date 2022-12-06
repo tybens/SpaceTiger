@@ -32,6 +32,60 @@ def get_spaces():
 
     return data
 
+    # friendly_spaces = []
+    # # friendly_photos = []
+    # # friendly_amenities = []
+
+    # for space in spaces:
+    #     friendly_photos = []
+    #     friendly_amenities = []
+
+    #     photos = (
+    #         session.query(models.Photo)
+    #         .filter(models.Photo.space_id == space.id)
+    #         .all()
+    #     )
+    #     amenities = (
+    #         session.query(models.Amenity)
+    #         .filter(models.Amenity.space_id == space.id)
+    #         .all()
+    #     )
+    #     for photo in photos:
+    #         friendly_photos.append(photo.to_json())
+    #     for amenity in amenities:
+    #         friendly_amenities.append(amenity.to_json())
+
+    #     # print("amenities", friendly_amenities)
+    #     # print(space.to_json())
+
+    #     space_json = space.to_json()
+
+    #     space = {
+    #         "space": space_json,
+    #         # "space": space.to_json(),
+    #         "amenities": friendly_amenities
+    #     }
+
+    #     # print("space", space)
+
+    #     friendly_spaces.append(space)
+
+    #     # print("photos", friendly_photos)
+    #     # print("amenities", friendly_amenities)
+    #     # friendly_spaces.append({
+    #     #     "space": space.to_json(),
+    #     #     "photos": friendly_photos,
+    #     #     "amenities": friendly_amenities
+    #     # })
+
+    # print("ended loop")
+    # print("amenities", friendly_amenities)
+    # print("spaces", friendly_spaces)
+    # print("spaces", friendly_spaces)
+    # print("photos", friendly_photos)
+    # print("amenities", friendly_amenities)
+    # return friendly_spaces
+
 
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
@@ -227,7 +281,7 @@ def get_user_spaces(puid):
         # query for all spaces that match a user_id
         table = session.query(models.Space).filter(models.Space.user_id == puid).all()
         # table is a list of {space_id: space_id}
-        space_ids = [t.id for t in table]
+        space_ids = [t.space_id for t in table]
         # query for all spaces that match a space_id
         space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
         photos_query = session.query(models.Photo).filter(
@@ -358,6 +412,13 @@ def post_favorite(puid, space_id):
 # -----------------------------------------------------
 # Functions for report
 # -----------------------------------------------------
+# Get all reports in the database.
+def get_reports():
+    with sqlalchemy.orm.Session(engine) as session:
+        table = (session.query(models.Report).all())
+        ret = [report.to_json() for report in table]
+        return ret
+
 # Any user can add a report for a review (review_id)
 def add_report(puid, review_id, content):
     report_id = None
@@ -414,21 +475,7 @@ def get_awaiting_approval():
         # models.Space.approved is False doesn't work, but == False does:
         query = session.query(models.Space).filter(models.Space.approved == False)
         table = query.all()
-        
-        space_ids = [t.id for t in table]
-        # query for all photos that match a space_id
-        photos_query = session.query(models.Photo).filter(
-            models.Photo.space_id.in_(space_ids)
-        )
-
-        spaces = table
-        photos = photos_query.all()
-
-        data = {
-            "spaces": [item.to_json() for item in spaces],
-            "photos": [item.to_json() for item in photos],
-        }
-    return data
+    return table
 
 
 def check_user_admin():
@@ -697,7 +744,15 @@ def remove_photo(photo_id):
 
     return ret
 
+def main(): 
+    space = get_space("Scully Courtyard")
+    print("This is the space: ", space)
+    report_id = add_report("chenhanz", 85, "bad review haha")
+    # print("This is the report id: ", report_id)
+    # deleted = delete_report(report_id, "chenhanz", True)
+    # print(deleted)
+
 # ----------------------------------------------------------------------
 
 if __name__ == "__main__":
-    pass  # can add testing here
+    main()
