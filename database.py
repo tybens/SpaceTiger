@@ -744,15 +744,7 @@ def remove_photo(photo_id):
 
     return ret
 
-def main(): 
-    space = get_space("Scully Courtyard")
-    print("This is the space: ", space)
-    report_id = add_report("chenhanz", 85, "bad review haha")
-    # print("This is the report id: ", report_id)
-    # deleted = delete_report(report_id, "chenhanz", True)
-    # print(deleted)
-
 # ----------------------------------------------------------------------
 
 if __name__ == "__main__":
-    main()
+    pass
