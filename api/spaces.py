@@ -18,9 +18,7 @@ class SpacesApi(Resource):
 
         if space_id is None:  # if space isn't specified, get all spaces
             data = database.get_spaces()
-            spaces = data["spaces"]
-            photos = [i.to_json() for i in data["photos"]]
-            return jsonify({"spaces": spaces, "photos": photos})
+            return jsonify(data)
 
         data = database.get_details(space_id)
         return jsonify(data)

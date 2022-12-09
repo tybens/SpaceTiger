@@ -106,7 +106,7 @@ export default function ReportModal(props) {
           {status === "error" && (
             <Button
               variant="contained"
-              disableelevationevation
+              disableelevation="true"
               onClick={closeModal}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -116,7 +116,7 @@ export default function ReportModal(props) {
           {status === "success" && (
             <Button
               variant="contained"
-              disableelevationevation
+              disableelevation="true"
               onClick={closeModal}
               style={{ backgroundColor: "black", color: "white" }}
             >
@@ -160,7 +160,7 @@ export default function ReportModal(props) {
             </Button>
             <Button
               variant="contained"
-              disableelevationevation
+              disableelevation="true"
               onClick={handleSubmit}
               style={{ backgroundColor: "black", color: "white" }}
             >

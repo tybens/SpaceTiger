@@ -1,3 +1,4 @@
+from collections import defaultdict
 import datetime
 import os
 
@@ -24,10 +25,22 @@ def get_spaces():
             models.Space.approved == "true"
         )
         photos_query = session.query(models.Photo)
-
+        amenities_query = session.query(models.Amenity)
+        
         spaces = [space.to_json() for space in space_query.all()]
-        photos = photos_query.all()
+        photos = [photo.to_json() for photo in photos_query.all()]
+        amenities = [amenity.to_json() for amenity in amenities_query.all()]
 
+        # add amenities to each space object. This runs 
+        # so much faster than iterating through in models.py
+        hm = defaultdict(list)
+        for amenity in amenities:
+            if amenity['spaceid']:
+                hm[amenity['spaceid']].append(amenity['amenity'])
+            
+        for space in spaces:
+            space.update({"amenities" : hm[space['id']]})
+            
         data = {"spaces": spaces, "photos": photos}
 
     return data
@@ -57,25 +70,16 @@ def get_details(id):
             .all()
         )
 
-        friendly_space = space.to_json()
-        friendly_reviews = []
-        friendly_photos = []
-        friendly_amenities = []
-
-        for review in reviews:
-            friendly_reviews.append(review.to_json())
-
-        for photo in photos:
-            friendly_photos.append(photo.to_json())
-
-        for amenity in amenities:
-            friendly_amenities.append(amenity.to_json())
+        space = space.to_json()
+        reviews = [review.to_json() for review in reviews]
+        photos = [photo.to_json() for photo in photos]
+        amenities = [amenity.to_json() for amenity in amenities]
 
         details = {
-            "space": friendly_space,
-            "reviews": friendly_reviews,
-            "photos": friendly_photos,
-            "amenities": friendly_amenities,
+            "space": space,
+            "reviews": reviews,
+            "photos": photos,
+            "amenities": amenities,
         }
     return details
 

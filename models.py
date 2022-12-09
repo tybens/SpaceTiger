@@ -81,7 +81,6 @@ class Space(Base):
             "lighting": self.avglighting,
             "productivity": self.avgproductivity,
             "amenities_rating": self.avgamenities,
-            "amenities": [amenity.amenity for amenity in self.amenities],
         }
 
 
@@ -228,7 +227,7 @@ class Amenity(Base):
 class Photo(Base):
     __tablename__ = "photos"
     id = Column(Integer, primary_key=True)
-    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADe"))
+    space_id = Column(Integer, ForeignKey("spaces.id", ondelete="CASCADE"))
     review_id = Column(Integer, ForeignKey("reviews.id", ondelete="CASCADE"))
     src = Column(String)
 
