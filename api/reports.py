@@ -1,4 +1,4 @@
-from flask import json, request, jsonify, session
+from flask import jsonify, session
 from flask_restful import Resource, reqparse
 
 import database
@@ -13,14 +13,16 @@ class ReportsApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("review_id", type=int)
         parser.add_argument("content", type=str)
+        parser.add_argument("puid", type=str)
 
         args = parser.parse_args()
 
-        review_id = database.add_review(
+        report_id = database.add_report(
+            user_id=args["puid"],
             review_id=args["review_id"],
-            content=args["content"],
+            content=args["content"]
         )
-        return review_id
+        return jsonify({"report_id": report_id})
 
     def delete(self, report_id):
         if "username" in session:

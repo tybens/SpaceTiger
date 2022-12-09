@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -19,7 +18,6 @@ import useStyles from "../styles.js";
 export default function ReportModal(props) {
   const { id, open, handleClose } = props;
   const classes = useStyles();
-  const { query } = useParams();
   const { user } = useContext(UserContext);
 
   const [status, setStatus] = useState("none");
@@ -47,47 +45,49 @@ export default function ReportModal(props) {
       return;
     }
 
-    const reviewResponse = {
+    const reportResponse = {
       review_id: id,
       content: desc,
       puid: user.netid,
     };
 
-    // if (user) {
-    //   axios
-    //     .post("/reviews", reviewResponse)
-    //     .then((res) => {
-    //       if (res.status === 200) {
-    //         setStatus("success");
-    //         setMessage(
-    //           "Thank you for submitting a report. An administrator will review it soon. "
-    //         );
-    //         closeModal();
-    //         // navigate("/profile");
-    //       } else {
-    //         // TODO: show server error modal
-    //         console.log(res);
-    //         setStatus("error");
-    //         setMessage("Adding the space failed. Please try again later. ");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       setStatus("error");
-    //       setMessage(
-    //         "An error occured with our systems. Please try again later."
-    //       );
-    //       console.log(status);
-    //       console.log(message);
-    //     });
-    // } else {
-    //   // TODO: show modal that user must login before performing
-    //   // such an actions
-    //   console.log("user unauthenticated, can't create a space");
-    //   setStatus("error");
-    //   setMessage("User unauthenticated, can't create a space!");
-    // }
-    console.log(reviewResponse);
+    if (user) {
+      axios
+        .post("/reports", reportResponse)
+        .then((res) => {
+          console.log(res)
+          console.log("HELLO")
+          if (res.status === 200) {
+            setStatus("success");
+            setMessage(
+              `Report with id ${res.data.report_id} recorded. Thank you for submitting a report. An administrator will review it soon. `
+            );
+            closeModal();
+            // navigate("/profile");
+          } else {
+            // TODO: show server error modal
+            console.log(res);
+            setStatus("error");
+            setMessage("Reporting faild. Please try again later. ");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setStatus("error");
+          setMessage(
+            "An error occured with our systems. Please try again later."
+          );
+          console.log(status);
+          console.log(message);
+        });
+    } else {
+      // TODO: show modal that user must login before performing
+      // such an actions
+      console.log("user unauthenticated, can't report a review");
+      setStatus("error");
+      setMessage("User unauthenticated, can't report a review!");
+    }
+    console.log(reportResponse);
     closeModal(); // to be deleted
     // handleClose();
   };

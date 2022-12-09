@@ -420,27 +420,27 @@ def get_reports():
         return ret
 
 # Any user can add a report for a review (review_id)
-def add_report(puid, review_id, content):
+def add_report(user_id=None, review_id=None, content=None):
     report_id = None
     date = datetime.datetime.now()
 
     with sqlalchemy.orm.Session(engine) as session:
         new_report = models.Report(
-            user_id=puid,
+            user_id=user_id,
             review_id = review_id,
             content=content,
             date = date,
         )
 
         session.add(new_report)
-        ret = f"created report for review {review_id} by user {puid} with "
+        ret = f"created report for review {review_id} by user {user_id} with "
         ret += f"content: {content} at date: {date}"
 
         session.commit()
         print(ret)
         report_id = new_report.id
 
-        return report_id
+    return report_id
 
 # A user (user_id) can delete a report for a review (review_id) if the user is admin
 def delete_report(report_id, user_id, admin):
