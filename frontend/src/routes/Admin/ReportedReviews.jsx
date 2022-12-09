@@ -64,6 +64,7 @@ export default function ReportedReviews() {
   const classes = useStyles();
   const [numReviews, setNumReviews] = useState(3);
   const [reviewData, setReviewData] = useState(null);
+  const [reportsData, setReportsData] = useState(null)
   const { user } = useContext(UserContext);
 
   const handleReport = (keep, reviewId) => {
@@ -85,21 +86,21 @@ export default function ReportedReviews() {
     //     console.log(error);
     //   });
   };
+  
 
-  const getData = () => {
+  const getReports = () => {
     axios
-      .get("/reviews", {
-        params: { user_id: user?.netid },
-      })
+      .get("/reports")
       .then((res) => {
         let data = res.data;
-        setReviewData(data);
+        console.log(data)
+        setReportsData(data);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData();
+    getReports();
     // eslint-disable-next-line
   }, []);
 

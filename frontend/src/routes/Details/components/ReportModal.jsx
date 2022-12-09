@@ -62,7 +62,7 @@ export default function ReportModal(props) {
             setMessage(
               `Report with id ${res.data.report_id} recorded. Thank you for submitting a report. An administrator will review it soon. `
             );
-            closeModal();
+            // closeModal();
             // navigate("/profile");
           } else {
             // TODO: show server error modal

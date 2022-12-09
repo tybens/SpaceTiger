@@ -174,6 +174,7 @@ class Report(Base):
             "review_id": self.review_id,
             "content": self.content,
             "date": self.date,
+            "review": self.review.to_json()
         }
 
 

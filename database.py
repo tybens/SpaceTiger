@@ -361,8 +361,15 @@ def post_favorite(puid, space_id):
 def get_reports():
     with sqlalchemy.orm.Session(engine) as session:
         table = (session.query(models.Report).all())
-        ret = [report.to_json() for report in table]
-        return ret
+        reports = [report.to_json() for report in table]
+        
+        space_ids = [rep['review']['spaceid'] for rep in reports]
+        spaces = session.query(models.Space).filter(models.Space.id.in_(space_ids)).with_entities(models.Space.id, models.Space.name).all()
+
+        hm = {spaceid: space_name for (spaceid, space_name) in spaces}
+        for report in reports:
+            report.update({"space_name" : hm[report['review']['spaceid']]})
+        return reports
 
 # Any user can add a report for a review (review_id)
 def add_report(user_id=None, review_id=None, content=None):
