@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -9,15 +9,23 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 // import { Link } from "react-router-dom";
 import ReviewItem from "../Details/components/ReviewItem";
-import { UserContext } from "../../context";
+// import { UserContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
   block: {
     padding: "30px",
   },
+
+  reviewItem: {
+    padding: "15px",
+    width: "100%",
+    border: "1px solid #b8b8b8",
+    display: "flex",
+    flexDirection: "column",
+  },
 }));
 
-const ApprovalDissaproval = ({ handleClick, reviewId }) => {
+const ApprovalDissaproval = ({ handleClick, reviewId, reportId }) => {
   const [loading, setLoading] = useState(false);
   return (
     <Grid
@@ -33,13 +41,13 @@ const ApprovalDissaproval = ({ handleClick, reviewId }) => {
           startIcon={<DoneIcon />}
           onClick={() => {
             setLoading(true);
-            handleClick(true, reviewId);
+            handleClick(true, reviewId, reportId);
           }}
           loading={loading}
           variant="outlined"
           color="secondary"
         >
-          Keep
+          Keep Review
         </LoadingButton>
       </Grid>
       <Grid item>
@@ -47,7 +55,7 @@ const ApprovalDissaproval = ({ handleClick, reviewId }) => {
           startIcon={<CloseIcon />}
           onClick={() => {
             setLoading(true);
-            handleClick(false, reviewId);
+            handleClick(false, reviewId, reportId);
           }}
           loading={loading}
           variant="outlined"
@@ -63,37 +71,48 @@ const ApprovalDissaproval = ({ handleClick, reviewId }) => {
 export default function ReportedReviews() {
   const classes = useStyles();
   const [numReviews, setNumReviews] = useState(3);
-  const [reviewData, setReviewData] = useState(null);
-  const [reportsData, setReportsData] = useState(null)
-  const { user } = useContext(UserContext);
+  const [reportsData, setReportsData] = useState(null);
+  // const { user } = useContext(UserContext);
 
-  const handleReport = (keep, reviewId) => {
+  const handleReport = (keep, reviewId, reportId) => {
     console.log("keep", keep);
     console.log("reviewid", reviewId);
+    console.log("reviewid", reportId);
 
-    // TODO: backend handle approval
-    // axios
-    //   .get("/approve", {
-    //     params: { user_id: user?.netid, space_id: spaceId, approval: approval },
-    //   })
-    //   .then((res) => {
-    //     //   let data = res.data;
-    //     console.log("Success!");
-    //     getData();
-    //   })
-    //   .catch((err) => {
-    //     setError(true);
-    //     console.log(error);
-    //   });
+    // keep review, delete the report
+    if (keep) {
+      axios
+        .delete(`/reports/${reportId}`)
+        .then((res) => {
+          //   let data = res.data;
+          console.log("Success!");
+          getReports();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .delete(`/reviews/${reviewId}`)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(res);
+            getReports();
+          } else {
+            // TODO: show server error modal
+            console.log(res);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
-  
 
   const getReports = () => {
     axios
       .get("/reports")
       .then((res) => {
         let data = res.data;
-        console.log(data)
+        console.log(data);
         setReportsData(data);
       })
       .catch((err) => console.log(err));
@@ -105,7 +124,7 @@ export default function ReportedReviews() {
   }, []);
 
   const ReviewItems = () => {
-    if (reviewData?.length === 0) {
+    if (reportsData?.length === 0) {
       return (
         <Grid item>
           <Typography variant="body1" color="initial">
@@ -114,19 +133,32 @@ export default function ReportedReviews() {
         </Grid>
       );
     }
-    return reviewData?.slice(0, numReviews).map((r, index) => {
+    return reportsData?.slice(0, numReviews).map((r, index) => {
       return (
         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-          <ReviewItem reported key={index} review={r} />
-          <ApprovalDissaproval reviewId={r.id} handleClick={handleReport} />
+          <Typography variant="p" style={{ fontSize: "20px" }}>
+            <b>{r.space_name}</b>
+          </Typography>
+          <ReviewItem reported key={index} review={r.review} />
+          <div className={classes.reviewItem}>
+            <Typography variant="p">
+              <b>Report:</b>
+            </Typography>
+            {r.content}
+          </div>
+          <ApprovalDissaproval
+            reviewId={r.review_id}
+            reportId={r.id}
+            handleClick={handleReport}
+          />
         </Grid>
       );
     });
   };
 
   const handleViewMore = () => {
-    if (numReviews + 4 > reviewData?.length) {
-      setNumReviews(reviewData?.length);
+    if (numReviews + 4 > reportsData?.length) {
+      setNumReviews(reportsData?.length);
     } else {
       setNumReviews(numReviews + 4);
     }
@@ -138,7 +170,7 @@ export default function ReportedReviews() {
         <Typography variant="h4">Reported Reviews</Typography>
       </Grid>
       <ReviewItems />
-      {numReviews < reviewData?.length && (
+      {numReviews < reportsData?.length && (
         <Grid item xs={12}>
           <Button
             variant="outlined"
