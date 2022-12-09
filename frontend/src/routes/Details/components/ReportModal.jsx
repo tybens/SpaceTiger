@@ -55,8 +55,8 @@ export default function ReportModal(props) {
       axios
         .post("/reports", reportResponse)
         .then((res) => {
-          console.log(res)
-          console.log("HELLO")
+          console.log(res);
+          console.log("HELLO");
           if (res.status === 200) {
             setStatus("success");
             setMessage(
@@ -88,26 +88,49 @@ export default function ReportModal(props) {
       setMessage("User unauthenticated, can't report a review!");
     }
     console.log(reportResponse);
-    closeModal(); // to be deleted
+    // closeModal(); // to be deleted
     // handleClose();
   };
 
-  return (
-    <Modal
-      open={open}
-      onClose={closeModal}
-      aria-labelledby="review-modal"
-      aria-describedby="review"
-    >
-      <Box className={classes.modalContainer}>
-        <div className={classes.modalHeader}>
-          <Typography variant="h5" style={{ fontWeight: 600 }}>
-            Report a Review
-          </Typography>
-          <IconButton aria-label="close" onClick={closeModal}>
-            <CloseIcon />
-          </IconButton>
+  const renderPostMessage = () => {
+    return (
+      <div className={classes.modalForm}>
+        <Typography variant="p">{message}</Typography>
+        <div
+          className={classes.headerBtns}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          {status === "error" && (
+            <Button
+              variant="contained"
+              disableelevationevation
+              onClick={closeModal}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Close
+            </Button>
+          )}
+          {status === "success" && (
+            <Button
+              variant="contained"
+              disableelevationevation
+              onClick={closeModal}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Confirm
+            </Button>
+          )}
         </div>
+      </div>
+    );
+  };
+
+  const renderForm = () => {
+    return (
+      <>
         <div className={classes.modalForm}>
           {/* skipping image upload until we have backend :) */}
 
@@ -145,6 +168,28 @@ export default function ReportModal(props) {
             </Button>
           </div>
         </div>
+      </>
+    );
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={closeModal}
+      aria-labelledby="review-modal"
+      aria-describedby="review"
+    >
+      <Box className={classes.modalContainer}>
+        <div className={classes.modalHeader}>
+          <Typography variant="h5" style={{ fontWeight: 600 }}>
+            Report a Review
+          </Typography>
+          <IconButton aria-label="close" onClick={closeModal}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        {status === "none" && renderForm()}
+        {status !== "none" && renderPostMessage()}
       </Box>
     </Modal>
   );
