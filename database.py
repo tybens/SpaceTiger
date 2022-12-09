@@ -602,7 +602,7 @@ def add_tag(tag, space_id=None, review_id=None):
     with sqlalchemy.orm.Session(engine) as session:
         new_tag = models.Tag(space_id=space_id, review_id=review_id, tag=tag)
         session.add(new_tag)
-        ret = f"added tag '{tag}' for space with id {space_id}"
+        ret = f"added tag '{tag}'"
 
         session.commit()
         print(ret)
