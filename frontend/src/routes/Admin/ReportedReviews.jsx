@@ -112,7 +112,6 @@ export default function ReportedReviews() {
       .get("/reports")
       .then((res) => {
         let data = res.data;
-        console.log(data);
         setReportsData(data);
       })
       .catch((err) => console.log(err));

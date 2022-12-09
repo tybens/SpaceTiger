@@ -45,7 +45,6 @@ class Space(Base):
     avgnoise = Column(Float)
     avgprivacy = Column(Float)
     avglighting = Column(Float)
-    avgproductivity = Column(Float)
     avgamenities = Column(Float)
 
     
@@ -79,7 +78,6 @@ class Space(Base):
             "noisiness": self.avgnoise,
             "privacy": self.avgprivacy,
             "lighting": self.avglighting,
-            "productivity": self.avgproductivity,
             "amenities_rating": self.avgamenities,
         }
 
@@ -95,7 +93,6 @@ class Review(Base):
     noisiness = Column(Integer)
     privacy = Column(Integer)
     lighting = Column(Integer)
-    productivity = Column(Integer)
     amenities_rating = Column(Integer)
 
     user = relationship("User", back_populates="reviews")

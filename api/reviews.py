@@ -25,7 +25,6 @@ class ReviewsApi(Resource):
         parser.add_argument("noisiness", type=int)
         parser.add_argument("privacy", type=int)
         parser.add_argument("lighting", type=int)
-        parser.add_argument("productivity", type=int)
         parser.add_argument("cleanliness", type=int)
         parser.add_argument("amenities_rating", type=int)
         parser.add_argument("tags", action="append", type=str)
@@ -41,7 +40,6 @@ class ReviewsApi(Resource):
             noisiness=args["noisiness"],
             privacy=args["privacy"],
             lighting=args["lighting"],
-            productivity=args["productivity"],
             cleanliness=args["cleanliness"],
             amenities_rating=args["amenities_rating"],
         )
@@ -56,12 +54,13 @@ class ReviewsApi(Resource):
 
         database.update_space_from_review(
             space_id=args["space_id"],
+            rating=args["rating"],
             noisiness=args["noisiness"],
             privacy=args["privacy"],
             lighting=args["lighting"],
-            productivity=args["productivity"],
             cleanliness=args["cleanliness"],
             amenities_rating=args["amenities_rating"],
+            adding=True
         )
 
     def put(self, review_id):

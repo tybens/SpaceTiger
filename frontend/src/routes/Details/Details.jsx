@@ -41,7 +41,7 @@ export default function Details() {
     // fetch stuff blah blah
     // setData(JSON.parse(JSON.stringify(detailData)));
   }, [query]);
-
+  
   useEffect(() => {
     getData();
   }, [getData]);
@@ -53,7 +53,7 @@ export default function Details() {
       <Header
         name={data?.space.name}
         rating={data?.space.rating}
-        numreviews={data?.space.numreviews}
+        numreviews={data?.reviews.length}
         getData={getData}
         space_id={query}
       />

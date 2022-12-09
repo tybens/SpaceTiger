@@ -79,8 +79,8 @@ export default function ReviewModal(props) {
       content: exp,
       // photos
       noisiness: noise,
-      light,
-      productivity: prod,
+      lighting: light,
+      privacy: prod,
       cleanliness: clean,
       amenities_rating: amenity,
       tags,
@@ -201,7 +201,7 @@ export default function ReviewModal(props) {
               />
             </div>
             <div className={classes.featureItem}>
-              <Typography variant="p">Productivity</Typography>
+              <Typography variant="p">Privacy</Typography>
               <Rating
                 className={classes.stars}
                 name="prod"

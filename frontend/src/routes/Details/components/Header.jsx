@@ -147,7 +147,7 @@ export default function Header({
         </div>
       </div>
       <div className={classes.headerSecond}>
-        {rating !== 0 && (
+        {rating && rating !== 0 ? (
           <>
             {rating}&nbsp;
             {rating && (
@@ -162,8 +162,9 @@ export default function Header({
             )}
             &nbsp;{numreviews} reviews
           </>
+        ) : (
+          <>Not yet rated.</>
         )}
-        {rating === 0 && <>Not yet rated.</>}
       </div>
       <ReviewModal open={open} handleClose={handleClose} />
     </div>

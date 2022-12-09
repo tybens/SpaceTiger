@@ -11,6 +11,7 @@ import cloudinary.uploader
 import models
 
 from flask import session as sesh
+
 # ----------------------------------------------------------------------
 
 DATABASE_URL = os.getenv("TEST_DB_URL")
@@ -26,24 +27,25 @@ def get_spaces():
         )
         photos_query = session.query(models.Photo)
         amenities_query = session.query(models.Amenity)
-        
+
         spaces = [space.to_json() for space in space_query.all()]
         photos = [photo.to_json() for photo in photos_query.all()]
         amenities = [amenity.to_json() for amenity in amenities_query.all()]
 
-        # add amenities to each space object. This runs 
+        # add amenities to each space object. This runs
         # so much faster than iterating through in models.py
         hm = defaultdict(list)
         for amenity in amenities:
-            if amenity['spaceid']:
-                hm[amenity['spaceid']].append(amenity['amenity'])
-            
+            if amenity["spaceid"]:
+                hm[amenity["spaceid"]].append(amenity["amenity"])
+
         for space in spaces:
-            space.update({"amenities" : hm[space['id']]})
-            
+            space.update({"amenities": hm[space["id"]]})
+
         data = {"spaces": spaces, "photos": photos}
 
     return data
+
 
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
@@ -126,77 +128,75 @@ def update_space(space_id, dict_of_changes):
 
 
 def update_space_helper(
-    space, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating
+    space, rating, noisiness, privacy, lighting, cleanliness, amenities_rating, adding
 ):
-    noisiness = 0 if noisiness is None else noisiness
-    privacy = 0 if privacy is None else privacy
-    lighting = 0 if lighting is None else lighting
-    productivity = 0 if productivity is None else productivity
-    cleanliness = 0 if cleanliness is None else cleanliness
-    amenities_rating = 0 if amenities_rating is None else amenities_rating
-
-    if space.numreviews is None:
+    mapping = {
+        "rating": rating,
+        "noisiness": noisiness,
+        "privacy": privacy,
+        "lighting": lighting,
+        "cleanliness": cleanliness,
+        "amenities_rating": amenities_rating,
+    }
+    if space["numreviews"] is None:
         numreviews = 1
     else:
-        numreviews = space.numreviews + 1
+        if adding:
+            numreviews = space["numreviews"] + 1
+        else:
+            numreviews = space["numreviews"] - 1
 
-    if space.avgnoise is None:
-        avgnoise = noisiness / numreviews
-    else:
-        avgnoise = (space.avgnoise + noisiness) / numreviews
-
-    if space.avgprivacy is None:
-        avgprivacy = privacy / numreviews
-    else:
-        avgprivacy = (space.avgprivacy + privacy) / numreviews
-
-    if space.avglighting is None:
-        avglighting = lighting / numreviews
-    else:
-        avglighting = (space.avglighting + lighting) / numreviews
-
-    if space.avgproductivity is None:
-        avgproductivity = productivity / numreviews
-    else:
-        avgproductivity = (space.avgproductivity + productivity) / numreviews
-
-    if space.avgcleanliness is None:
-        avgcleanliness = cleanliness / numreviews
-    else:
-        avgcleanliness = (space.avgcleanliness + cleanliness) / numreviews
-
-    if space.avgamenities is None:
-        avgamenities = amenities_rating / numreviews
-    else:
-        avgamenities = (space.avgamenities + amenities_rating) / numreviews
+    for key, value in mapping.items():
+        if value is not None:
+            if numreviews == 0:
+                mapping[key] = None
+            elif space[key]:
+                # equation from https://stackoverflow.com/a/53618572/15561634
+                old_avg = space[key]
+                effect_of_val = (value - old_avg) / numreviews
+                if adding:
+                    mapping[key] = old_avg + effect_of_val
+                else:
+                    mapping[key] = old_avg - effect_of_val
+            else:
+                # if no previous average, start a new one
+                mapping[key] = value
 
     return {
         "numreviews": numreviews,
-        "avgnoise": avgnoise,
-        "avgprivacy": avgprivacy,
-        "avglighting": avglighting,
-        "avgproductivity": avgproductivity,
-        "avgcleanliness": avgcleanliness,
-        "avgamenities": avgamenities,
+        "rating": mapping["rating"],
+        "avgnoise": mapping["noisiness"],
+        "avgprivacy": mapping["privacy"],
+        "avglighting": mapping["lighting"],
+        "avgcleanliness": mapping["cleanliness"],
+        "avgamenities": mapping["amenities_rating"],
     }
 
 
 def update_space_from_review(
-    space_id, noisiness, privacy, lighting, productivity, cleanliness, amenities_rating
+    space_id,
+    rating,
+    noisiness,
+    privacy,
+    lighting,
+    cleanliness,
+    amenities_rating,
+    adding,
 ):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(models.Space.id == space_id)
         table = query.all()
-        space = table[0]
+        space = table[0].to_json()
 
         dict_of_changes = update_space_helper(
             space,
+            rating,
             noisiness,
             privacy,
             lighting,
-            productivity,
             cleanliness,
             amenities_rating,
+            adding,
         )
 
         if table:
@@ -358,22 +358,29 @@ def post_favorite(puid, space_id):
 
     return ret
 
+
 # -----------------------------------------------------
 # Functions for report
 # -----------------------------------------------------
 # Get all reports in the database.
 def get_reports():
     with sqlalchemy.orm.Session(engine) as session:
-        table = (session.query(models.Report).all())
+        table = session.query(models.Report).all()
         reports = [report.to_json() for report in table]
-        
-        space_ids = [rep['review']['spaceid'] for rep in reports]
-        spaces = session.query(models.Space).filter(models.Space.id.in_(space_ids)).with_entities(models.Space.id, models.Space.name).all()
+
+        space_ids = [rep["review"]["spaceid"] for rep in reports]
+        spaces = (
+            session.query(models.Space)
+            .filter(models.Space.id.in_(space_ids))
+            .with_entities(models.Space.id, models.Space.name)
+            .all()
+        )
 
         hm = {spaceid: space_name for (spaceid, space_name) in spaces}
         for report in reports:
-            report.update({"space_name" : hm[report['review']['spaceid']]})
+            report.update({"space_name": hm[report["review"]["spaceid"]]})
         return reports
+
 
 # Any user can add a report for a review (review_id)
 def add_report(user_id=None, review_id=None, content=None):
@@ -383,9 +390,9 @@ def add_report(user_id=None, review_id=None, content=None):
     with sqlalchemy.orm.Session(engine) as session:
         new_report = models.Report(
             user_id=user_id,
-            review_id = review_id,
+            review_id=review_id,
             content=content,
-            date = date,
+            date=date,
         )
 
         session.add(new_report)
@@ -398,6 +405,7 @@ def add_report(user_id=None, review_id=None, content=None):
 
     return report_id
 
+
 # A user (user_id) can delete a report for a review (review_id) if the user is admin
 def delete_report(report_id, user_id, admin):
     with sqlalchemy.orm.Session(engine) as session:
@@ -407,7 +415,7 @@ def delete_report(report_id, user_id, admin):
         # add verification for permissions on delete.
         if not table:
             ret = f"report with id {report_id} does not exist"
-        elif (admin):
+        elif admin:
             query.delete(synchronize_session=False)
             ret = f"deleted review with id {report_id}"
         else:
@@ -417,9 +425,6 @@ def delete_report(report_id, user_id, admin):
 
     return ret
 
-        
-
-    
 
 # -----------------------------------------------------
 # Functions for moderation
@@ -431,7 +436,7 @@ def get_awaiting_approval():
         # models.Space.approved is False doesn't work, but == False does:
         query = session.query(models.Space).filter(models.Space.approved == False)
         table = query.all()
-        
+
         space_ids = [t.id for t in table]
         # query for all photos that match a space_id
         photos_query = session.query(models.Photo).filter(
@@ -453,7 +458,7 @@ def check_user_admin():
         user_id = sesh.get("username")
     else:
         return False
-    
+
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.User).filter(models.User.puid == user_id)
         table = query.all()
@@ -506,7 +511,6 @@ def add_review(
     noisiness,
     privacy,
     lighting,
-    productivity,
     cleanliness,
     amenities_rating,
 ):
@@ -520,7 +524,6 @@ def add_review(
             noisiness=noisiness,
             privacy=privacy,
             lighting=lighting,
-            productivity=productivity,
             cleanliness=cleanliness,
             amenities_rating=amenities_rating,
         )
@@ -543,7 +546,7 @@ def update_review(review_id, user_id, dict_of_changes):
 
         if not table:
             ret = f"no review with id {review_id} exists"
-        elif table[0].user_id == user_id: # permission handling
+        elif table[0].user_id == user_id:  # permission handling
             query.update(dict_of_changes, synchronize_session=False)
             ret = f"review with id '{review_id}' updated"
         else:
@@ -563,7 +566,17 @@ def remove_review(review_id, user_id, admin):
         # add verification for permissions on delete.
         if not table:
             ret = f"review with id {review_id} does not exist"
-        elif (table[0].user_id == user_id or admin):
+        elif table[0].user_id == user_id or admin:
+            update_space_from_review(
+                table[0].space_id,
+                table[0].rating,
+                table[0].noisiness,
+                table[0].privacy,
+                table[0].lighting,
+                table[0].cleanliness,
+                table[0].amenities_rating,
+                False,
+            )
             query.delete(synchronize_session=False)
             ret = f"deleted review with id {review_id}"
         else:
@@ -713,6 +726,7 @@ def remove_photo(photo_id):
         session.commit()
 
     return ret
+
 
 # ----------------------------------------------------------------------
 
