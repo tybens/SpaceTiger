@@ -32,61 +32,6 @@ def get_spaces():
 
     return data
 
-    # friendly_spaces = []
-    # # friendly_photos = []
-    # # friendly_amenities = []
-
-    # for space in spaces:
-    #     friendly_photos = []
-    #     friendly_amenities = []
-
-    #     photos = (
-    #         session.query(models.Photo)
-    #         .filter(models.Photo.space_id == space.id)
-    #         .all()
-    #     )
-    #     amenities = (
-    #         session.query(models.Amenity)
-    #         .filter(models.Amenity.space_id == space.id)
-    #         .all()
-    #     )
-    #     for photo in photos:
-    #         friendly_photos.append(photo.to_json())
-    #     for amenity in amenities:
-    #         friendly_amenities.append(amenity.to_json())
-
-    #     # print("amenities", friendly_amenities)
-    #     # print(space.to_json())
-
-    #     space_json = space.to_json()
-
-    #     space = {
-    #         "space": space_json,
-    #         # "space": space.to_json(),
-    #         "amenities": friendly_amenities
-    #     }
-
-    #     # print("space", space)
-
-    #     friendly_spaces.append(space)
-
-    #     # print("photos", friendly_photos)
-    #     # print("amenities", friendly_amenities)
-    #     # friendly_spaces.append({
-    #     #     "space": space.to_json(),
-    #     #     "photos": friendly_photos,
-    #     #     "amenities": friendly_amenities
-    #     # })
-
-    # print("ended loop")
-    # print("amenities", friendly_amenities)
-    # print("spaces", friendly_spaces)
-    # print("spaces", friendly_spaces)
-    # print("photos", friendly_photos)
-    # print("amenities", friendly_amenities)
-    # return friendly_spaces
-
-
 def get_space(name):
     with sqlalchemy.orm.Session(engine) as session:
         query = session.query(models.Space).filter(models.Space.name == name)
@@ -281,7 +226,7 @@ def get_user_spaces(puid):
         # query for all spaces that match a user_id
         table = session.query(models.Space).filter(models.Space.user_id == puid).all()
         # table is a list of {space_id: space_id}
-        space_ids = [t.space_id for t in table]
+        space_ids = [t.id for t in table]
         # query for all spaces that match a space_id
         space_query = session.query(models.Space).filter(models.Space.id.in_(space_ids))
         photos_query = session.query(models.Photo).filter(
@@ -475,7 +420,21 @@ def get_awaiting_approval():
         # models.Space.approved is False doesn't work, but == False does:
         query = session.query(models.Space).filter(models.Space.approved == False)
         table = query.all()
-    return table
+        
+        space_ids = [t.id for t in table]
+        # query for all photos that match a space_id
+        photos_query = session.query(models.Photo).filter(
+            models.Photo.space_id.in_(space_ids)
+        )
+
+        spaces = table
+        photos = photos_query.all()
+
+        data = {
+            "spaces": [item.to_json() for item in spaces],
+            "photos": [item.to_json() for item in photos],
+        }
+    return data
 
 
 def check_user_admin():
