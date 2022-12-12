@@ -138,7 +138,7 @@ def update_space_helper(
         "cleanliness": cleanliness,
         "amenities_rating": amenities_rating,
     }
-    if space["numreviews"] is None:
+    if space["numreviews"] is None or space["numreviews"] < 0:
         numreviews = 1
     else:
         if adding:
@@ -148,7 +148,7 @@ def update_space_helper(
 
     for key, value in mapping.items():
         if value is not None:
-            if numreviews == 0:
+            if numreviews <= 0:
                 mapping[key] = None
             elif space[key]:
                 # equation from https://stackoverflow.com/a/53618572/15561634
