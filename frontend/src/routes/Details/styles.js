@@ -47,7 +47,7 @@ export default makeStyles((theme) => ({
   },
 
   headerBtns: {
-    "& button": {
+    "& button, a": {
       borderColor: "black",
       textTransform: "none",
       marginLeft: "5px",

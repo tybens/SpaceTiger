@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Rating } from "@mui/material";
 // import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-// import DirectionsIcon from "@mui/icons-material/Directions";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -21,11 +21,17 @@ export default function Header({
   numreviews,
   space_id,
   getData,
+  location,
 }) {
   const [open, setOpen] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  let directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(location + " Princeton NJ")}`;
+  if (location?.toLowerCase().includes("outdoor")) {
+    directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(name + " Princeton NJ")}`;
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -119,9 +125,13 @@ export default function Header({
               {favorite ? "Un-Favorite" : "Favorite"}
             </Button>
           )}
-          {/* <Button variant="outlined" startIcon={<DirectionsIcon />}>
+          <Button
+            variant="outlined"
+            startIcon={<DirectionsIcon />}
+            href={directionsURL}
+          >
             Directions
-          </Button> */}
+          </Button>
           {user && (
             <Button
               variant="contained"
