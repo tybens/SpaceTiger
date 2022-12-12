@@ -52,7 +52,7 @@ const MemberCard = ({ member }) => {
       </CardContent>
       <CardContent>
         <img
-          style={{ objectFit: "cover", height: "300px", borderRadius: 2 }}
+          style={{ objectFit: "cover", borderRadius: 2 }}
           src={member.image}
           alt={member.name}
           height="100%"
