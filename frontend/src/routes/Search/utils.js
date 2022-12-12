@@ -60,3 +60,24 @@ export function matchCleanliness(filter_val, space_val) {
       return true;
   }
 };
+
+export function sortResults(data, sort_val) {
+  switch (sort_val) {
+    case "Name A-Z":
+      return data.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      });
+    case "Name Z-A":
+      return data.sort((a, b) => {
+        if (a.name < b.name) return 1;
+        if (a.name > b.name) return -1;
+        return 0;
+      });
+    case "Avg. Rating":
+      return data.sort((a, b) => b.rating - a.rating);
+    default:
+      return data;
+  }
+}

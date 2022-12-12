@@ -16,6 +16,7 @@ export default function Search() {
     lighting: [],
     cleanliness: [],
   });
+  const [sort, setSort] = useState("");
   const classes = useStyles();
 
   const updateQuery = (q) => {
@@ -25,8 +26,8 @@ export default function Search() {
   return (
     <div className={classes.container}>
       <SearchBar query={query} handleChange={updateQuery} />
-      <SearchFilters filters={filters} setFilters={setFilters} />
-      <SearchResults filters={filters} query={query} />
+      <SearchFilters filters={filters} setFilters={setFilters} sort={sort} setSort={setSort} />
+      <SearchResults filters={filters} query={query} sort={sort} />
     </div>
   );
 }

@@ -24,6 +24,11 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       marginTop: "10px",
     },
+    [theme.breakpoints.down("sm")]: {
+      position: "fixed",
+      bottom: "1rem",
+      right: "1rem",
+    },
   },
 
   searchTextField: {
@@ -31,13 +36,28 @@ export default makeStyles((theme) => ({
     maxWidth: "600px",
   },
 
-  filters: {
+  filtersContainer: {
     width: "100%",
     marginBottom: "30px",
+    display: "flex",
+    justifyContent: "space-between",
+    [theme.breakpoints.only("xs")]: {
+      flexDirection: "column",
+    },
+  },
+
+  filters: {
     "& .MuiFormControl-root": {
       marginLeft: 0,
       marginRight: "15px",
       // width: "200px",
+    },
+  },
+
+  sort: {
+    "& .MuiFormControl-root": {
+      marginLeft: 0,
+      marginRight: 0,
     },
   },
 
