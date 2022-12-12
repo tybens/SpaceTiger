@@ -59,6 +59,14 @@ export default function MyReviews({ user }) {
     return reviewData?.slice(0, numReviews).map((r, index) => {
       return (
         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+          <Typography variant="p" style={{ fontSize: "20px" }}>
+            <RouterLink
+              style={{ textDecoration: "none" }}
+              to={`/search/${r.spaceid}`}
+            >
+              <b>{r.space_name}</b>
+            </RouterLink>
+          </Typography>
           <ReviewItem key={index} review={r} getData={getData} />
         </Grid>
       );
