@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 
 const UploadAndDisplayImage = ({ images, setImages }) => {
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
 
   return (
     <div>

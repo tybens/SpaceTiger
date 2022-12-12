@@ -75,9 +75,7 @@ export default function AddSpaceModal(props) {
       images: dataImages,
     };
 
-    console.log("post: ", reviewResponse);
-    // obviously this becomes a put request
-    // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
+    // console.log("post: ", reviewResponse);
 
     if (user) {
       axios

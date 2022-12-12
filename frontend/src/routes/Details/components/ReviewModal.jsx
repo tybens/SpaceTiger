@@ -121,7 +121,6 @@ export default function ReviewModal(props) {
       setStatus("error");
       setMessage("User unauthenticated, can't create a space!");
     }
-    console.log(reviewResponse);
     // handleClose();
   };
 

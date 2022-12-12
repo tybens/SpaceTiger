@@ -55,8 +55,6 @@ export default function ReportModal(props) {
       axios
         .post("/reports", reportResponse)
         .then((res) => {
-          console.log(res);
-          console.log("HELLO");
           if (res.status === 200) {
             setStatus("success");
             setMessage(
