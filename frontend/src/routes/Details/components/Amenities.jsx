@@ -1,12 +1,55 @@
 import { Typography, Chip } from "@mui/material";
+import ChairIcon from "@mui/icons-material/Chair";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import LockIcon from "@mui/icons-material/Lock";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import WashIcon from "@mui/icons-material/Wash";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import useStyles from "../styles.js";
+import {
+  noisiness,
+  privacy,
+  lighting,
+  cleanliness,
+} from "../../Search/utils.js";
 
 export default function Amenities(props) {
-  const { amenities, position, label } = props;
+  const { amenities, position, label, space } = props;
   const classes = useStyles();
+
+  const renderDetails = () => {
+    return (
+      <div style={{ marginBottom: "10px" }}>
+        {space?.type && (
+          <div className={classes.filterDiv}>
+            <ChairIcon /> &nbsp;{space?.type}
+          </div>
+        )}
+        {space?.noisiness && (
+          <div className={classes.filterDiv}>
+            <VolumeUpIcon /> &nbsp;{noisiness(space?.noisiness)}
+          </div>
+        )}
+        {space?.privacy && (
+          <div className={classes.filterDiv}>
+            <LockIcon /> &nbsp;{privacy(space?.privacy)}
+          </div>
+        )}
+        {space?.lighting && (
+          <div className={classes.filterDiv}>
+            <LightbulbIcon /> &nbsp;{lighting(space?.lighting)}
+          </div>
+        )}
+        {space?.cleanliness && (
+          <div className={classes.filterDiv}>
+            <WashIcon /> &nbsp;{cleanliness(space?.cleanliness)}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const popularItems = () => {
     if (
@@ -34,10 +77,13 @@ export default function Amenities(props) {
 
   return (
     <div className={classes.highlightsContainer}>
-      <Typography variant="h5">Amenities</Typography>
-      {/* <Typography variant="h6" style={{ marginBottom: "6px" }}>
-        Popular For
-      </Typography> */}
+      <Typography variant="h5" style={{ marginBottom: "10px" }}>
+        Additional info
+      </Typography>
+      {renderDetails()}
+      <Typography variant="h6" style={{ marginTop: "15px" }}>
+        Amenities
+      </Typography>
       {popularItems()}
       {position && (
         <div style={{ marginTop: "30px" }}>

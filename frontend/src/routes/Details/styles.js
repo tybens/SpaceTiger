@@ -205,4 +205,10 @@ export default makeStyles((theme) => ({
   mapContainer: {
     height: "400px",
   },
+
+  filterDiv: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "3px",
+  },
 }));

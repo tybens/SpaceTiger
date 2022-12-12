@@ -100,7 +100,6 @@ export default function SearchResults(props) {
   }, [data, query, filters, sort]);
 
   const renderSpaces = () => {
-    console.log(filtered);
     if (filtered.length === 0) return <p>No spaces match this query.</p>;
     return (
       <>

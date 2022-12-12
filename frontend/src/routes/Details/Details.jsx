@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import locationData from '../../data/locations.json'
+import locationData from "../../data/locations.json";
 // import detailData from "./details.json";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
@@ -18,7 +18,6 @@ export default function Details() {
   const [loaded, setLoaded] = useState(false);
   const { query } = useParams();
   const classes = useStyles();
-
 
   const getData = useCallback(() => {
     axios
@@ -41,7 +40,7 @@ export default function Details() {
     // fetch stuff blah blah
     // setData(JSON.parse(JSON.stringify(detailData)));
   }, [query]);
-  
+
   useEffect(() => {
     getData();
   }, [getData]);
@@ -49,7 +48,7 @@ export default function Details() {
   return (
     <div>
       <Banner photos={data?.photos} />
-      
+
       <Header
         name={data?.space.name}
         rating={data?.space.rating}
@@ -58,10 +57,11 @@ export default function Details() {
         getData={getData}
         space_id={query}
       />
-      
+
       <div className={classes.itemContainer}>
         {loaded && (
           <Amenities
+            space={data.space}
             amenities={data?.amenities}
             position={position}
             label={data?.space.location}

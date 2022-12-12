@@ -1,6 +1,23 @@
 // Matches filter values to the appropriate comparison of the space value
 // in order to properly filter the numerical values based on categories
 
+export function noisiness(num_val) {
+  if (!num_val) return null;
+  switch (num_val) {
+    case 0:
+    case 1:
+      return "Silent";
+    case 2:
+      return "Soft Whisper";
+    case 3:
+    case 4:
+      return "Normal Conversation";
+    case 5:
+    default:
+      return "Shouting in Ear";
+  }
+}
+
 export function matchNoisiness(filter_val, space_val) {
   switch (filter_val) {
     case "Silent":
@@ -14,7 +31,24 @@ export function matchNoisiness(filter_val, space_val) {
     default:
       return true;
   }
-};
+}
+
+export function privacy(num_val) {
+  if (!num_val) return null;
+  switch (num_val) {
+    case 0:
+    case 1:
+      return "Private";
+    case 2:
+      return "Semi-private";
+    case 3:
+    case 4:
+      return "Semi-public";
+    case 5:
+    default:
+      return "Public";
+  }
+}
 
 export function matchPrivacy(filter_val, space_val) {
   switch (filter_val) {
@@ -29,7 +63,23 @@ export function matchPrivacy(filter_val, space_val) {
     default:
       return true;
   }
-};
+}
+
+export function lighting(num_val) {
+  if (!num_val) return null;
+  switch (num_val) {
+    case 0:
+    case 1:
+      return "Dim";
+    case 2:
+    case 3:
+      return "Normal";
+    case 4:
+    case 5:
+    default:
+      return "Bright";
+  }
+}
 
 export function matchLighting(filter_val, space_val) {
   switch (filter_val) {
@@ -42,7 +92,25 @@ export function matchLighting(filter_val, space_val) {
     default:
       return true;
   }
-};
+}
+
+export function cleanliness(num_val) {
+  if (!num_val) return null;
+  switch (num_val) {
+    case 0:
+    case 1:
+      return "Orderly Spotlessness";
+    case 2:
+      return "Ordinary Tidiness";
+    case 3:
+      return "Casual Inattention";
+    case 4:
+      return "Moderate Dinginess";
+    case 5:
+    default:
+      return "Unkempt Neglect";
+  }
+}
 
 export function matchCleanliness(filter_val, space_val) {
   switch (filter_val) {
@@ -59,7 +127,7 @@ export function matchCleanliness(filter_val, space_val) {
     default:
       return true;
   }
-};
+}
 
 export function sortResults(data, sort_val) {
   switch (sort_val) {
