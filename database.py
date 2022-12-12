@@ -487,19 +487,32 @@ def handle_approval(space_id, approval):
 
 # get the reviews associated with a space specified by space_id
 def get_reviews(space_id=None, puid=None):
-    ret = []
     with sqlalchemy.orm.Session(engine) as session:
         if space_id:
             q = session.query(models.Review).filter(models.Review.space_id == space_id)
         elif puid:
             q = session.query(models.Review).filter(models.Review.user_id == puid)
+            table = q.all()
+            reviews = [review.to_json() for review in table]
+            space_ids = [rev["spaceid"] for rev in reviews]
+            spaces = (
+                session.query(models.Space)
+                .filter(models.Space.id.in_(space_ids))
+                .with_entities(models.Space.id, models.Space.name)
+                .all()
+            )
+
+            hash_map = dict(spaces)
+            for review in reviews:
+                review.update({"space_name": hash_map[review["spaceid"]]})
+            
+            return reviews
         else:
             q = session.query(models.Review)
 
         table = q.all()
-        ret = [review.to_json() for review in table]
-
-    return ret
+        reviews = [review.to_json() for review in table]
+    return reviews
 
 
 # add a review consisting of rating and content
