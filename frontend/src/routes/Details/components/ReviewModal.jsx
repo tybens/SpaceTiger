@@ -94,16 +94,15 @@ export default function ReviewModal(props) {
         .then((res) => {
           if (res.status === 200) {
             setStatus("success");
-            setMessage(
-              "Success! After an administrator approves your space, you will be able to search and review it. "
-            );
             closeModal();
             // navigate("/profile");
           } else {
             // TODO: show server error modal
             console.log(res);
             setStatus("error");
-            setMessage("Adding the space failed. Please try again later. ");
+            setMessage(
+              "Submitting the review failed. Please try again later. "
+            );
           }
         })
         .catch((err) => {
@@ -126,22 +125,9 @@ export default function ReviewModal(props) {
     // handleClose();
   };
 
-  return (
-    <Modal
-      open={open}
-      onClose={closeModal}
-      aria-labelledby="review-modal"
-      aria-describedby="review"
-    >
-      <Box className={classes.modalContainer}>
-        <div className={classes.modalHeader}>
-          <Typography variant="h5" style={{ fontWeight: 600 }}>
-            Write a Review
-          </Typography>
-          <IconButton aria-label="close" onClick={closeModal}>
-            <CloseIcon />
-          </IconButton>
-        </div>
+  const reviewForm = () => {
+    return (
+      <>
         <div className={classes.modalForm}>
           <Typography style={{ marginBottom: "20px" }}>
             Your name will not publically appear with your review.
@@ -303,6 +289,64 @@ export default function ReviewModal(props) {
             </Button>
           </div>
         </div>
+      </>
+    );
+  };
+
+  const renderPostMessage = () => {
+    return (
+      <div className={classes.modalForm}>
+        <Typography variant="p">{message}</Typography>
+        <div
+          className={classes.headerBtns}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          {status === "error" && (
+            <Button
+              variant="contained"
+              disableelevation="true"
+              onClick={closeModal}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Close
+            </Button>
+          )}
+          {status === "success" && (
+            <Button
+              variant="contained"
+              disableelevation="true"
+              onClick={closeModal}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Confirm
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={closeModal}
+      aria-labelledby="review-modal"
+      aria-describedby="review"
+    >
+      <Box className={classes.modalContainer}>
+        <div className={classes.modalHeader}>
+          <Typography variant="h5" style={{ fontWeight: 600 }}>
+            Write a Review
+          </Typography>
+          <IconButton aria-label="close" onClick={closeModal}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        {status === "none" && reviewForm()}
+        {status !== "none" && renderPostMessage()}
       </Box>
     </Modal>
   );
