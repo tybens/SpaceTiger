@@ -1,27 +1,22 @@
-import { FormControl, MenuItem, InputLabel, Select } from "@mui/material";
+import { FormControl, MenuItem, InputLabel, Select, Checkbox } from "@mui/material";
 
 import amenitiesData from "../../../data/amenities.json";
 import typesData from "../../../data/types.json";
 
 import useStyles from "../styles.js";
 
-typesData.unshift("Select");
-amenitiesData.unshift("Select");
-
 const TYPE = typesData;
 const AMENITIES = amenitiesData;
 const NOISINESS = [
-  "Select",
   "Silent",
   "Soft Whisper",
   "Normal Conversation",
   "Shouting in Ear",
 ];
-const PRIVACY = ["Select", "Private", "Semi-private", "Semi-public", "Public"];
-const LIGHTING = ["Select", "", "Dim", "Normal", "Bright"];
+const PRIVACY = ["Private", "Semi-private", "Semi-public", "Public"];
+const LIGHTING = ["Dim", "Normal", "Bright"];
 // taken from https://spaces4learning.com/articles/2018/10/01/cleanliness.aspx
 const CLEANLINESS = [
-  "Select",
   "Orderly Spotlessness",
   "Ordinary Tidiness",
   "Casual Inattention",
@@ -50,21 +45,17 @@ export default function SearchFilters({ filters, setFilters }) {
       >
         <InputLabel id="type">Type</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="type"
           id="type"
           value={filters.type}
           label="type"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("type", "");
-            } else {
-              handleUpdateFilter("type", e.target.value);
-            }
-          }}
+          onChange={(e) => handleUpdateFilter("type", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {TYPE.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.type.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -76,23 +67,19 @@ export default function SearchFilters({ filters, setFilters }) {
         size="small"
         style={{ width: "150px" }}
       >
-        <InputLabel id="amenities">Amenity</InputLabel>
+        <InputLabel id="amenities">Amenities</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="amenities"
           id="amenities"
           value={filters.amenities}
-          label="Amenity"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("amenities", "");
-            } else {
-              handleUpdateFilter("amenities", e.target.value);
-            }
-          }}
+          label="Amenities"
+          onChange={(e) => handleUpdateFilter("amenities", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {AMENITIES.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.amenities.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -106,21 +93,17 @@ export default function SearchFilters({ filters, setFilters }) {
       >
         <InputLabel id="noisiness">Noisiness</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="noisiness"
           id="noisiness"
           value={filters.noisiness}
           label="Noisiness"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("noisiness", "");
-            } else {
-              handleUpdateFilter("noisiness", e.target.value);
-            }
-          }}
+          onChange={(e) => handleUpdateFilter("noisiness", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {NOISINESS.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.noisiness.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -134,21 +117,17 @@ export default function SearchFilters({ filters, setFilters }) {
       >
         <InputLabel id="privacy">Privacy</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="privacy"
           id="privacy"
           value={filters.privacy}
           label="Privacy"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("privacy", "");
-            } else {
-              handleUpdateFilter("privacy", e.target.value);
-            }
-          }}
+          onChange={(e) => handleUpdateFilter("privacy", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {PRIVACY.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.privacy.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -162,21 +141,17 @@ export default function SearchFilters({ filters, setFilters }) {
       >
         <InputLabel id="lighting">Lighting</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="lighting"
           id="lighting"
           value={filters.lighting}
           label="lighting"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("lighting", "");
-            } else {
-              handleUpdateFilter("lighting", e.target.value);
-            }
-          }}
+          onChange={(e) => handleUpdateFilter("lighting", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {LIGHTING.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.lighting.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}
@@ -188,23 +163,19 @@ export default function SearchFilters({ filters, setFilters }) {
         size="small"
         style={{ width: "160px" }}
       >
-        <InputLabel id="Cleanliness">Cleanliness</InputLabel>
+        <InputLabel id="cleanliness">Cleanliness</InputLabel>
         <Select
-          displayEmpty
+          multiple
           labelId="cleanliness"
           id="cleanliness"
           value={filters.cleanliness}
           label="cleanliness"
-          onChange={(e) => {
-            if (e.target.value === "Select") {
-              handleUpdateFilter("cleanliness", "");
-            } else {
-              handleUpdateFilter("cleanliness", e.target.value);
-            }
-          }}
+          onChange={(e) => handleUpdateFilter("cleanliness", e.target.value)}
+          renderValue={(selected) => selected.join(', ')}
         >
           {CLEANLINESS.map((item, idx) => (
             <MenuItem key={item + idx} value={item}>
+              <Checkbox checked={filters.cleanliness.indexOf(item) > -1} />
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </MenuItem>
           ))}

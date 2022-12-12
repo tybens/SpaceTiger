@@ -51,15 +51,32 @@ export default function SearchResults(props) {
           const matchesQuery = space.name.toLowerCase().includes(query.toLowerCase()) ||
           space.location.toLowerCase().includes(query.toLowerCase());
 
-          const matchesType = filters.type ? space.type === filters.type : true;
-          const matchesAmenities = filters.amenities ? space.amenities.includes(filters.amenities): true;
+          const matchesType = filters.type.length > 0 ?
+            filters.type.filter(value => space.type === value).length > 0 :
+            true;
+          const matchesAmenities = filters.amenities.length > 0 ?
+            filters.amenities.filter(value => space.amenities.includes(value)).length === filters.amenities.length :
+            true;
+          const matchesNoisiness = filters.noisiness.length > 0 ?
+            filters.noisiness.filter(value => matchNoisiness(value, space.noisiness)).length > 0 :
+            true;
+          const matchesPrivacy = filters.privacy.length > 0 ?
+            filters.privacy.filter(value => matchPrivacy(value, space.privacy)).length > 0 :
+            true;
+          const matchesLighting = filters.lighting.length > 0 ?
+            filters.lighting.filter(value => matchLighting(value, space.lighting)).length > 0 :
+            true;
+          const matchesCleanliness = filters.cleanliness.length > 0 ?
+            filters.cleanliness.filter(value => matchCleanliness(value, space.cleanliness)).length > 0 :
+            true;
+
           const matchesFilters = (
             matchesType
             && matchesAmenities
-            && matchNoisiness(filters.noisiness, space.noisiness)
-            && matchPrivacy(filters.privacy, space.privacy)
-            && matchLighting(filters.lighting, space.lighting)
-            && matchCleanliness(filters.cleanliness, space.cleanliness)
+            && matchesNoisiness
+            && matchesPrivacy
+            && matchesLighting
+            && matchesCleanliness
           );
 
           return matchesQuery && matchesFilters;

@@ -6,8 +6,7 @@ from flask import (
     redirect,
     send_from_directory,
     jsonify,
-    request,
-    session
+    request
 )
 from flask_restful import Api
 from flask_cors import CORS
@@ -134,7 +133,7 @@ def get_awaiting_approval():
 
 @app.route('/approve')
 def handle_approve():
-    
+
     space_id = request.args.get('space_id')
     approval = request.args.get('approval') == "true"
     admin = db.check_user_admin()

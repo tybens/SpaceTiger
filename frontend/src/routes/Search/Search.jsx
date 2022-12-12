@@ -9,12 +9,12 @@ import useStyles from "./styles.js";
 export default function Search() {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({
-    type: "",
-    noisiness: "",
-    amenities: "",
-    privacy: "",
-    lighting: "",
-    cleanliness: "",
+    type: [],
+    noisiness: [],
+    amenities: [],
+    privacy: [],
+    lighting: [],
+    cleanliness: [],
   });
   const classes = useStyles();
 
