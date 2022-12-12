@@ -2,7 +2,7 @@ from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, Float, Date
 from sqlalchemy.orm import declarative_base, relationship
 import uuid
 import os
-from sqlalchemy import Column, ForeignKey, String, Integer, Boolean, create_engine
+from sqlalchemy import Column, ForeignKey, String, Integer, Float, Boolean, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 
 from guid import GUID
@@ -38,14 +38,14 @@ class Space(Base):
     location = Column(String)   
     capacity = Column(Integer)
     numreviews = Column(Integer)
-    rating = Column(Integer)
+    rating = Column(Float, nullable=True)
     numvisits = Column(Integer)
     approved = Column(Boolean, default=False)
-    avgcleanliness = Column(Float)
-    avgnoise = Column(Float)
-    avgprivacy = Column(Float)
-    avglighting = Column(Float)
-    avgamenities = Column(Float)
+    avgcleanliness = Column(Float, nullable=True)
+    avgnoise = Column(Float, nullable=True)
+    avgprivacy = Column(Float, nullable=True)
+    avglighting = Column(Float, nullable=True)
+    avgamenities = Column(Float, nullable=True)
 
     
 
