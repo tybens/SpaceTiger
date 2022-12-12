@@ -63,11 +63,7 @@ export default function SpaceItem(props) {
       {space && (
         <Link to={`/search/${space.id}`}>
           <div className={classes.spaceItem}>
-            <img
-              className={classes.spaceImg}
-              src={src}
-              alt={space.name}
-            />
+            <img className={classes.spaceImg} src={src} alt={space.name} />
             <div className={classes.spaceText}>
               {mySpaces && !approved && (
                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -85,7 +81,14 @@ export default function SpaceItem(props) {
               <Typography variant="h6">{space.name}</Typography>
               <p>{space.location}</p>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <StarIcon fontSize="30px" /> &nbsp;{space.rating}
+                {space.rating ? (
+                  <>
+                    <StarIcon fontSize="30px" /> &nbsp;
+                    {space.rating}
+                  </>
+                ) : (
+                  <p style={{ margin: 0, color: "#919191" }}>Not yet rated</p>
+                )}
               </div>
               {/* { this is one option, looks super cool */
               /* <Rating
