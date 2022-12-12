@@ -96,7 +96,8 @@ def add_space(puid, name, capacity, location, type, approved=False):
         table = query.all()
 
         if table:
-            return f"space with name {name} already exists"
+            # return existing space id
+            return False, table[0].id
 
         new_space = models.Space(
             user_id=puid,
@@ -110,7 +111,7 @@ def add_space(puid, name, capacity, location, type, approved=False):
         session.commit()
         return_id = new_space.id
 
-    return return_id
+    return True, return_id
 
 
 def update_space(space_id, dict_of_changes):

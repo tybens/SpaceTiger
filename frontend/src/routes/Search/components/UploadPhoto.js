@@ -4,8 +4,8 @@ const UploadAndDisplayImage = ({ images, setImages }) => {
 
   return (
     <div>
-      {images.map((image) => (
-        <div>
+      {images.map((image, id) => (
+        <div key={id}>
           <img
             alt="not found"
             width={"250px"}
