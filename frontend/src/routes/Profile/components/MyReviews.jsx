@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography, Button, Link } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import ReviewItem from "../../Details/components/ReviewItem.jsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +39,7 @@ export default function MyReviews({ user }) {
       return (
         <Grid item>
           <Typography variant="body1" color="initial">
-            You don't have any reviews! Click <Link to={"/search"}>here</Link>{" "}
-            to review a space.
+            You don't have any reviews! Try <Link component={RouterLink} to={"/search"}>reviewing a space</Link>.
           </Typography>
         </Grid>
       );

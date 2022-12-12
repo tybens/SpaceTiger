@@ -57,7 +57,7 @@ const MySpaces = ({ user }) => {
     <Grid item container className={classes.block} spacing={3}>
       <Grid item xs={12}>
         <Typography variant="h4" className={classes.header}>
-          Your created spaces ({data?.length})
+          Your Created Spaces ({data?.length})
         </Typography>
       </Grid>
       {error ? (

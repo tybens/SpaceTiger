@@ -1,11 +1,25 @@
 import { useState } from "react";
-import { Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Grid, Typography, Link } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 
 import SpaceItem from "./SpaceItem";
+
+const renderMessage = (isMySpaces, isApprovalSpaces) => {
+  if (isMySpaces) return (
+    <>
+      You haven't created any spaces! Try{" "}<Link component={RouterLink} to={"/search"}>adding a space</Link>.
+    </>
+  );
+  if (isApprovalSpaces) return "No spaces to approve! Nothing to worry about!"
+  return (
+    <>
+      You don't have any favorites! Let's help you{" "}<Link component={RouterLink} to={"/search"}>find a new space</Link>.
+    </>
+  )
+};
 
 const ApprovalDissaproval = ({ handleClick, spaceId }) => {
   const [loading, setLoading] = useState(false);
@@ -49,7 +63,14 @@ const ApprovalDissaproval = ({ handleClick, spaceId }) => {
   );
 };
 
-const RenderSpaces = ({ spaces, photos, numSpaces, mySpaces = false, approvalSpaces=false, handleApproval=null}) => {
+const RenderSpaces = ({
+  spaces,
+  photos,
+  numSpaces,
+  mySpaces = false,
+  approvalSpaces = false,
+  handleApproval = null,
+}) => {
   return spaces?.length ? (
     <>
       {spaces?.slice(0, numSpaces).map((space, index) => (
@@ -65,17 +86,15 @@ const RenderSpaces = ({ spaces, photos, numSpaces, mySpaces = false, approvalSpa
             <ApprovalDissaproval
               spaceId={space.id}
               handleClick={handleApproval}
-            />)}
+            />
+          )}
         </Grid>
       ))}
     </>
   ) : (
     <Grid item>
       <Typography variant="body1" color="initial">
-      No spaces to approve! Nothing to worry about!
-        You don't have any favorites!
-        You haven't created any spaces! Click <Link to={"/search"}>here</Link>{" "}
-        to add a space.
+        {renderMessage(mySpaces, approvalSpaces)}
       </Typography>
     </Grid>
   );

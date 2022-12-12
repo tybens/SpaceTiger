@@ -58,7 +58,7 @@ const Favorites = ({ user }) => {
     <Grid item container className={classes.block} spacing={3}>
       <Grid item xs={12}>
         <Typography variant="h4" className={classes.header}>
-          Your favorites ({data?.length})
+          Your Favorites ({data?.length})
         </Typography>
       </Grid>
       {error ? (

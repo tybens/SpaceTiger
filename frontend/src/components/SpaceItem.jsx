@@ -66,7 +66,6 @@ export default function SpaceItem(props) {
             <img
               className={classes.spaceImg}
               src={src}
-              // src={space.photos[0]}
               alt={space.name}
             />
             <div className={classes.spaceText}>
@@ -79,7 +78,7 @@ export default function SpaceItem(props) {
                       color: "red",
                     }}
                   >
-                    Awaiting Mod Approval
+                    Awaiting Admin Approval
                   </span>
                 </div>
               )}
