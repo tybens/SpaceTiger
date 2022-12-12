@@ -59,7 +59,7 @@ export default function MyReviews({ user }) {
     return reviewData?.slice(0, numReviews).map((r, index) => {
       return (
         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-          <ReviewItem key={index} review={r} />
+          <ReviewItem key={index} review={r} getData={getData} />
         </Grid>
       );
     });
