@@ -28,9 +28,13 @@ export default function Header({
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  let directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(location + " Princeton NJ")}`;
+  let directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+    location + " Princeton NJ"
+  )}`;
   if (location?.toLowerCase().includes("outdoor")) {
-    directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(name + " Princeton NJ")}`;
+    directionsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+      name + " Princeton NJ"
+    )}`;
   }
 
   const handleOpen = () => {
@@ -129,6 +133,7 @@ export default function Header({
             variant="outlined"
             startIcon={<DirectionsIcon />}
             href={directionsURL}
+            style={{ marginRight: "10px" }}
           >
             Directions
           </Button>
@@ -138,7 +143,11 @@ export default function Header({
               disableelevation="true"
               startIcon={<CreateIcon />}
               onClick={handleOpen}
-              style={{ backgroundColor: "black", color: "white" }}
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                marginRight: "10px",
+              }}
             >
               Write a review
             </Button>

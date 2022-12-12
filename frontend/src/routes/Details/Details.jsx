@@ -9,6 +9,7 @@ import Header from "./components/Header";
 // import Highlights from "./components/Highlights";
 import Reviews from "./components/Reviews";
 import Amenities from "./components/Amenities";
+import { Loader } from "../../components/Loader";
 
 import useStyles from "./styles.js";
 
@@ -16,8 +17,10 @@ export default function Details() {
   const [data, setData] = useState(null);
   const [position, setPosition] = useState([46.48826, -63.65346]);
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
   const { query } = useParams();
   const classes = useStyles();
+  console.log(loaded);
 
   const getData = useCallback(() => {
     axios
@@ -36,10 +39,44 @@ export default function Details() {
         setLoaded(true);
         setData(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoaded(true);
+        setError(true);
+        console.log(err);
+      });
     // fetch stuff blah blah
     // setData(JSON.parse(JSON.stringify(detailData)));
   }, [query]);
+
+  const detailsPage = () => {
+    return (
+      <>
+        <Banner photos={data?.photos} />
+
+        <Header
+          name={data?.space.name}
+          rating={data?.space.rating}
+          numreviews={data?.reviews.length}
+          location={data?.space.location}
+          getData={getData}
+          space_id={query}
+        />
+
+        <div className={classes.itemContainer}>
+          {loaded && (
+            <Amenities
+              space={data.space}
+              amenities={data?.amenities}
+              position={position}
+              label={data?.space.location}
+            />
+          )}
+          {/* <Highlights popularFor={data?.popularfor} tags={data?.tags} /> */}
+          <Reviews getData={getData} reviews={data?.reviews} />
+        </div>
+      </>
+    );
+  };
 
   useEffect(() => {
     getData();
@@ -47,30 +84,18 @@ export default function Details() {
 
   return (
     <div>
-      <Banner photos={data?.photos} />
-
-      <Header
-        name={data?.space.name}
-        rating={data?.space.rating}
-        numreviews={data?.reviews.length}
-        location={data?.space.location}
-        getData={getData}
-        space_id={query}
-      />
-
-      <div className={classes.itemContainer}>
-        {loaded && (
-          <Amenities
-            space={data.space}
-            amenities={data?.amenities}
-            position={position}
-            label={data?.space.location}
-          />
-        )}
-        {/* <Highlights popularFor={data?.popularfor} tags={data?.tags} /> */}
-        <Reviews getData={getData} reviews={data?.reviews} />
-      </div>
-      {/* {query} */}
+      {!loaded && (
+        <>
+          <div style={{ height: "30px" }} />
+          <Loader />
+        </>
+      )}
+      {loaded && error && (
+        <p style={{ marginLeft: "10px" }}>
+          An error occured with our systems. Check back later!
+        </p>
+      )}
+      {loaded && !error && detailsPage()}
     </div>
   );
 }
