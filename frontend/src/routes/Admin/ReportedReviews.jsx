@@ -75,9 +75,9 @@ export default function ReportedReviews() {
   // const { user } = useContext(UserContext);
 
   const handleReport = (keep, reviewId, reportId) => {
-    console.log("keep", keep);
-    console.log("reviewid", reviewId);
-    console.log("reviewid", reportId);
+    // console.log("keep", keep);
+    // console.log("reviewid", reviewId);
+    // console.log("reviewid", reportId);
 
     // keep review, delete the report
     if (keep) {

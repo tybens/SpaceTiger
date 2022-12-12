@@ -20,7 +20,7 @@ export default function Details() {
   const [error, setError] = useState(false);
   const { query } = useParams();
   const classes = useStyles();
-  console.log(loaded);
+  // console.log(loaded);
 
   const getData = useCallback(() => {
     axios
