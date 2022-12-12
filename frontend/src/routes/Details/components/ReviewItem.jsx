@@ -72,14 +72,14 @@ export default function ReviewItem({ review, getData, reported }) {
           ))}
         </Typography>
 
-        <Typography style={{ fontSize: "13px" }}>
+        {/* <Typography style={{ fontSize: "13px" }}>
           Amenities:
           {review.amenities.map((item) => (
             <span key={item.id} className={classes.tag}>
               {item.amenity}
             </span>
           ))}
-        </Typography>
+        </Typography> */}
         {user && !reported && (
           <Button
             size="small"
