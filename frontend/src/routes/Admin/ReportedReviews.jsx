@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 
 import axios from "axios";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReviewItem from "../Details/components/ReviewItem";
 import { Loader } from "../../components/Loader";
 // import { UserContext } from "../../context";
@@ -144,7 +144,12 @@ export default function ReportedReviews() {
       return (
         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
           <Typography variant="p" style={{ fontSize: "20px" }}>
-            <b>{r.space_name}</b>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/search/${r.review?.spaceid}`}
+            >
+              <b>{r.space_name}</b>
+            </Link>
           </Typography>
           <ReviewItem reported key={index} review={r.review} />
           <div className={classes.reviewItem}>
