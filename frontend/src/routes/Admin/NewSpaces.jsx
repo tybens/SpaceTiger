@@ -6,6 +6,7 @@ import axios from "axios";
 import { UserContext } from "../../context";
 
 import RenderSpaces from "../../components/RenderSpaces";
+import { Loader } from "../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,6 +25,7 @@ const NewSpaces = () => {
   const [data, setNewSpaceData] = useState(null);
   const [photos, setPhotos] = useState(null);
   const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const classes = useStyles();
 
@@ -36,6 +38,7 @@ const NewSpaces = () => {
           let data = res.data;
           setNewSpaceData(data.spaces);
           setPhotos(data.photos);
+          setLoaded(true);
         })
         .catch((err) => setError(true));
     }
@@ -86,26 +89,31 @@ const NewSpaces = () => {
         </Grid>
       ) : (
         <>
-          <RenderSpaces
-            spaces={data}
-            photos={photos}
-            handleApproval={handleApproval}
-            approvalSpaces={true}
-            numSpaces={numSpaces}
-          />
-          {numSpaces < data?.length && (
-            <Grid item xs={12}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleViewMore}
-                fullWidth
-              >
-                <IconButton aria-label="load more">
-                  <AddIcon />
-                </IconButton>
-              </Button>
-            </Grid>
+          {!loaded && <Loader />}
+          {loaded && (
+            <>
+              <RenderSpaces
+                spaces={data}
+                photos={photos}
+                handleApproval={handleApproval}
+                approvalSpaces={true}
+                numSpaces={numSpaces}
+              />
+              {numSpaces < data?.length && (
+                <Grid item xs={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleViewMore}
+                    fullWidth
+                  >
+                    <IconButton aria-label="load more">
+                      <AddIcon />
+                    </IconButton>
+                  </Button>
+                </Grid>
+              )}
+            </>
           )}
         </>
       )}

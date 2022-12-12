@@ -4,8 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
-import RenderSpaces from "../../../components/RenderSpaces"
-
+import RenderSpaces from "../../../components/RenderSpaces";
+import { Loader } from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -22,6 +22,7 @@ const Favorites = ({ user }) => {
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState(false);
   const [numSpaces, setNumSpaces] = useState(4);
+  const [loaded, setLoaded] = useState(false);
 
   const classes = useStyles();
 
@@ -34,8 +35,12 @@ const Favorites = ({ user }) => {
         let data = res.data;
         setData(data.spaces);
         setPhotos(data.photos);
+        setLoaded(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+      });
   };
 
   useEffect(() => {
@@ -44,7 +49,6 @@ const Favorites = ({ user }) => {
     setError(false);
     // eslint-disable-next-line
   }, []);
-
 
   const handleViewMore = () => {
     if (numSpaces + 4 > data?.length) {
@@ -69,21 +73,30 @@ const Favorites = ({ user }) => {
         </Grid>
       ) : (
         <>
-          <RenderSpaces spaces={data} photos={photos} numSpaces={numSpaces} />
-          {numSpaces < data?.length && (
-            <Grid item xs={12}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleViewMore}
-                fullWidth
-              >
-                {/* <IconButton aria-label="load more"> */}
-                <AddIcon />
-                {/* </IconButton> */}
-              </Button>
-            </Grid>
+          {loaded && (
+            <>
+              <RenderSpaces
+                spaces={data}
+                photos={photos}
+                numSpaces={numSpaces}
+              />
+              {numSpaces < data?.length && (
+                <Grid item xs={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleViewMore}
+                    fullWidth
+                  >
+                    {/* <IconButton aria-label="load more"> */}
+                    <AddIcon />
+                    {/* </IconButton> */}
+                  </Button>
+                </Grid>
+              )}
+            </>
           )}
+          {!loaded && <Loader />}
         </>
       )}
     </Grid>

@@ -120,7 +120,7 @@ export default function ReportModal(props) {
               onClick={closeModal}
               style={{ backgroundColor: "black", color: "white" }}
             >
-              Confirm
+              Okay
             </Button>
           )}
         </div>

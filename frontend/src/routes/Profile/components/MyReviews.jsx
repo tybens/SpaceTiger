@@ -5,6 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import ReviewItem from "../../Details/components/ReviewItem.jsx";
+import { Loader } from "../../../components/Loader.jsx";
 
 const useStyles = makeStyles((theme) => ({
   block: {
@@ -16,6 +17,8 @@ export default function MyReviews({ user }) {
   const classes = useStyles();
   const [numReviews, setNumReviews] = useState(3);
   const [reviewData, setReviewData] = useState(null);
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const getData = () => {
     axios
@@ -25,8 +28,13 @@ export default function MyReviews({ user }) {
       .then((res) => {
         let data = res.data;
         setReviewData(data);
+        setLoaded(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoaded(true);
+        setError(true);
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -39,7 +47,11 @@ export default function MyReviews({ user }) {
       return (
         <Grid item>
           <Typography variant="body1" color="initial">
-            You don't have any reviews! Try <Link component={RouterLink} to={"/search"}>reviewing a space</Link>.
+            You don't have any reviews! Try{" "}
+            <Link component={RouterLink} to={"/search"}>
+              reviewing a space
+            </Link>
+            .
           </Typography>
         </Grid>
       );
@@ -68,20 +80,32 @@ export default function MyReviews({ user }) {
           Your Reviews ({reviewData?.length})
         </Typography>
       </Grid>
-      <ReviewItems />
-      {numReviews < reviewData?.length && (
-        <Grid item xs={12}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleViewMore}
-            fullWidth
-          >
-            {/* <IconButton aria-label="load more"> */}
-            <AddIcon />
-            {/* </IconButton> */}
-          </Button>
+      {!loaded && <Loader />}
+      {loaded && error && (
+        <Grid item>
+          <Typography variant="body1" color="initial">
+            A server error occurred. Please contact the system administrator.
+          </Typography>
         </Grid>
+      )}
+      {loaded && !error && (
+        <>
+          <ReviewItems />
+          {numReviews < reviewData?.length && (
+            <Grid item xs={12}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleViewMore}
+                fullWidth
+              >
+                {/* <IconButton aria-label="load more"> */}
+                <AddIcon />
+                {/* </IconButton> */}
+              </Button>
+            </Grid>
+          )}
+        </>
       )}
     </Grid>
   );

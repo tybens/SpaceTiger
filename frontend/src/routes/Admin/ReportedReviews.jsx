@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 // import { Link } from "react-router-dom";
 import ReviewItem from "../Details/components/ReviewItem";
+import { Loader } from "../../components/Loader";
 // import { UserContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,8 @@ export default function ReportedReviews() {
   const [numReviews, setNumReviews] = useState(3);
   const [reportsData, setReportsData] = useState(null);
   // const { user } = useContext(UserContext);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleReport = (keep, reviewId, reportId) => {
     // console.log("keep", keep);
@@ -113,8 +116,13 @@ export default function ReportedReviews() {
       .then((res) => {
         let data = res.data;
         setReportsData(data);
+        setLoaded(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoaded(true);
+        setError(true);
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -168,20 +176,32 @@ export default function ReportedReviews() {
       <Grid item xs={12}>
         <Typography variant="h4">Reported Reviews</Typography>
       </Grid>
-      <ReviewItems />
-      {numReviews < reportsData?.length && (
-        <Grid item xs={12}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleViewMore}
-            fullWidth
-          >
-            {/* <IconButton aria-label="load more"> */}
-            <AddIcon />
-            {/* </IconButton> */}
-          </Button>
+      {error && loaded && (
+        <Grid item>
+          <Typography variant="body1" color="initial">
+            A server error occurred. Please contact the system administrator.
+          </Typography>
         </Grid>
+      )}
+      {!loaded && <Loader />}
+      {!error && loaded && (
+        <>
+          <ReviewItems />
+          {numReviews < reportsData?.length && (
+            <Grid item xs={12}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleViewMore}
+                fullWidth
+              >
+                {/* <IconButton aria-label="load more"> */}
+                <AddIcon />
+                {/* </IconButton> */}
+              </Button>
+            </Grid>
+          )}
+        </>
       )}
     </Grid>
   );
