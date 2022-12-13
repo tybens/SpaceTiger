@@ -42,7 +42,6 @@ export default function AddSpaceModal(props) {
   const [submitted, setSubmitted] = useState(false);
   const [duplicateId, setDuplicateId] = useState(null);
 
-
   const onClose = () => {
     setStatus("none");
     setMessage("");
@@ -63,7 +62,15 @@ export default function AddSpaceModal(props) {
     // error handling
     setSubmitted(true);
 
-    if (name === "" || capacity === "" || location === "" || type === "") {
+    console.log(location);
+
+    if (
+      name === "" ||
+      capacity === "" ||
+      location === "" ||
+      !location ||
+      type === ""
+    ) {
       // console.log("inputs are invalid");
       return;
     }
@@ -92,13 +99,14 @@ export default function AddSpaceModal(props) {
           } else if (res.data.status === 409) {
             // show duplicate error
             setStatus("duplicate error");
-            setDuplicateId(res.data.space_id)
-            setMessage("A space with that name already exists! No need to make another one.");
+            setDuplicateId(res.data.space_id);
+            setMessage(
+              "A space with that name already exists! No need to make another one."
+            );
           } else {
             console.log(res);
             setStatus("error");
             setMessage("Adding the space failed. Please try again later. ");
-          
           }
         })
         .catch((err) => {
@@ -144,7 +152,7 @@ export default function AddSpaceModal(props) {
               disableelevation="true"
               onClick={() => {
                 onClose();
-                navigate(`/search/${duplicateId}`)
+                navigate(`/search/${duplicateId}`);
               }}
               style={{ backgroundColor: "black", color: "white" }}
             >
