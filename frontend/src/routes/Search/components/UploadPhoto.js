@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const UploadAndDisplayImage = ({ images, setImages }) => {
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
 
   return (
     <div>
-      {images.map((image) => (
-        <div>
+      {images.map((image, id) => (
+        <div key={id}>
           <img
             alt="not found"
             width={"250px"}

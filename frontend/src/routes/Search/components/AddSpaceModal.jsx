@@ -40,6 +40,8 @@ export default function AddSpaceModal(props) {
   const [type, setType] = useState("");
   const [images, setImages] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [duplicateId, setDuplicateId] = useState(null);
+
 
   const onClose = () => {
     setStatus("none");
@@ -75,25 +77,28 @@ export default function AddSpaceModal(props) {
       images: dataImages,
     };
 
-    console.log("post: ", reviewResponse);
-    // obviously this becomes a put request
-    // https://jasonwatmore.com/post/2020/11/02/react-fetch-http-put-request-examples
+    // console.log("post: ", reviewResponse);
 
     if (user) {
       axios
         .post("/spaces", reviewResponse)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.data.status === 200) {
             setStatus("success");
             setMessage(
               "Success! After an administrator approves your space, you will be able to search and review it. "
             );
             // navigate("/profile");
+          } else if (res.data.status === 409) {
+            // show duplicate error
+            setStatus("duplicate error");
+            setDuplicateId(res.data.space_id)
+            setMessage("A space with that name already exists! No need to make another one.");
           } else {
-            // TODO: show server error modal
             console.log(res);
             setStatus("error");
             setMessage("Adding the space failed. Please try again later. ");
+          
           }
         })
         .catch((err) => {
@@ -131,6 +136,19 @@ export default function AddSpaceModal(props) {
               style={{ backgroundColor: "black", color: "white" }}
             >
               Close
+            </Button>
+          )}
+          {status === "duplicate error" && (
+            <Button
+              variant="contained"
+              disableelevation="true"
+              onClick={() => {
+                onClose();
+                navigate(`/search/${duplicateId}`)
+              }}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
+              Visit Duplicate
             </Button>
           )}
           {status === "success" && (

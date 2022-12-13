@@ -33,14 +33,19 @@ class SpacesApi(Resource):
         parser.add_argument("images", type=str, action="append")
 
         args = parser.parse_args()
-        space_id = database.add_space(
+        status, space_id = database.add_space(
             args["puid"], args["name"], args["capacity"], args["location"], args["type"]
         )
+        if not status:
+            # return error message to frontend with existing space id
+            return jsonify({"status": 409, "space_id": space_id})
+            
 
         if args["images"]:
             for image in args["images"]:
                 url = database.upload_photo_to_cloudinary(image)
                 database.add_photo(space_id, url, None)
+        return jsonify({"status": 200})
 
     def put(self, space_id):
         dict_of_changes = json.loads(request.data)

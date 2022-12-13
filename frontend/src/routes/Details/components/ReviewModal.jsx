@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Typography,
@@ -51,6 +51,7 @@ export default function ReviewModal(props) {
   const [tags, setTags] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [ratingError, setRatingError] = useState(false);
 
   const closeModal = () => {
     setStatus("none");
@@ -68,11 +69,43 @@ export default function ReviewModal(props) {
     handleClose();
   };
 
+  useEffect(() => {
+    if (
+      noise === 0 ||
+      light === 0 ||
+      prod === 0 ||
+      clean === 0 ||
+      amenity === 0
+    ) {
+      setRatingError(true);
+    } else {
+      setRatingError(false);
+    }
+  }, [noise, light, prod, clean, amenity]);
+
+  const checkValidInputs = () => {
+    if (
+      noise === 0 ||
+      light === 0 ||
+      prod === 0 ||
+      clean === 0 ||
+      amenity === 0
+    ) {
+      setRatingError(true);
+      return false;
+    }
+
+    return rating !== 0 && exp !== "";
+  };
+
   const handleSubmit = () => {
     // this is where the dispatch/fetch is
 
     // error handling
     setSubmitted(true);
+    if (!checkValidInputs()) {
+      return;
+    }
 
     if (exp === "") {
       console.log("inputs are invalid");
@@ -127,7 +160,6 @@ export default function ReviewModal(props) {
       setStatus("error");
       setMessage("User unauthenticated, can't create a space!");
     }
-    console.log(reviewResponse);
     // handleClose();
   };
 
@@ -144,6 +176,7 @@ export default function ReviewModal(props) {
             name="simple-controlled"
             value={rating}
             onChange={(event, newValue) => {
+              newValue = newValue === null ? 0 : newValue;
               setRating(newValue);
             }}
             size="large"
@@ -157,7 +190,11 @@ export default function ReviewModal(props) {
           <Typography variant="h6" style={{ marginTop: "20px" }}>
             Rate Features
           </Typography>
-
+          {submitted && ratingError && (
+            <Typography style={{ color: "#d32f2f" }}>
+              You must specify a rating for all features.
+            </Typography>
+          )}
           <div className={classes.featureContainer}>
             <div className={classes.featureItem}>
               <Typography variant="p">Cleanliness</Typography>
@@ -166,6 +203,7 @@ export default function ReviewModal(props) {
                 name="clean"
                 value={clean}
                 onChange={(event, newValue) => {
+                  newValue = newValue === null ? 0 : newValue;
                   setClean(newValue);
                 }}
               />
@@ -180,6 +218,7 @@ export default function ReviewModal(props) {
                 name="noise"
                 value={noise}
                 onChange={(event, newValue) => {
+                  newValue = newValue === null ? 0 : newValue;
                   setNoise(newValue);
                 }}
               />
@@ -194,6 +233,7 @@ export default function ReviewModal(props) {
                 name="light"
                 value={light}
                 onChange={(event, newValue) => {
+                  newValue = newValue === null ? 0 : newValue;
                   setLight(newValue);
                 }}
               />
@@ -208,6 +248,7 @@ export default function ReviewModal(props) {
                 name="prod"
                 value={prod}
                 onChange={(event, newValue) => {
+                  newValue = newValue === null ? 0 : newValue;
                   setProd(newValue);
                 }}
               />
@@ -222,6 +263,7 @@ export default function ReviewModal(props) {
                 name="amenities"
                 value={amenity}
                 onChange={(event, newValue) => {
+                  newValue = newValue === null ? 0 : newValue;
                   setAmenity(newValue);
                 }}
               />
@@ -247,6 +289,11 @@ export default function ReviewModal(props) {
             rows={3}
             error={submitted && exp === ""}
           />
+          {submitted && exp === "" && (
+            <Typography style={{ color: "#d32f2f" }}>
+              You must specify your experience.
+            </Typography>
+          )}
 
           <Typography variant="h6">Add tags</Typography>
           <Autocomplete

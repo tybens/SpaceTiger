@@ -28,7 +28,6 @@ export default function ReviewItem({ review, getData, reported }) {
       .delete(`/reviews/${review.id}`)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
           getData();
         } else {
           // TODO: show server error modal

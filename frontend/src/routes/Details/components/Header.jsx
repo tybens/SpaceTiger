@@ -168,7 +168,7 @@ export default function Header({
       <div className={classes.headerSecond}>
         {rating && rating !== 0 ? (
           <>
-            {Math.round(rating * 100) / 100}&nbsp;
+            {Math.round(rating * 10) / 10}&nbsp;
             {rating && (
               <Rating
                 className={classes.stars}

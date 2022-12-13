@@ -96,7 +96,8 @@ def add_space(puid, name, capacity, location, type, approved=False):
         table = query.all()
 
         if table:
-            return f"space with name {name} already exists"
+            # return existing space id
+            return False, table[0].id
 
         new_space = models.Space(
             user_id=puid,
@@ -110,7 +111,7 @@ def add_space(puid, name, capacity, location, type, approved=False):
         session.commit()
         return_id = new_space.id
 
-    return return_id
+    return True, return_id
 
 
 def update_space(space_id, dict_of_changes):
@@ -138,7 +139,7 @@ def update_space_helper(
         "cleanliness": cleanliness,
         "amenities_rating": amenities_rating,
     }
-    if space["numreviews"] is None:
+    if space["numreviews"] is None or space["numreviews"] < 0:
         numreviews = 1
     else:
         if adding:
@@ -148,7 +149,7 @@ def update_space_helper(
 
     for key, value in mapping.items():
         if value is not None:
-            if numreviews == 0:
+            if numreviews <= 0:
                 mapping[key] = None
             elif space[key]:
                 # equation from https://stackoverflow.com/a/53618572/15561634
