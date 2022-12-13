@@ -133,7 +133,7 @@ export default function Header({
             variant="outlined"
             startIcon={<DirectionsIcon />}
             href={directionsURL}
-            style={{ marginRight: "10px" }}
+            // style={{ marginRight: "10px" }}
           >
             Directions
           </Button>
@@ -146,7 +146,7 @@ export default function Header({
               style={{
                 backgroundColor: "black",
                 color: "white",
-                marginRight: "10px",
+                // marginRight: "10px",
               }}
             >
               Write a review
@@ -168,7 +168,7 @@ export default function Header({
       <div className={classes.headerSecond}>
         {rating && rating !== 0 ? (
           <>
-            {rating}&nbsp;
+            {Math.round(rating * 100) / 100}&nbsp;
             {rating && (
               <Rating
                 className={classes.stars}

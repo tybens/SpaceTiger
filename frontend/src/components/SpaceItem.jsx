@@ -84,7 +84,7 @@ export default function SpaceItem(props) {
                 {space.rating ? (
                   <>
                     <StarIcon fontSize="30px" /> &nbsp;
-                    {space.rating}
+                    {Math.round(space.rating * 100) / 100}
                   </>
                 ) : (
                   <p style={{ margin: 0, color: "#919191" }}>Not yet rated</p>

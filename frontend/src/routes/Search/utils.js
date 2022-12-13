@@ -38,27 +38,27 @@ export function privacy(num_val) {
   switch (num_val) {
     case 0:
     case 1:
-      return "Private";
+      return "Public";
     case 2:
-      return "Semi-private";
+      return "Semi-public";
     case 3:
     case 4:
-      return "Semi-public";
+      return "Semi-private";
     case 5:
     default:
-      return "Public";
+      return "Private";
   }
 }
 
 export function matchPrivacy(filter_val, space_val) {
   switch (filter_val) {
-    case "Private":
-      return space_val > 0 && space_val <= 1;
-    case "Semi-private":
-      return space_val > 1 && space_val <= 2;
-    case "Semi-public":
-      return space_val > 2 && space_val < 4;
     case "Public":
+      return space_val > 0 && space_val <= 1;
+    case "Semi-public":
+      return space_val > 1 && space_val <= 2;
+    case "Semi-private":
+      return space_val > 2 && space_val < 4;
+    case "Private":
       return space_val >= 4;
     default:
       return true;
@@ -99,30 +99,30 @@ export function cleanliness(num_val) {
   switch (num_val) {
     case 0:
     case 1:
-      return "Orderly Spotlessness";
+      return "Unkempt Neglect";
     case 2:
-      return "Ordinary Tidiness";
+      return "Moderate Dinginess";
     case 3:
       return "Casual Inattention";
     case 4:
-      return "Moderate Dinginess";
+      return "Ordinary Tidiness";
     case 5:
     default:
-      return "Unkempt Neglect";
+      return "Orderly Spotlessness";
   }
 }
 
 export function matchCleanliness(filter_val, space_val) {
   switch (filter_val) {
-    case "Orderly Spotlessness":
+    case "Unkempt Neglect":
       return space_val > 0 && space_val <= 1;
-    case "Ordinary Tidiness":
+    case "Moderate Dinginess":
       return space_val > 1 && space_val <= 2;
     case "Casual Inattention":
       return space_val > 2 && space_val <= 3;
-    case "Moderate Dinginess":
+    case "Ordinary Tidiness":
       return space_val > 3 && space_val < 4;
-    case "Unkempt Neglect":
+    case "Orderly Spotlessness":
       return space_val >= 4;
     default:
       return true;

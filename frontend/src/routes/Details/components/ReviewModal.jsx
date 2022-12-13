@@ -20,6 +20,12 @@ import amenitiesData from "../../../data/amenities.json";
 
 import useStyles from "../styles.js";
 
+const labels = ["Awful", "Poor", "Ok", "Good", "Excellent"];
+
+const labelsNoise = ["Silent", "Quiet", "Normal", "Loud", "Screaming"];
+
+const labelsLighting = ["Dim", "Dim", "Normal", "Bright", "Bright"];
+
 const TAGS = tagsData.reduce((acc, val) => acc.concat({ label: val }), []);
 const AMENITIES = amenitiesData.reduce(
   (acc, val) => acc.concat({ label: val }),
@@ -163,6 +169,9 @@ export default function ReviewModal(props) {
                   setClean(newValue);
                 }}
               />
+              <p style={{ fontSize: "13px", margin: "5px 0" }}>
+                Rating: {clean > 0 ? labels[clean - 1] : ""}
+              </p>
             </div>
             <div className={classes.featureItem}>
               <Typography variant="p">Noisiness</Typography>
@@ -174,6 +183,9 @@ export default function ReviewModal(props) {
                   setNoise(newValue);
                 }}
               />
+              <p style={{ fontSize: "13px", margin: "5px 0" }}>
+                Rating: {noise > 0 ? labelsNoise[noise - 1] : ""}
+              </p>
             </div>
             <div className={classes.featureItem}>
               <Typography variant="p">Lighting</Typography>
@@ -185,6 +197,9 @@ export default function ReviewModal(props) {
                   setLight(newValue);
                 }}
               />
+              <p style={{ fontSize: "13px", margin: "5px 0" }}>
+                Rating: {light > 0 ? labelsLighting[light - 1] : ""}
+              </p>
             </div>
             <div className={classes.featureItem}>
               <Typography variant="p">Privacy</Typography>
@@ -196,6 +211,9 @@ export default function ReviewModal(props) {
                   setProd(newValue);
                 }}
               />
+              <p style={{ fontSize: "13px", margin: "5px 0" }}>
+                Rating: {prod > 0 ? labels[prod - 1] : ""}
+              </p>
             </div>
             <div className={classes.featureItem}>
               <Typography variant="p">Amenities</Typography>
@@ -207,6 +225,9 @@ export default function ReviewModal(props) {
                   setAmenity(newValue);
                 }}
               />
+              <p style={{ fontSize: "13px", margin: "5px 0" }}>
+                Rating: {amenity > 0 ? labels[amenity - 1] : ""}
+              </p>
             </div>
           </div>
 

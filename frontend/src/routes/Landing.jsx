@@ -172,6 +172,47 @@ export default function Landing() {
           />
         </Grid>
       </Grid>
+      <Grid item container direction="row" className={classes.block}>
+        <Grid
+          item
+          container
+          direction="column"
+          justifyContent="center"
+          xs={12}
+          md={12}
+          className={classes.textBox}
+        >
+          <Typography
+            gutterBottom
+            style={{ height: "inherit" }}
+            variant="h3"
+            color="initial"
+          >
+            What can I do with SpaceTiger?
+          </Typography>
+          <Typography variant="h6" color="initial" gutterBottom>
+            <b style={{ fontWeight: 700 }}>Find a space. </b> Search through
+            spots on campus for your next work session, club meeting, or
+            rehearsal. Filter for whatever you need - type of room, amenity, or
+            features.
+            <br />
+            <div style={{ height: "10px" }} />
+            <b style={{ fontWeight: 700 }}>Leave a review. </b> Let others know
+            what you think of a place you've visited. Upload pictures you've
+            taken, rate based on various features, and add amenities we've
+            missed. <br />
+            <div style={{ height: "10px" }} />
+            <b style={{ fontWeight: 700 }}>Create a space. </b> Can't find
+            something? Add it to our list so others can discover it later.{" "}
+            <br />
+            <div style={{ height: "10px" }} />
+            <b style={{ fontWeight: 700 }}>Rediscover your favorites. </b> Save
+            the spaces you like by favoriting or leaving a review so you can
+            find them later on your profile page.
+            <br />
+          </Typography>
+        </Grid>
+      </Grid>
       <Grid
         item
         container
