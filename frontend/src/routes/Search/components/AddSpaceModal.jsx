@@ -62,8 +62,6 @@ export default function AddSpaceModal(props) {
     // error handling
     setSubmitted(true);
 
-    console.log(location);
-
     if (
       name === "" ||
       capacity === "" ||
@@ -242,6 +240,7 @@ export default function AddSpaceModal(props) {
           options={locationsData.map((option) => option.name)}
           value={location}
           onChange={(_, newValue) => {
+            // console.log("new value", newValue);
             setLocation(newValue);
           }}
           renderInput={(params) => (
@@ -253,7 +252,9 @@ export default function AddSpaceModal(props) {
           )}
           inputValue={locationInput}
           onInputChange={(_, newInputValue) => {
+            // console.log("new input value", newInputValue);
             setLocationInput(newInputValue);
+            setLocation(newInputValue);
           }}
           style={{ width: "60%", marginBottom: "20px" }}
         />
