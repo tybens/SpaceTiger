@@ -20,8 +20,6 @@ export default function Amenities(props) {
   const { amenities, position, label, space } = props;
   const classes = useStyles();
 
-  console.log(space);
-
   const renderDetails = () => {
     return (
       <div style={{ marginBottom: "10px" }}>
