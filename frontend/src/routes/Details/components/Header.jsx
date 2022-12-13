@@ -134,6 +134,7 @@ export default function Header({
             startIcon={<DirectionsIcon />}
             href={directionsURL}
             // style={{ marginRight: "10px" }}
+            target="_blank"
           >
             Directions
           </Button>
