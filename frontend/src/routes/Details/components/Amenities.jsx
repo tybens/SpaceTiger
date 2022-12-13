@@ -1,4 +1,5 @@
 import { Typography, Chip } from "@mui/material";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ChairIcon from "@mui/icons-material/Chair";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import LockIcon from "@mui/icons-material/Lock";
@@ -19,12 +20,19 @@ export default function Amenities(props) {
   const { amenities, position, label, space } = props;
   const classes = useStyles();
 
+  console.log(space);
+
   const renderDetails = () => {
     return (
       <div style={{ marginBottom: "10px" }}>
         {space?.type && (
           <div className={classes.filterDiv}>
             <ChairIcon /> &nbsp;{space?.type}
+          </div>
+        )}
+        {space?.capacity && (
+          <div className={classes.filterDiv}>
+            <PeopleAltIcon /> &nbsp;{space?.capacity} people
           </div>
         )}
         {space?.noisiness && (
