@@ -51,7 +51,7 @@ export default function Header({
         .delete(`/spaces/${space_id}`)
         .then((res) => {
           if (res.status === 200) {
-            navigate(-1);
+            navigate("/search");
           } else {
             // TODO: show server error modal
             console.log(res);
