@@ -59,6 +59,7 @@ yarn build # build frontend
 # ---run the server---
 export FLASK_ENV=development # setup flask development environment variables
 export FLASK_APP=app.py
+export APP_SECRET_KEY=1 # this can be any arbitrary value, just needed to run locally
 flask run # run the server
 ```
 
