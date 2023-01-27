@@ -26,7 +26,12 @@ export default function Search() {
   return (
     <div className={classes.container}>
       <SearchBar query={query} handleChange={updateQuery} />
-      <SearchFilters filters={filters} setFilters={setFilters} sort={sort} setSort={setSort} />
+      <SearchFilters
+        filters={filters}
+        setFilters={setFilters}
+        sort={sort}
+        setSort={setSort}
+      />
       <SearchResults filters={filters} query={query} sort={sort} />
     </div>
   );

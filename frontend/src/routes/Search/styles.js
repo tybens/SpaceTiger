@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   container: {
-    alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
     display: "flex",
@@ -38,7 +37,7 @@ export default makeStyles((theme) => ({
 
   filtersContainer: {
     width: "100%",
-    marginBottom: "30px",
+    marginBottom: "15px",
     display: "flex",
     justifyContent: "space-between",
     [theme.breakpoints.only("xs")]: {
@@ -55,6 +54,9 @@ export default makeStyles((theme) => ({
   },
 
   sort: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     "& .MuiFormControl-root": {
       marginLeft: 0,
       marginRight: 0,

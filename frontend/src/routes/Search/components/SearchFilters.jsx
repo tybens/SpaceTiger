@@ -1,4 +1,11 @@
-import { FormControl, MenuItem, InputLabel, Select, Checkbox } from "@mui/material";
+import { Typography } from "@material-ui/core";
+import {
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  Checkbox,
+} from "@mui/material";
 
 import amenitiesData from "../../../data/amenities.json";
 import typesData from "../../../data/types.json";
@@ -23,12 +30,7 @@ const CLEANLINESS = [
   "Moderate Dinginess",
   "Unkempt Neglect",
 ];
-const SORT = [
-  "Select",
-  "Name A-Z",
-  "Name Z-A",
-  "Avg. Rating",
-]
+const SORT = ["Select", "Name A-Z", "Name Z-A", "Avg. Rating"];
 
 export default function SearchFilters({ filters, setFilters, sort, setSort }) {
   const classes = useStyles();
@@ -58,7 +60,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.type}
             label="type"
             onChange={(e) => handleUpdateFilter("type", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {TYPE.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>
@@ -82,7 +84,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.amenities}
             label="Amenities"
             onChange={(e) => handleUpdateFilter("amenities", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {AMENITIES.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>
@@ -106,7 +108,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.noisiness}
             label="Noisiness"
             onChange={(e) => handleUpdateFilter("noisiness", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {NOISINESS.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>
@@ -130,7 +132,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.privacy}
             label="Privacy"
             onChange={(e) => handleUpdateFilter("privacy", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {PRIVACY.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>
@@ -154,7 +156,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.lighting}
             label="lighting"
             onChange={(e) => handleUpdateFilter("lighting", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {LIGHTING.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>
@@ -178,7 +180,7 @@ export default function SearchFilters({ filters, setFilters, sort, setSort }) {
             value={filters.cleanliness}
             label="cleanliness"
             onChange={(e) => handleUpdateFilter("cleanliness", e.target.value)}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected.join(", ")}
           >
             {CLEANLINESS.map((item, idx) => (
               <MenuItem key={item + idx} value={item}>

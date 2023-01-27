@@ -125,6 +125,13 @@ export default function SearchResults(props) {
       {!error && !received && <Loader />}
       {!error && received && (
         <>
+          <Typography 
+            variant="body2"
+            color="grey"
+            gutterBottom
+          >
+            Showing {next} of {filtered.length}
+          </Typography>
           <div className={classes.spaceContainer}>
             {error && (
               <Typography variant="p">Sorry, an error occured. </Typography>
