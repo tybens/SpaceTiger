@@ -43,6 +43,8 @@ export default function AddSpaceModal(props) {
   const [submitted, setSubmitted] = useState(false);
   const [duplicateId, setDuplicateId] = useState(null);
 
+  const requiredStar = <span style={{ color: "#d32f2f" }}>*</span>;
+
   const onClose = () => {
     setStatus("none");
     setMessage("");
@@ -186,10 +188,16 @@ export default function AddSpaceModal(props) {
   const renderForm = () => {
     return (
       <div className={classes.modalForm}>
-        <Typography style={{ marginBottom: "20px" }}>
-          Tell us the basics.
+        <Typography>Tell us the basics.</Typography>
+
+        <Typography
+          variant="caption"
+          color="error"
+          style={{ marginBottom: "20px" }}
+        >
+          * Required
         </Typography>
-        <Typography variant="h6">Name</Typography>
+        <Typography variant="h6">Name{requiredStar}</Typography>
         <TextField
           id="outlined-name"
           label="Name"
@@ -202,7 +210,7 @@ export default function AddSpaceModal(props) {
           error={submitted && name === ""}
         />
 
-        <Typography variant="h6">Capacity</Typography>
+        <Typography variant="h6">Capacity{requiredStar}</Typography>
         <TextField
           id="outlined-capacity"
           label="Capacity"
@@ -216,7 +224,7 @@ export default function AddSpaceModal(props) {
           error={submitted && capacity === ""}
         />
 
-        <Typography variant="h6">Type</Typography>
+        <Typography variant="h6">Type{requiredStar}</Typography>
         <FormControl
           className={classes.selectForm}
           error={submitted && type === ""}
@@ -234,7 +242,7 @@ export default function AddSpaceModal(props) {
           </Select>
         </FormControl>
 
-        <Typography variant="h6">Location</Typography>
+        <Typography variant="h6">Location{requiredStar}</Typography>
         <Autocomplete
           freeSolo
           id="location"
