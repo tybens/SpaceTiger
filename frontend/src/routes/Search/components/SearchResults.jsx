@@ -130,11 +130,11 @@ export default function SearchResults(props) {
             color="grey"
             gutterBottom
           >
-            Showing {next} of {filtered.length}
+            Showing {Math.min(next, filtered.length)} of {filtered.length}
           </Typography>
           <div className={classes.spaceContainer}>
             {error && (
-              <Typography variant="p">Sorry, an error occured. </Typography>
+              <Typography variant="p">Sorry, an error occurred. </Typography>
             )}
             {renderSpaces()}
           </div>
