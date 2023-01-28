@@ -40,7 +40,7 @@ class Space(Base):
     numreviews = Column(Integer)
     rating = Column(Float, nullable=True)
     numvisits = Column(Integer)
-    approved = Column(Boolean, default=False)
+    approved = Column(Boolean, default=True)
     avgcleanliness = Column(Float, nullable=True)
     avgnoise = Column(Float, nullable=True)
     avgprivacy = Column(Float, nullable=True)

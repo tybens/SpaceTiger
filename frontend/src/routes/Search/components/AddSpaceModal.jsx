@@ -92,7 +92,7 @@ export default function AddSpaceModal(props) {
           if (res.data.status === 200) {
             setStatus("success");
             setMessage(
-              "Success! After an administrator approves your space, you will be able to search and review it. "
+              "Success! You are now able to search for and review your space. "
             );
             // navigate("/profile");
           } else if (res.data.status === 409) {
@@ -162,10 +162,10 @@ export default function AddSpaceModal(props) {
             <Button
               variant="contained"
               disableelevation="true"
-              onClick={() => navigate("/profile")}
+              onClick={onClose}
               style={{ backgroundColor: "black", color: "white" }}
             >
-              Confirm
+              Continue
             </Button>
           )}
         </div>

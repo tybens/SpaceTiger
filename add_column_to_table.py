@@ -9,7 +9,7 @@ def add_column(engine, table_name, column):
 
 e = create_engine(os.getenv("TEST_DB_URL"))
 
-col = Column('approved', Boolean, default=False)
+col = Column('approved', Boolean, default=True)
 add_column(e, "spaces", col)
 
 e.dispose()

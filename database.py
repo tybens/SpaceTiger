@@ -86,7 +86,7 @@ def get_details(id):
     return details
 
 
-def add_space(puid, name, capacity, location, type, approved=False):
+def add_space(puid, name, capacity, location, type, approved=True):
     return_id = None
 
     with sqlalchemy.orm.Session(engine) as session:
