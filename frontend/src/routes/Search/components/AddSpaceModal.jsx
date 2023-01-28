@@ -188,7 +188,7 @@ export default function AddSpaceModal(props) {
   const renderForm = () => {
     return (
       <div className={classes.modalForm}>
-        <Typography>Tell us the basics.</Typography>
+        <Typography>Tell us the basics. The "Amenities" and "Additional Info" will be populated by user-submitted reviews of your space.</Typography>
 
         <Typography
           variant="caption"
