@@ -13,6 +13,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Grid,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -271,19 +272,27 @@ export default function AddSpaceModal(props) {
           style={{
             display: "flex",
             justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
-          <Button variant="outlined" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            disableelevation="true"
-            onClick={handleSubmit}
-            style={{ backgroundColor: "black", color: "white" }}
-          >
-            Add
-          </Button>
+          <Grid item>
+            <Typography variant="caption" color="error">
+              Disclaimer: your netid will be attached to your submission.
+            </Typography>
+            <Grid item container justifyContent="flex-end">
+              <Button variant="outlined" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                disableelevation="true"
+                onClick={handleSubmit}
+                style={{ backgroundColor: "black", color: "white" }}
+              >
+                Add
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
