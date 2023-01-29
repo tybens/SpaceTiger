@@ -22,6 +22,7 @@ export default function Header({
   space_id,
   getData,
   location,
+  puid,
 }) {
   const [open, setOpen] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -46,7 +47,7 @@ export default function Header({
   };
 
   const handleDelete = () => {
-    if (user?.admin) {
+    if (user?.admin || user?.netid === puid) {
       axios
         .delete(`/spaces/${space_id}`)
         .then((res) => {
@@ -153,7 +154,7 @@ export default function Header({
               Write a review
             </Button>
           )}
-          {user?.admin && (
+          {(user?.admin || user?.netid === puid) && (
             <Button
               variant="contained"
               disableelevation="true"

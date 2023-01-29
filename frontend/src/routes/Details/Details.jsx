@@ -58,6 +58,7 @@ export default function Details() {
           rating={data?.space.rating}
           numreviews={data?.reviews.length}
           location={data?.space.location}
+          puid={data?.space.userid}
           getData={getData}
           space_id={query}
         />
