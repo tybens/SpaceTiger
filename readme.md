@@ -1,10 +1,8 @@
 # SpaceTiger - A cos333 project
 
+A website for searching and reviewing spots on campus, whether it be for studying, partying, rehearsing, or just hanging out. This was developed by [Eva Vesely](https://github.com/evavesely/), [Thanya Begum](https://github.com/thanyabegum), [Chenhan Zhang](https://github.com/chenhanz-cos), [Giao Vu Dinh](https://github.com/tvu20), and [Tyler Benson](https://github.com/tybens).
 
-
-## Resources
-- [Flask and React One Server App](https://blog.appseed.us/flask-react-full-stack-seed-projects/)
-
+![](https://res.cloudinary.com/chickennuggets/image/upload/v1675087166/PersonalWebsite/tiger_osfxih.webp)
 
 ## Setup and Installation
 ### Installation Steps:
@@ -29,13 +27,13 @@ pip install -r requirements.txt # install requirements into the virtual env
 The url connection to the TEST and PROD databases are stored in environment variables. To set them, on Mac run
 
 ```bash
-export TEST_DB_URL=our_spacetiger_url
+export TEST_DB_URL=the_database_api_url
 ```
 
 and on Windows run
 
 ```bash
-setx TEST_DB_URL "...our SpaceTiger url..."
+setx TEST_DB_URL "...the database api url.."
 ```
 
 ### Development Steps:
@@ -70,6 +68,7 @@ In order to run CAS locally, you must run as a one-server app. However, port 500
 # ---run the server on a different port---
 flask run -h localhost -p port_number
 ```
+Additionally, if you want to develop frontend that requires CAS login to access using the two-server process. With the two-server process running, login to CAS through the `python app.py` frontend (i.e. `localhost:5000`). And then continue development while monitoring the `yarn start` frontend at `localhost:3000`.
  
 
 ## Seeding Database:
